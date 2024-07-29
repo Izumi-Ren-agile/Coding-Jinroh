@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<Concept />} />
         <Route path="/rule" element={<Rule />} />
         <Route path="/inputPlayer" element={<InputPlayer />} />
-        <Route path="/naightGame" element={<NightGame />}/>
+        <Route path="/nightGame" element={<NightGame />}/>
         {/* <Route path="/confirmPlayer" element={<ConfirmPlayer />*/}
         {/* 
         <Route path="/confirmPlayer" element={<ConfirmPlayer />} />
