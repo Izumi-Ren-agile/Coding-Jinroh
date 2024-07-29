@@ -7,8 +7,8 @@ export const Concept = () => {
   const handleRule = () => {
     navigate("/rule");
   };
-  const handleRule = () => {
-    navigate("/");
+  const handleInputPlayer = () => {
+    navigate("/inputPlayer");
   };
   return (
     <body className="NightTimeBody">

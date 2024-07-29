@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './css/App.css';
 import { Concept } from './components/Concept';
 import { Rule } from './components/Rule';
-import { inputPlayer } from './components/InputPlayer';
+import { InputPlayer } from './components/InputPlayer';
 import { DataFunc } from './components/DataFunc';
 
 function App() {
