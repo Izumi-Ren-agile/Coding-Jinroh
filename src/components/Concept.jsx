@@ -8,6 +8,11 @@ export const Concept = () => {
     const handleRule = () => {
         navigate('/rule');
     }
+
+    const handleInputPlayer=()=>{
+        navigate('/inputPlayer');
+    }
+
     return (
         <div className="container">
             <div className="header">
@@ -19,7 +24,7 @@ export const Concept = () => {
                     <img src="./images/concept_mail.png" alt="メールアイコン" className="mail-icon" />
                     <p className="message message2">コードを邪魔する人狼に気を付けながら、楽しいエンジニアライフを！</p>
                 </div>
-                <a href="ゲーム開始のリンク" className="btn-group start-game">ゲーム開始</a>
+                <button onClick={handleInputPlayer} className="btn-group start-game">ゲーム開始</button>
                 <button onClick={handleRule} className="btn-group explain-rules">ルール説明</button>
             </div>
         </div>
