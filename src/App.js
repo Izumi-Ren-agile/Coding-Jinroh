@@ -5,6 +5,7 @@ import { Concept } from './components/Concept';
 import { Rule } from './components/Rule';
 import { InputPlayer } from './components/InputPlayer';
 import { DataFunc } from './components/DataFunc';
+import {NightGame} from './components/NightGame';
 
 function App() {
   return (
@@ -13,7 +14,10 @@ function App() {
         <Route path="/" element={<Concept />} />
         <Route path="/rule" element={<Rule />} />
         <Route path="/inputPlayer" element={<InputPlayer />} />
-        {/* <Route path="/confirmPlayer" element={<ConfirmPlayer />} />
+        <Route path="/naightGame" element={<NightGame />}/>
+        {/* <Route path="/confirmPlayer" element={<ConfirmPlayer />*/}
+        {/* 
+        <Route path="/confirmPlayer" element={<ConfirmPlayer />} />
         <Route path="/question" element={<Question />} />
         <Route path="/naightGame" element={<NightGame />} />
         <Route path="/dayGame" element={<DayGame />} />
