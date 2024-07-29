@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './css/App.css';
 import { Concept } from './components/Concept';
 import { Rule } from './components/Rule';
+import { InputPlayer } from './components/InputPlayer';
 import { DataFunc } from './components/DataFunc';
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Concept />} />
         <Route path="/rule" element={<Rule />} />
-        {/* <Route path="/inputPlayer" element={<InputPlayer />} />
+        <Route path="/inputPlayer" element={<InputPlayer />} />
+        {/* 
         <Route path="/confirmPlayer" element={<ConfirmPlayer />} />
         <Route path="/question" element={<Question />} />
         <Route path="/naightGame" element={<NightGame />} />
