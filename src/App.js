@@ -1,31 +1,28 @@
-import React, { useEffect, useState } from "react";
-import "./css/App.css";
-import { DataFunc } from "./components/DataFunc";
-import { CompileTest } from "./components/CompilerAsComponent";
-import {Compiler} from "./components/CompilerAsMethod"
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './css/App.css';
+import { Concept } from './components/Concept';
+import { Rule } from './components/Rule';
+import { DataFunc } from './components/DataFunc';
 
 function App() {
   return (
-    <>
-      <DataFunc
-        collectionId={"QUESTION_CONTENT"}
-        documentId={"1"}
-        field={"question"}
-      />
-      {/* <DataFunc collectionId={"QUESTION_CONTENT"} field={"question"}/> */}
-      <CompileTest
-        language="java"
-        sourceCode='public class Main {
-    public static void main(String[] args) {
-    int a=1;
-    int b=10
-        System.out.println(a+b+"キリンリキ");
-    }
-}
-'
-      />
-      <p>{Compiler({language:"python3",sourceCode:'print("jsdhausdnua")'}).output}</p>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Concept />} />
+        <Route path="/rule" element={<Rule />} />
+        {/* <Route path="/inputPlayer" element={<InputPlayer />} />
+        <Route path="/confirmPlayer" element={<ConfirmPlayer />} />
+        <Route path="/question" element={<Question />} />
+        <Route path="/naightGame" element={<NightGame />} />
+        <Route path="/dayGame" element={<DayGame />} />
+        <Route path="/vote" element={<Vote />} />
+        <Route path="/voteResult" element={<VoteResult />} />
+        <Route path="/result" element={<Result />} /> */}
+        {/* <DataFunc collectionId={"QUESTION_CONTENT"} documentId={"1"} field={"question"}/> */}
+        {/* <DataFunc collectionId={"QUESTION_CONTENT"} field={"question"}/> */}
+      </Routes>
+    </Router>
   );
 }
 
