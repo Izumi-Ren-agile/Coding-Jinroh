@@ -39,7 +39,7 @@ export const Concept = () => {
           {/* <a href="ゲーム開始のリンク" className="btn-group start-game">
             ゲーム開始
           </a> */}
-          <button onClick={handleInputPlayer} className="btn-group explain-rules">
+          <button onClick={handleInputPlayer} className="btn-group start-game">
             ゲーム開始
           </button>
           <button onClick={handleRule} className="btn-group explain-rules">
