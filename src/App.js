@@ -6,7 +6,6 @@ import { Rule } from './components/Rule';
 import { DataFunc } from './components/DataFunc';
 
 function App() {
-
   return (
     <Router>
       <Routes>
