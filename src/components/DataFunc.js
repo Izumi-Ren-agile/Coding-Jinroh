@@ -40,7 +40,7 @@ export const DataFunc=(props)=>{
       return (
         
           <>
-          <p>{data.map((col,index)=>{return col[field]})}</p>
+          {data.map((col,index)=>{return col[field]})}
           </>
       );
 }

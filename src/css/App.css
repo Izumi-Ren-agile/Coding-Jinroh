@@ -1,38 +1,63 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+body {
+    width: 100%;
+    height: 100%; /* ビューポートの高さを100%に */
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  *{
+    margin: 0;
+    padding: 0;
   }
-  to {
-    transform: rotate(360deg);
-  }
+
+  
+body .DayTimeBody{
+    background-color: #ede4dd;
+}
+body .NightTimeBody{
+    background-color: #526D82;
+}
+body {
+    background-color: #526D82;
+}
+
+
+a{
+    text-decoration: none;
+}
+
+.btn-group {
+    position: absolute;
+    width: 200px;
+    height: 73px;
+    background: #27374D;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 120%;
+    letter-spacing: -0.03em;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-group:hover {
+    background: #990200;
+}
+h1{
+    text-align: center;
+}
+
+/*ゲーム画面以外のヘッダー*/
+.regular-header {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.main-content {
+    width: 100%;
+    flex: 1 1 auto; 
+    box-sizing: border-box;
+    text-align: center; /* 中央揃え */
 }
