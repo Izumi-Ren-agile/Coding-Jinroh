@@ -1,15 +1,4 @@
-body {
-    position: absolute;
-    width: 1440px;
-    height: 1024px;
-    left: 1px;
-    top: 39px;
-    background: rgba(0, 0, 0, 0.5);
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-}
-
-.header {
+/* .header {
     position: absolute;
     width: 1293px;
     height: 48px;
@@ -22,9 +11,9 @@ body {
     text-align: center;
     letter-spacing: -0.03em;
     color: #0C0B0B;
-}
+} */
 
-.main-content {
+/* .main-content {
     display: flex;
     position: absolute;
     width: 100%;
@@ -71,4 +60,4 @@ body {
     width: 100%;
     margin-top: 400px;
     height: auto;
-}
+} */
