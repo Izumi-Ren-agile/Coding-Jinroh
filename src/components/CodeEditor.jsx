@@ -4,16 +4,18 @@ import { javascript } from "@codemirror/lang-javascript";
 import { oneDark } from "@codemirror/theme-one-dark";
 import "./Editor.css"; // CSSファイルをインポート
 
-export const CodeEditor = () => {
+export const CodeEditor = ( props ) => {
+  const { code, onChange } = props;
   return (
     <div className="editor-container">
       <div className="editor-background"></div>
       <CodeMirror
-        value="console.log('Hellold!');" // 初期コード
+        value={code} // 初期コード
         extensions={[javascript()]}
         theme={oneDark}
         height="100%"
         className="code-editor"
+        onChange={onChange}
       />
     </div>
   );
