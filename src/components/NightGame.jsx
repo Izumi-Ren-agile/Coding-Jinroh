@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { javascript } from '@codemirror/lang-javascript';
 import { oneDark } from '@codemirror/theme-one-dark';
 import CodeMirror from '@uiw/react-codemirror';
+import {CodeEditor} from './CodeEditor';
 import './game.css'
 
 export const NightGame = () => {
@@ -79,13 +80,14 @@ export const NightGame = () => {
                         </div>
                     </div>
                     <div className="editor-container">
-                        <CodeMirror
+                        {/* <CodeMirror
                             id="editor"
                             className="editor"
                             value={code}
                             extensions={[javascript(), oneDark]}
                             onChange={(value) => handleChange(value)}
-                        />
+                        /> */}
+                        <CodeEditor />
                     </div>
                     <div className="controls">
                         <button id="run">Run</button>

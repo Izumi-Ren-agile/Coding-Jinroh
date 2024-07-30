@@ -1,4 +1,4 @@
-/* .header {
+.header {
     position: absolute;
     width: 1293px;
     height: 48px;
@@ -13,7 +13,7 @@
     color: #0C0B0B;
 } */
 
-/* .main-content {
+.main-content {
     display: flex;
     position: absolute;
     width: 100%;
@@ -60,4 +60,4 @@
     width: 100%;
     margin-top: 400px;
     height: auto;
-} */
+}
