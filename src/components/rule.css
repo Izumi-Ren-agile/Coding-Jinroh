@@ -1,7 +1,3 @@
-.text-container {
-    width: 100%;
-    margin-bottom: 20px;
-}
 
 .rule-container {
     display: flex;
@@ -11,13 +7,26 @@
 }
 
 .rule-text {
-    width: 60%;
+    width: 50%;
 }
 
 .rule-image {
-    width: 35%;
+    width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.rule-container {
+    padding-left: 20px; 
+}
+
+.rule-start-game{
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.rule-start-game {
+    left: 50%;
 }
 

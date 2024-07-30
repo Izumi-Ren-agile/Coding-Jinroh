@@ -1,21 +1,8 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: rgba(0, 0, 0, 0.5);
-    box-sizing: border-box;
-}
 
 *, *::before, *::after {
     box-sizing: inherit;
 }
 
-.container {
-    padding: 20px;
-    width: 100vw;
-    height: 93vh;
-    box-sizing: border-box;
-}
 
 .header {
     display: flex;
