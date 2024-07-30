@@ -14,13 +14,12 @@ export const Concept = () => {
 
     
   return (
-    <body className="NightTimeBody">
       <div className="container">
       <header class="regular-header">
         <h1>コーディング人狼</h1>
       </header>
         <div className="main-content">
-          <div className="description">
+          <div className="text-center-content">
             <p className="message message1">
               満月の綺麗な夜、あなたに一通のメールが…
             </p>
@@ -44,6 +43,6 @@ export const Concept = () => {
           </button>
         </div>
       </div>
-    </body>
+    
   );
 };
