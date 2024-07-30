@@ -1,6 +1,8 @@
 body {
     width: 100%;
     height: 100%; /* ビューポートの高さを100%に */
+    background-color: #526D82;
+    color:#ede4dd
   }
 
   *{
@@ -15,10 +17,6 @@ body .DayTimeBody{
 body .NightTimeBody{
     background-color: #526D82;
 }
-body {
-    background-color: #526D82;
-}
-
 
 a{
     text-decoration: none;
@@ -36,7 +34,6 @@ a{
     font-size: 32px;
     line-height: 120%;
     letter-spacing: -0.03em;
-    color: #FFFFFF;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,5 +56,15 @@ h1{
     width: 100%;
     flex: 1 1 auto; 
     box-sizing: border-box;
-    text-align: center; /* 中央揃え */
+    /* text-align: center;  */
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 上下に要素を分ける */
+    overflow: hidden;
 }

@@ -15,13 +15,10 @@ export const Concept = () => {
     
   return (
     <body className="NightTimeBody">
-        <header class="regular-header">
+      <div className="container">
+      <header class="regular-header">
         <h1>コーディング人狼</h1>
       </header>
-      <div className="container">
-        <div className="header">
-          <h1>コーディング人狼</h1>
-        </div>
         <div className="main-content">
           <div className="description">
             <p className="message message1">
@@ -39,10 +36,10 @@ export const Concept = () => {
           {/* <a href="ゲーム開始のリンク" className="btn-group start-game">
             ゲーム開始
           </a> */}
-          <button onClick={handleInputPlayer} className="btn-group start-game">
+          <button onClick={handleInputPlayer} className="btn-group concept-start-game">
             ゲーム開始
           </button>
-          <button onClick={handleRule} className="btn-group explain-rules">
+          <button onClick={handleRule} className="btn-group concept-explain-rules">
             ルール説明
           </button>
         </div>

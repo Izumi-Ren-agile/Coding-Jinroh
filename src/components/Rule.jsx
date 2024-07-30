@@ -1,6 +1,13 @@
 import "./rule.css";
+import { useNavigate } from "react-router-dom";
 
 export const Rule = () => {
+    const navigate = useNavigate();
+
+    const handleInputPlayer=()=>{
+        navigate('/inputPlayer');
+    }
+
   return (
     <body className="NightTimeBody">
       <div class="container">
@@ -51,16 +58,21 @@ export const Rule = () => {
                   「ミッション」達成数が一番多いプレイヤーが「PM」になります。
                 </li>
               </ul>
-              <h2>
-                「コーディング人狼」ではプログラミングスキルを磨きながら、推理力やコミュニケーション能力も試されます。
-                <br />
-                市民としてコードを完成させるか、人狼としてうまくバグを仕込むか、あなたのスキルを試してみましょう！
-              </h2>
             </div>
 
             <div class="rule-image">
-              <img src="sample.png" alt="説明画像" />
+              <img src="./images/game_display.jpeg" alt="説明画像" />
             </div>
+          </div>
+          <div class="text-container">
+            <h2>
+              「コーディング人狼」ではプログラミングスキルを磨きながら、推理力やコミュニケーション能力も試されます。
+              <br />
+              市民としてコードを完成させるか、人狼としてうまくバグを仕込むか、あなたのスキルを試してみましょう！
+            </h2>
+            <button onClick={handleInputPlayer} className="btn-group rule-start-game">
+            ゲーム開始
+          </button>
           </div>
         </div>
       </div>
