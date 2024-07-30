@@ -6,6 +6,8 @@ import { Rule } from './components/Rule';
 import { InputPlayer } from './components/InputPlayer';
 import { DataFunc } from './components/DataFunc';
 import {NightGame} from './components/NightGame';
+import {ConfirmPlayer} from './components/ConfirmPlayer';
+
 
 function App() {
   return (
@@ -15,7 +17,7 @@ function App() {
         <Route path="/rule" element={<Rule />} />
         <Route path="/inputPlayer" element={<InputPlayer />} />
         <Route path="/nightGame" element={<NightGame />}/>
-        {/* <Route path="/confirmPlayer" element={<ConfirmPlayer />*/}
+        <Route path="/confirmPlayer" element={<ConfirmPlayer />}/>
         {/* 
         <Route path="/confirmPlayer" element={<ConfirmPlayer />} />
         <Route path="/question" element={<Question />} />

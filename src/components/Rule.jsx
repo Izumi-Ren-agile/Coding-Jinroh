@@ -1,8 +1,14 @@
 import "./rule.css";
+import { useNavigate } from "react-router-dom";
 
 export const Rule = () => {
+    const navigate = useNavigate();
+
+    const handleInputPlayer=()=>{
+        navigate('/inputPlayer');
+    }
+
   return (
-    <body className="NightTimeBody">
       <div class="container">
         <header class="regular-header">
           <h1>コーディング人狼 - ルール説明</h1>
@@ -21,15 +27,18 @@ export const Rule = () => {
                 <li>市民: 人狼を全員追放する or コードが正しく完成する</li>
                 <li>人狼: コードが正しく動かない</li>
               </ul>
+              <br />
               <h2>ゲームの流れ</h2>
               <p>
                 ゲームはコーディングフェーズ2回と会議フェーズを繰り返して進みます。
               </p>
+              <br />
               <h3>ーコーディングフェーズ</h3>
               <ul>
                 <li>各プレイヤーが順番にコードを書きます。</li>
                 <li>各プレイヤーのコーディング時間は60秒の制限があります。</li>
               </ul>
+              <br />
               <h3>ー会議フェーズ</h3>
               <ul>
                 <li>
@@ -42,6 +51,7 @@ export const Rule = () => {
                   投票の結果、同数の場合は「PM（後述）」が追放者を決定します。
                 </li>
               </ul>
+              <br />
               <h3>ミッション</h3>
               <ul>
                 <li>
@@ -51,19 +61,26 @@ export const Rule = () => {
                   「ミッション」達成数が一番多いプレイヤーが「PM」になります。
                 </li>
               </ul>
-              <h2>
-                「コーディング人狼」ではプログラミングスキルを磨きながら、推理力やコミュニケーション能力も試されます。
-                <br />
-                市民としてコードを完成させるか、人狼としてうまくバグを仕込むか、あなたのスキルを試してみましょう！
-              </h2>
+              <br />
             </div>
 
             <div class="rule-image">
-              <img src="sample.png" alt="説明画像" />
+              <img src="./images/game_display.jpeg" alt="説明画像" />
             </div>
+          </div>
+          <div class="text-container">
+            <h2>
+              「コーディング人狼」ではプログラミングスキルを磨きながら、推理力やコミュニケーション能力も試されます。
+              <br />
+              市民としてコードを完成させるか、人狼としてうまくバグを仕込むか、あなたのスキルを試してみましょう！
+            </h2>
+            </div>
+            <div class="text-container center-conteiner">
+            <button onClick={handleInputPlayer} className="btn-group rule-start-game">
+            ゲーム開始
+          </button>
           </div>
         </div>
       </div>
-    </body>
   );
 };

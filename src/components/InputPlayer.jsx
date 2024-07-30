@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router-dom";
 
 export const InputPlayer = () => {
+  const navigate = useNavigate();
+
+    const handleConfirmPlayer = () => {
+        navigate('/confirmPlayer');
+    }
   return (
     <>
       <body>
@@ -41,7 +46,7 @@ export const InputPlayer = () => {
               <input type="text" id="player8" name="player8" />
             </div>
             <div class="button-container">
-              <button id="submit-button" onClick={()=>console.log(playerCalc())} >決定</button>
+              <button id="submit-button" onClick={handleConfirmPlayer} >決定</button>
             </div>
         </div>
       </body>
