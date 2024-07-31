@@ -1,0 +1,35 @@
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .selected {
+    background-color: #990200;
+    color: white;
+  }
+  
+ 
+  
+  /* .submit {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  } */
+  
+  .submit:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .vote-item-btn{
+    margin-right: 5px;
+    
+  }
+
+  .vote-btn{
+    position: absolute;
+    transform: translateX(-50%);
+    left:50%;
+  }
