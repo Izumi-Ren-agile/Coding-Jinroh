@@ -80,13 +80,6 @@ export const NightGame = () => {
                         </div>
                     </div>
                     <div className="editor-container">
-                        {/* <CodeMirror
-                            id="editor"
-                            className="editor"
-                            value={code}
-                            extensions={[javascript(), oneDark]}
-                            onChange={(value) => handleChange(value)}
-                        /> */}
                         <CodeEditor />
                     </div>
                     <div className="controls">

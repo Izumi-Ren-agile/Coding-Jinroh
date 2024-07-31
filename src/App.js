@@ -4,7 +4,7 @@ import './css/App.css';
 import { Concept } from './components/Concept';
 import { Rule } from './components/Rule';
 import { InputPlayer } from './components/InputPlayer';
-import { DataFunc } from './components/DataFunc';
+import { DataFunc } from './components/SelectData';
 import {NightGame} from './components/NightGame';
 import {ConfirmPlayer} from './components/ConfirmPlayer';
 

@@ -9,7 +9,7 @@ export const CodeEditor = () => {
     <div className="editor-container">
       <div className="editor-background"></div>
       <CodeMirror
-        value="console.log('Hello, World!');" // 初期コード
+        value="console.log('Hellold!');" // 初期コード
         extensions={[javascript()]}
         theme={oneDark}
         height="100%"
