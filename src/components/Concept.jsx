@@ -26,8 +26,8 @@ export const Concept = () => {
     }
   return (
       <div className="container">
-        {/* <h1><SelectData collectionId={"QUESTION_CONTENT"} documentId={"12"} field={"answerCode"} /></h1> */}
-        <h1><InsertData collectionId={"killing"} documentId={"変えれてます？"} jsonObject={{a:"hooooo",b:"toBePartiallyChecked",c:"get",d:testObject}}/></h1>
+        {/* <h1><SelectData collectionId={"QUESTION_CONTENT"} documentId={"10"} field={"answerCode"} /></h1>
+        <h1><InsertData collectionId={"killing"} documentId={"変えれてます？"} jsonObject={{a:"hooooo",b:"toBePartiallyChecked",c:"get",d:testObject}}/></h1> */}
       <header class="regular-header">
         <h1>コーディング人狼</h1>
       </header>
