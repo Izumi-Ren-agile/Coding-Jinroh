@@ -9,6 +9,7 @@
     justify-content: space-between;
     color: white;
     width: calc(100% - 40px); /* paddingの20pxを考慮して調整 */
+    height: 180px;
     margin: 0 auto;
     padding: 0 20px;
     box-sizing: border-box;
@@ -128,14 +129,3 @@ button:hover {
     height: 122px;
     margin-right: 20px;
 }
-
-.project-description {
-    height: 100%;
-    background: white;
-    color: black;
-    padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
