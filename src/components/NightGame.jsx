@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
-import { javascript } from '@codemirror/lang-javascript';
-import { oneDark } from '@codemirror/theme-one-dark';
-import CodeMirror from '@uiw/react-codemirror';
 import { CodeEditor } from './CodeEditor';
+import { Tag } from './molecules/Tag';
+import { Content70 } from './templates/Content70';
+import { Content30 } from './templates/Content30';
+import { Contents } from './templates/Contents';
 import { Compiler } from './CompilerAsMethod';
+import { Button } from "antd";
 import './game.css'
 
 export const NightGame = () => {
@@ -54,39 +56,28 @@ export const NightGame = () => {
                     <p id="timer">16秒</p>
                 </div>
             </div>
-            <div className="contents">
-                <div className="contents-left">
-                    <div className="rectangle8">
-                        <div className="rectangle8-content1">
-                            <div className="editor-text">Editor</div>
-                            <div className="remaining-text">あと〇文字</div>
-                        </div>
-                    </div>
-                    <div className="editor-container">
-                        <CodeEditor code={code} onChange={handleChange} />
-                    </div>
+            <Contents>
+                <Content70>
+                    <Tag secondText={"あと〇文字"}>editor</Tag>
+                    <CodeEditor code={code} onChange={handleChange} />
                     <div className="controls">
-                        <button id="run" onClick={handleRunCode}>Run</button>
+                        <Button id="run" onClick={handleRunCode}>Run</Button>
                         <button id="finish" onClick={handleFinishTurn}>Finish</button>
                     </div>
-                    <div className="rectangle9">
-                        <div className="rectangle9-content">console</div>
-                    </div>
+                    <Tag secondText={""}>console</Tag>
                     <div className="console-container">
                         <div className="console">
                             <pre id="console">{consoleCode}</pre>
                         </div>
                     </div>
-                </div>
-                <div className="contents-right">
-                    <div className="right-container">
-                        <p>Project</p>
-                    </div>
+                </Content70>
+                <Content30>
+                    <Tag secondText={""}>project</Tag>
                     <div className="project-description">
                         <p>〇〇君<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{game.questionText}<br /><br />よろしく頼む。<br /><br />〇〇課長</p>
                     </div>
-                </div>
-            </div>
+                </Content30>
+            </Contents>
             <script src="hedder.js"></script>
         </div>
     );
