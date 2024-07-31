@@ -5,13 +5,13 @@ export const Contents = (props) => {
     const { children } = props;
 
     const contentsStyle = css`
+    flex-grow: 1; // 余白に合わせて伸張する
     display: flex;
     justify-content: space-between;
     gap: 20px;
     width: 100%;
     margin: 0 auto;
     padding: 0 20px;
-    min-height: 80%;
     box-sizing: border-box;
 `
     return (
