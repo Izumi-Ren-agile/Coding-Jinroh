@@ -6,7 +6,7 @@ export const Tag = (props) => {
 
     const tagStyle = css`
   max-width: 100%;
-  min-height: 30px;
+  min-height: 18px;
   margin: 20px 0;
   padding: 0px 20px;
   background: #e0e0e0;
@@ -18,7 +18,7 @@ export const Tag = (props) => {
   width: auto;
   height: auto;
   color: black;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 `
 

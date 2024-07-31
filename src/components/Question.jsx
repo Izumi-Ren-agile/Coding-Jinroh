@@ -60,8 +60,8 @@ export const Question = (props) => {
 
     const questionObject = {
         questionId: "",
-        questionText: "以下の仕様を満たす countWords メソッドの作成\n 仕様： ・与えられた文字列に含まれる単語の数を数えるメソッド ・単語はスペースで区切られているものとする",
-        initialCode: 'public class Main {     public static void main(String[] args) {         // テストケース         System.out.println(countWords("Hello world"));             // 出力: 2         System.out.println(countWords("Java is fun"));             // 出力: 3         System.out.println(countWords(" Count the words "));       // 出力: 3         System.out.println(countWords("This is a test"));          // 出力: 4         System.out.println(countWords("OneTwoThree"));             // 出力: 1     }      // 与えられた文字列に含まれる単語の数を数えるメソッド     public static int countWords(String str) {                  //ここに実装                       return null;     } }',
+        questionText: '以下の仕様を満たす countWords メソッドの作成\n 仕様：\n\<br /> ・与えられた文字列に含まれる単語の数を数えるメソッド ・単語はスペースで区切られているものとする',
+        initialCode: 'public class Main {\npublic static void main(String[] args) {\n        // テストケース\n        System.out.println(countWords("Hello world"));             // 出力: 2\n        System.out.println(countWords("Java is fun"));             // 出力: 3\n        System.out.println(countWords(" Count the words "));       // 出力: 3\n        System.out.println(countWords("This is a test"));          // 出力: 4\n        System.out.println(countWords("OneTwoThree"));             // 出力: 1\n    }\n\n    // 与えられた文字列に含まれる単語の数を数えるメソッド\n    public static int countWords(String str) {\n        // 文字列がnullまたは空の場合、単語数は0\n        if (str == null || str.isEmpty()) {\n            return 0;\n        }\n        \n        // 文字列をトリムして前後の空白を取り除く\n        str = str.trim();\n\n        // 文字列が再び空の場合（空白のみの文字列だった場合）、単語数は0\n        if (str.isEmpty()) {\n            return 0;\n        }\n        \n        // 文字列をスペースで分割して単語の配列を作成\n        String[] words = str.split("\\s+");\n\n        // 配列の長さを返す（これが単語数になる）\n        return words.length;\n}\n}\n\n',
         answerCode: "bbbbbbbbbbbbb"
     }
 
@@ -74,6 +74,7 @@ export const Question = (props) => {
             initialCode: questionObject.initialCode,
             answerCode: questionObject.answerCode,
             players: players,
+            presentPlayer: 0,
             editor: questionObject.initialCode,
             missions: [],
             nextMissionIndex: 0,

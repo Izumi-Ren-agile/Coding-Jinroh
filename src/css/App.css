@@ -2,7 +2,10 @@ body {
     width: 100%;
     min-height: 100vh; /* ビューポートの高さを100%に */
     background-color: #526D82;
-    color:#ede4dd
+    color:#ede4dd;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
 
   *{
@@ -10,7 +13,6 @@ body {
     padding: 0;
   }
 
-  
 body .DayTimeBody{
     background-color: #ede4dd;
 }
@@ -20,7 +22,7 @@ body .NightTimeBody{
 
 .main-content {
     width: 100%;
-    flex: 1 1 auto; 
+    flex: 1 1 auto;
     box-sizing: border-box;
     /* text-align: center;  */
 }
@@ -33,6 +35,7 @@ body .NightTimeBody{
     flex-direction: column;
     justify-content: space-between; /* 上下に要素を分ける */
     overflow: hidden;
+    flex-grow: 1;
 }
 
 .text-container {
