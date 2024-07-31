@@ -1,50 +1,35 @@
 import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { javascript } from '@codemirror/lang-javascript';
-import { oneDark } from '@codemirror/theme-one-dark';
-import CodeMirror from '@uiw/react-codemirror';
-import {CodeEditor} from './CodeEditor';
+import { useNavigate, useLocation } from "react-router-dom";
+import { CodeEditor } from './CodeEditor';
+import { Tag } from './molecules/Tag';
+import { Content70 } from './templates/Content70';
+import { Content30 } from './templates/Content30';
+import { Contents } from './templates/Contents';
+import { Compiler } from './CompilerAsMethod';
+import { Button } from "antd";
 import './game.css'
 
 export const NightGame = () => {
-    
+    const [code, setCode] = useState("");
+    const [consoleCode, setConsoleCode] = '';
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const getRandomInt = (max) => {
+    console.log(location.state);
+
+    const game = location.state;
+
+    function getRandomInt(max) {
         return Math.floor(Math.random() * max);
     }
 
-    const navigate = useNavigate()
-
-    const question = {
-        questionId: "",
-        questionText: "以下の仕様を満たす countWords メソッドの作成\n 仕様： ・与えられた文字列に含まれる単語の数を数えるメソッド ・単語はスペースで区切られているものとする",
-        initialCode: 'public class Main {     public static void main(String[] args) {         // テストケース         System.out.println(countWords("Hello world"));             // 出力: 2         System.out.println(countWords("Java is fun"));             // 出力: 3         System.out.println(countWords(" Count the words "));       // 出力: 3         System.out.println(countWords("This is a test"));          // 出力: 4         System.out.println(countWords("OneTwoThree"));             // 出力: 1     }      // 与えられた文字列に含まれる単語の数を数えるメソッド     public static int countWords(String str) {                  //ここに実装                       return null;     } }',
-        answerCode: '',
-        input1: '',
-        output1: ''
-    }
-
-    const initGame = {
-        gameId: "",
-        question: question,
-        players: ["1a", "2b", "3", "4", "5", "6", "7"],
-        editor: "",
-        missions: [],
-        nextMission: "",
-        presentDay: 1,
-        maxDay: 4,
-        gamePhase: "night",
-        presentCodingTurn: 1,
-        maxCodingTurn: 2,
-        codingMaxStringNum: 2000,
-        codingMaxTime: 60,
-        meetingmaxTime: 120
-    }
-    const [game, setGame] = useState(initGame);
-    const [code, setCode] = useState(game.question.initialCode);
-
     const handleRunCode = () => {
-        // Logic to run the code
+        const conpiledCode = Compiler({
+            language: "Java",
+            sourceCode: code
+        });
+
+        setConsoleCode(conpiledCode);
     };
 
     const handleFinishTurn = () => {
@@ -64,46 +49,35 @@ export const NightGame = () => {
                 </div>
                 <div className="players-container">
                     {game.players.map((player, index) => (
-                        <div className="player" key={index} id={`player${index}`}>{player}</div>
+                        <div className="player" key={index} id={`player${index}`}>{player.name}</div>
                     ))}
                 </div>
                 <div className="timer">
                     <p id="timer">16秒</p>
                 </div>
             </div>
-            <div className="contents">
-                <div className="contents-left">
-                    <div className="rectangle8">
-                        <div className="rectangle8-content1">
-                            <div className="editor-text">Editor</div>
-                            <div className="remaining-text">あと〇文字</div>
-                        </div>
-                    </div>
-                    <div className="editor-container">
-                        <CodeEditor />
-                    </div>
+            <Contents>
+                <Content70>
+                    <Tag secondText={"あと〇文字"}>editor</Tag>
+                    <CodeEditor code={code} onChange={handleChange} />
                     <div className="controls">
-                        <button id="run">Run</button>
-                        <button id="finish">Finish</button>
+                        <Button id="run" onClick={handleRunCode}>Run</Button>
+                        <button id="finish" onClick={handleFinishTurn}>Finish</button>
                     </div>
-                    <div className="rectangle9">
-                        <div className="rectangle9-content">console</div>
-                    </div>
+                    <Tag secondText={""}>console</Tag>
                     <div className="console-container">
                         <div className="console">
-                            <pre id="console"></pre>
+                            <pre id="console">{consoleCode}</pre>
                         </div>
                     </div>
-                </div>
-                <div className="contents-right">
-                    <div className="right-container">
-                        <p>Project</p>
-                    </div>
+                </Content70>
+                <Content30>
+                    <Tag secondText={""}>project</Tag>
                     <div className="project-description">
-                        <p>〇〇君<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{game.question.questionText}<br /><br />よろしく頼む。<br /><br />〇〇課長</p>
+                        <p>〇〇君<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{game.questionText}<br /><br />よろしく頼む。<br /><br />〇〇課長</p>
                     </div>
-                </div>
-            </div>
+                </Content30>
+            </Contents>
             <script src="hedder.js"></script>
         </div>
     );
