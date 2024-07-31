@@ -3,7 +3,7 @@ import '../css/App.css';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 
-export const DataFunc = (props) => {
+export const SelectData = (props) => {
   const { collectionId, documentId, field } = props;
   const firebaseConfig = {
     apiKey: "AIzaSyCyffFMwAi7Ms8TYEa3G6_flcjhLzmWllI",
