@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { GameHeader } from "./organisms/GameHeader";
 import "./vote.css";
 
 export const Vote = (props) => {
@@ -121,6 +120,7 @@ export const Vote = (props) => {
 
   const handleVote = () => {
     if (selectedPlayerIndex !== null) {
+      // votedの値の更新
       const updatedPlayers = players.map((player, index) => {
         if (index === selectedPlayerIndex) {
             console.log("yes")
@@ -134,9 +134,10 @@ export const Vote = (props) => {
     }
 
     //
-    navigate('/Voteresult', {state: game});
 
     //
+    navigate('/Voteresult', {state: game});
+
   };
 
   // game.presentPlayer に対応する player.name を取得
