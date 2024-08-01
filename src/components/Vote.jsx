@@ -15,7 +15,6 @@ export const Vote = (props) => {
       name: "ikeda",
       isJinroh: false,
       color: "red",
-      isAlive: true,
       isPM: false,
       voted: 0,
     },
@@ -24,7 +23,6 @@ export const Vote = (props) => {
       name: "izumi",
       isJinroh: false,
       color: "blue",
-      isAlive: true,
       isPM: false,
       voted: 0,
     },
@@ -33,7 +31,6 @@ export const Vote = (props) => {
       name: "nishimura",
       isJinroh: true,
       color: "red",
-      isAlive: true,
       isPM: false,
       voted: 0,
     },
@@ -42,7 +39,6 @@ export const Vote = (props) => {
       name: "takahashi",
       isJinroh: false,
       color: "red",
-      isAlive: true,
       isPM: false,
       voted: 0,
     },
@@ -51,7 +47,6 @@ export const Vote = (props) => {
       name: "papa",
       isJinroh: false,
       color: "red",
-      isAlive: true,
       isPM: false,
       vote: 0,
     },
@@ -72,7 +67,9 @@ export const Vote = (props) => {
     questionText: questionObject.questionText,
     initialCode: questionObject.initialCode,
     answerCode: questionObject.answerCode,
-    players: initialPlayers,
+    initialplayers: initialPlayers,
+    players: initialPlayers, //変更予定
+    presentPlayer: 0,
     editor: questionObject.initialCode,
     missions: [],
     nextMissionIndex: 0,
@@ -84,8 +81,8 @@ export const Vote = (props) => {
     codingMaxStringNum: 2000,
     codingMaxTime: 60,
     meetingmaxTime: 120,
-    presentPlayer: 123457, // 現在のプレイヤーのIDを追加
-  };
+    isRandom: false
+}
 
   const [players, setPlayers] = useState(game.players);
   const [selectedPlayerIndex, setSelectedPlayerIndex] = useState(null);
@@ -142,9 +139,10 @@ export const Vote = (props) => {
   };
 
   // game.presentPlayer に対応する player.name を取得
-const presentPlayer = game.players.find(player => player.id === game.presentPlayer);
+const presentPlayer = game.players[game.presentPlayer];
 const presentPlayerName = presentPlayer ? presentPlayer.name : null;
 
+// setIsConfirmed(true)
 
 // 確認ダイアログを表示する関数
 const showConfirmationDialog = () => {
@@ -162,6 +160,10 @@ const showConfirmationDialog = () => {
 useEffect(() => {
   showConfirmationDialog();
 },[]);
+
+
+ // playersが更新された後にコンソールに出力
+
 
 
   return (
@@ -195,7 +197,7 @@ useEffect(() => {
           <div css={playerVoteContainer}>
             {players.map(
               (player, index) =>
-                player.id !== game.presentPlayer && ( //現在のプレイヤーを表示しない条件
+                player.id !== presentPlayer.id && ( //現在のプレイヤーを表示しない条件
                   <div css={voteItem} key={index}>
                     <div
                       className="player"
