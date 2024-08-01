@@ -90,7 +90,7 @@ export const Question = (props) => {
 
         //問題を設定
 
-        navigate('/nightGame', {state: game}); //本当はDB保管
+        navigate('/voteResult', {state: game}); //本当はDB保管
     }
 
     return (

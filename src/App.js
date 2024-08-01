@@ -6,7 +6,6 @@ import { Rule } from './components/Rule';
 import { InputPlayer } from './components/InputPlayer';
 import { DataFunc } from './components/SelectData';
 import {NightGame} from './components/NightGame';
-import {VoteResult} from './components/VoteResult';
 import {ConfirmPlayer} from './components/ConfirmPlayer';
 import {Question} from './components/Question';
 import {Vote} from './components/Vote';
@@ -29,6 +28,8 @@ function App() {
         
         <Route path="/naightGame" element={<NightGame />} />
         <Route path="/dayGame" element={<DayGame />} />
+        
+        <Route path="/voteResult" element={<VoteResult />} />
         <Route path="/result" element={<Result />} /> */} 
         {/* <DataFunc collectionId={"QUESTION_CONTENT"} documentId={"1"} field={"question"}/> */}
         {/* <DataFunc collectionId={"QUESTION_CONTENT"} field={"question"}/>*/}
