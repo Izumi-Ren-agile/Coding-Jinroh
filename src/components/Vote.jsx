@@ -7,7 +7,14 @@ import "./vote.css";
 
 export const Vote = (props) => {
   const navigate = useNavigate();
+  // const location = useLocation();
+ 
+  // 前の画面からのデータ取得
+  // const game = location.state || {}; // location.stateがundefinedの場合に備えて空オブジェクトを使用
+
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [isVoteUpdated, setIsVoteUpdated] = useState(false); // 更新が完了したかを示すフラグ
+  
 
   const initialPlayers = [
     {
@@ -111,15 +118,18 @@ export const Vote = (props) => {
     margin:5px;
   `;
   
+  //選択されたユーザーのidを保存する
   const handleSelect = (player) => {
     setSelectedPlayerIndex(player.id);
   };
 
 
+  //投票
   const handleVote = () => {
     if (selectedPlayerIndex !== null) {
-      // votedの値の更新
+      // votedの値の更新、新しいplayerの配列を定義
       const updatedPlayers = players.map((player, index) => {
+        // 選択されたプレイヤーのvotedを更新
         if (player.id === selectedPlayerIndex) {
             console.log("yes")
             console.log({ ...player, voted: player.voted + 1 });
@@ -127,17 +137,25 @@ export const Vote = (props) => {
         }
         return player;
       });
+
+      console.log("updatedPlayers"+{...updatedPlayers})
+      // プレイヤーを新しいプレイヤーに更新
       setPlayers(updatedPlayers);
+      setIsVoteUpdated(true);//更新フラグを立てる
       setSelectedPlayerIndex(null); // 選択を初期化する
-      console.log(players)
     }
-
-    //
-
-    //
-    navigate('/Voteresult', {state: game});
-
   };
+
+  // playersの状態が更新された後に実行する処理
+  useEffect(() => {
+    if (isVoteUpdated) {
+      // 状態更新後のプレイヤーの状態
+      console.log("Players after setPlayers: ", players);
+
+      navigate("/voteResult", { state: game }); // 更新が完了した後に遷移する
+    }
+  }, [players, isVoteUpdated, navigate, game]);
+
 
   // game.presentPlayer に対応する player.name を取得
 const presentPlayer = game.players[game.presentPlayer];
@@ -148,10 +166,8 @@ const presentPlayerName = presentPlayer ? presentPlayer.name : null;
 // 確認ダイアログを表示する関数
 const showConfirmationDialog = () => {
   const confirmed = window.confirm(`${presentPlayerName}さんですか？`);
-  console.log("confirmed:"+confirmed);
   if (confirmed) {
     setIsConfirmed(true);
-    console.log("setconfirmed:"+setIsConfirmed);
   } else {
     showConfirmationDialog();
   }
@@ -159,11 +175,16 @@ const showConfirmationDialog = () => {
 
 // コンポーネントがマウントされたときに確認ダイアログを表示する
 useEffect(() => {
-  showConfirmationDialog();
+  let ignore = false;
+
+  
+  if(!ignore){
+    showConfirmationDialog();
+  }
+  return()=>{
+    ignore=true
+  }
 },[]);
-
-
- // playersが更新された後にコンソールに出力
 
 
 
@@ -212,7 +233,7 @@ useEffect(() => {
                       }`}
                       onClick={() => handleSelect(player)}
                     >
-                      {index === selectedPlayerIndex ? "選択中" : "選択"}
+                      {player.id === selectedPlayerIndex ? "選択中" : "選択"}
                     </button>
                   </div>
                 )
