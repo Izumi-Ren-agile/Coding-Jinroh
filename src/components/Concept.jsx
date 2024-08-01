@@ -1,7 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import "./concept.css";
-import {SelectData} from "./SelectData";
-import {InsertData} from "./InsertData";
+import {SelectData} from "./database/SelectData";
+import {UpdateData} from "./database/UpdateData";
+import InsertData from "./database/InsertData";
+import { CountData } from "./database/CountData";
+import CompileTest from "./compile/CompilerAsComponent";
+import { Compiler } from "./compile/CompilerAsMethod";
+import { SimpleCompiler } from "./compile/SimpleCompiler";
 
 export const Concept = () => {
   const navigate = useNavigate();
@@ -26,8 +31,7 @@ export const Concept = () => {
     }
   return (
       <div className="container">
-        {/* <h1><SelectData collectionId={"QUESTION_CONTENT"} documentId={"10"} field={"answerCode"} /></h1>
-        <h1><InsertData collectionId={"killing"} documentId={"変えれてます？"} jsonObject={{a:"hooooo",b:"toBePartiallyChecked",c:"get",d:testObject}}/></h1> */}
+        
       <header class="regular-header">
         <h1>コーディング人狼</h1>
       </header>

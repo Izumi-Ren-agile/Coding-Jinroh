@@ -5,7 +5,7 @@ import { Tag } from './molecules/Tag';
 import { Content70 } from './templates/Content70';
 import { Content30 } from './templates/Content30';
 import { Contents } from './templates/Contents';
-import { Compiler } from './CompilerAsMethod';
+import { Compiler } from './compile/CompilerAsMethod';
 import { Button } from "antd";
 import './game.css'
 
