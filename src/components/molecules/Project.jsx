@@ -6,21 +6,23 @@ export const Project = (props) => {
 
     const projectContainerStyle = css`
     flex-grow: 1; // 余白に合わせて伸張する
+      flex-basis: 80%;
     background: white;
-    padding: 20px;
+    padding: 10px;
     border: 5px solid #e0e0e0;
     border-radius: 5px;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: colomn;
 `
     const projectTextStyle = css`
+    width: 100%;
     height: 100%;
-    background: white;
     color: black;
     padding: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
     font-weight: bold;
     white-space: pre-wrap;
+    overflow-y: scroll;
 `
     return (
         <div css={projectContainerStyle}>
