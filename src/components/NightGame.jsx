@@ -1,26 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import { CodeEditor } from './molecules/CodeEditor';
 import { Tag } from './molecules/Tag';
 import { Console } from './molecules/Console';
 import { Project } from './molecules/Project';
+import { GameHedder } from './organisms/GameHedder';
 import { Content70 } from './templates/Content70';
 import { Content30 } from './templates/Content30';
 import { Contents } from './templates/Contents';
-import { Buttons } from './templates/Buttons';
 import { Compiler } from './CompilerAsMethod';
-import { Button } from "antd";
 import './game.css'
 
 export const NightGame = () => {
     const location = useLocation();
     const gameO = location.state; //DB
-    const [game, setGame] = useState(gameO); //DB
-    const [code, setCode] = useState(game.editor);
+    const [gameObject, setGameObject] = useState(gameO); //DB
+    const [code, setCode] = useState(gameObject.editor);
     const [compiledCode, setCompiledCode] = useState('');
+    const [yourMission, setYourMission] = useState([]);
     const navigate = useNavigate();
 
-    console.log(location.state);
+
+    console.log(gameObject.nextMissionIndex);
+
+    useEffect(() => {
+        console.log(gameObject);
+        while(gameObject.players[gameObject.presentPlayer].yourMission.length !== gameObject.maxMissionNum){
+            gameObject.players[gameObject.presentPlayer].yourMission.push(gameObject.missions[gameObject.nextMissionIndex]);
+            gameObject.nextMittionIndex++;
+            setGameObject(gameObject);
+        }
+        setGameObject(gameObject);
+    }, [gameObject]);
 
     function getRandomInt(max) {
         return Math.floor(Math.random() * max);
@@ -31,27 +42,32 @@ export const NightGame = () => {
     };
 
     const handleFinishTurn = () => {
-        if(game.presentPlayer < game.players.length-1){
-            game.presentPlayer++;
+
+        if(gameObject.gamePhase === "night"){
+            gameObject.editorHistory = [ ...gameObject.editorHistory, {name: `day${gameObject.presentDay} ${gameObject.players[gameObject.presentPlayer].name}`, code: code}]
+        }
+
+        if(gameObject.presentPlayer < gameObject.players.length-1){
+            gameObject.presentPlayer++;
         } else {
-            game.presentPlayer = 0;
-            if(game.presentCodingTurn < game.maxCodingTurn){
-                game.presentCodingTurn++;
+            gameObject.presentPlayer = 0;
+            if(gameObject.presentCodingTurn < gameObject.maxCodingTurn){
+                gameObject.presentCodingTurn++;
             } else {
-                if(game.gamePhase === "night"){
-                    game.gamePhase = "daytime";
+                if(gameObject.gamePhase === "night"){
+                    gameObject.gamePhase = "daytime";
                 } else {
-                    if(game.presentDay < game.maxDay){
-                        game.presentDay++;
-                        navigate('vote');
+                    if(gameObject.presentDay < gameObject.maxDay){
+                        gameObject.presentDay++;
+                        navigate('/vote');
                     } else {
-                        navigate('result');
+                        navigate('/result');
                     }
                 }
             }
         }
-        setGame(state => { return {...game} });
-        console.log(game);
+        setGameObject(state => { return {...gameObject} });
+        console.log(gameObject);
     };
 
     const handleChange = (value) => {
@@ -61,35 +77,18 @@ export const NightGame = () => {
     };
 
     return (
-        <div className="container" style={{backgroundColor: game.gamePhase === "night" ? '#526D82' : 'white'}}>
-            <div className="header">
-                <div className="day-indicator">
-                    <h1 style={{color: game.gamePhase === "night" ? 'white' : 'black'}}>Day {game.presentDay}</h1>
-                    <p style={{color: game.gamePhase === "night" ? 'white' : 'black'}}>{game.gamePhase}</p>
-                </div>
-                <div className="players-container">
-                    {game.players.map((player, index) => (
-                        <div className="player" key={index} id={`player${index}`}>{player.name}</div>
-                    ))}
-                </div>
-                <div className="timer">
-                    <p id="timer">16秒</p>
-                </div>
-            </div>
+        <div className="container" style={{backgroundColor: gameObject.gamePhase === "night" ? '#526D82' : 'white'}}>
+            <GameHedder gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={yourMission}/>
             <Contents>
                 <Content70>
-                    <Tag secondText={"あと〇文字"}>editor</Tag>
-                    <CodeEditor code={code} onChange={handleChange} />
-                    <Buttons>
-                        <Button type="primary" onClick={handleRunCode}>Run</Button>
-                        <Button type="primary" onClick={handleFinishTurn}>Finish</Button>
-                    </Buttons>
-                    <Tag secondText={""}>console</Tag>
+                    <Tag secondText={"あと〇文字"}>エディター</Tag>
+                    <CodeEditor code={code} onChange={handleChange} handleRunCode={handleRunCode}/>
+                    <Tag secondText={""}>実行結果</Tag>
                     <Console consoleCode={Compiler({language:"java", sourceCode:compiledCode}).output ? Compiler({language:"java", sourceCode:compiledCode}).output : Compiler({language:"java", sourceCode:compiledCode}).buildErrors} />
                 </Content70>
                 <Content30>
-                    <Tag secondText={""}>project</Tag>
-                    <Project question={game.questionText} />
+                    <Tag secondText={""}>プロジェクト</Tag>
+                    <Project question={gameObject.questionText} />
                 </Content30>
             </Contents>
             <script src="hedder.js"></script>

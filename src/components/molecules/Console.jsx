@@ -8,20 +8,20 @@ export const Console = (props) => {
     const { consoleCode } = props;
 
     const consoleContainerStyle = css`
-    flex-glow: 1;
     width: 100%;
-    height: 120px;
+  flex-grow: 1;
+  max-height: 10%;
+    display: flex;
     padding: 10px;
-    background-color: #282c34;
-    /* CodeMirrorのテーマに合わせた色 */
+    background-color: #282c34; /* CodeMirrorのテーマに合わせた色 */
     border-radius: 5px;
+    margin-bottom: 20px;
   `
     const consoleStyle = css`
-    height: 100%;
-    overflow: auto;
-    border: none;
-    /* エディターのボーダーを取り除く */
+    width: 100%;
+    border: none; /* エディターのボーダーを取り除く */
     white-space: pre-wrap;
+    overflow-y: scroll;
   `
     return (
       <div css={consoleContainerStyle}>
