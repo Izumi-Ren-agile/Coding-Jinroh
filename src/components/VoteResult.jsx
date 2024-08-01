@@ -6,6 +6,7 @@ import { Button } from "antd";
 import { Contents } from "./templates/Contents";
 import { Content50 } from "./templates/Content50";
 import { PlayerAtom } from "./atom/Playeratom"; // PlayerAtomをインポート
+import { Playersmol } from "./molecules/Playersmol"; // Playersmolをインポート
 import "./game.css";
 
 export const VoteResult = () => {
@@ -23,8 +24,8 @@ export const VoteResult = () => {
     }
   }, [game.players]);
 
-  // 生存していないプレイヤーをフィルタリング(!にてAliveの)
-  const expelledPlayers = players.filter((player) => !player.isAlive == true);
+  // 生存していないプレイヤーをフィルタリング
+  const expelledPlayers = players.filter((player) => !player.isAlive);
 
   // 生存していないプレイヤーの中で最後のプレイヤー（最も最後に追放されたプレイヤー）を取得
   const expelledPlayer =
@@ -45,46 +46,47 @@ export const VoteResult = () => {
           <p>{game.gamePhase || "N/A"}</p>
         </div>
         <div className="players-container">
-          {players.map((player, index) => (
-            <PlayerAtom key={index} name={player.name} index={index} />
-          ))}
+          {/* Playersmol に players を渡す */}
+          <Playersmol players={players} />
         </div>
         <div className="timer">
           <p id="timer">16秒</p>
         </div>
       </div>
-      <Contents>
-        <Content50>
-          <div>
-            <h2>投票の結果</h2>
-          </div>
-          <div>
-            <h1>追放されたのは</h1>
-          </div>
-          <div>
-            {/* 生存していないプレイヤーの最後のプレイヤーを表示 */}
-            {expelledPlayer ? (
-              <PlayerAtom name={expelledPlayer.name} index={0} />
-            ) : (
-              <p>追放されたプレイヤーはいません</p>
-            )}
-          </div>
-        </Content50>
-        <Content50>
-          <div>
-            <img
-              src="/images/voteresult_rope(Sample).png"
-              alt="Vote Result Rope"
-              style={{ width: "50%", height: "50%" }} // スタイル調整
-            />
-          </div>
-        </Content50>
+      <div className="content">
+        <Contents>
+          <Content50>
+            <div>
+              <h2>投票の結果</h2>
+            </div>
+            <div>
+              <h1>追放されたのは</h1>
+            </div>
+            <div>
+              {/* 生存していないプレイヤーの最後のプレイヤーを表示 */}
+              {expelledPlayer ? (
+                <PlayerAtom name={expelledPlayer.name} index={0} />
+              ) : (
+                <p>追放されたプレイヤーはいません</p>
+              )}
+            </div>
+          </Content50>
+          <Content50>
+            <div>
+              <img
+                src="/images/voteresult_rope(Sample).png"
+                alt="Vote Result Rope"
+                style={{ width: "50%", height: "50%" }} // スタイル調整
+              />
+            </div>
+          </Content50>
+        </Contents>
         <div className="cordingphase_re">
           <Button id="toCordingpage" onClick={toCordingPage}>
             コーディングフェーズへ
           </Button>
         </div>
-      </Contents>
+      </div>
       <script src="hedder.js"></script>
     </div>
   );

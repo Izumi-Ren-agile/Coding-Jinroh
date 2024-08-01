@@ -21,6 +21,7 @@ function App() {
         <Route path="/confirmPlayer" element={<ConfirmPlayer />}/>
         <Route path="/question" element={<Question />} />
         <Route path="/vote" element={<Vote />} />
+        <Route path="/voteResult" element={<VoteResult />} />
         {/* 
         <Route path="/confirmPlayer" element={<ConfirmPlayer />} />
         
