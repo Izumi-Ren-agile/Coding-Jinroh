@@ -5,13 +5,24 @@ export const Question = (props) => {
     //const { players, questionObject } = props;
     const navigate = useNavigate();
 
+    const missionContent1 = {
+        mission: "文字列\n\'int'\n\を含めろ！",
+        arg: "int"
+    }
+
+    const missionContent2 = {
+        mission: "文字列\n\'int2'\n\を含めろ！",
+        arg: "int"
+    }
+
     const player1 = {
         id: 123456,
         name: "ikeda",
         isJinroh: false,
         color: "red",
         isAlive: true,
-        isPM: false
+        isPM: false,
+        yourMission: [missionContent1, missionContent1, missionContent2]
     }
 
     const player2 = {
@@ -20,7 +31,9 @@ export const Question = (props) => {
         isJinroh: false,
         color: "blue",
         isAlive: true,
-        isPM: false
+        isPM: false,
+        yourMission: [missionContent1, missionContent1, missionContent2],
+        solvedMissionNum: 0
     }
 
     const player3 = {
@@ -29,7 +42,8 @@ export const Question = (props) => {
         isJinroh: true,
         color: "red",
         isAlive: true,
-        isPM: false
+        isPM: false,
+        yourMission: [missionContent1, missionContent1, missionContent2]
     }
 
     const player4 = {
@@ -38,7 +52,8 @@ export const Question = (props) => {
         isJinroh: false,
         color: "red",
         isAlive: true,
-        isPM: false
+        isPM: false,
+        yourMission: []
     }
 
     const player5 = {
@@ -47,13 +62,21 @@ export const Question = (props) => {
         isJinroh: false,
         color: "red",
         isAlive: true,
-        isPM: false
+        isPM: false,
+        yourMission: []
     }
 
     const players = [
         player1,
         player2,
         player3,
+        player4,
+        player5
+    ]
+
+    const nowplayers = [
+        player1,
+        player2,
         player4,
         player5
     ]
@@ -65,6 +88,35 @@ export const Question = (props) => {
         answerCode: "bbbbbbbbbbbbb"
     }
 
+    
+
+
+
+    const missionContent3 = {
+        mission: "文字列\n'int3'\nを含めろ！",
+        arg: "int"
+    }
+
+    const missionContent4 = {
+        mission: "文字列\n'int4'\nを含めろ！",
+        arg: "int"
+    }
+
+    const missionContent5 = {
+        mission: "文字列\n'int5'\nを含めろ！",
+        arg: "int"
+    }
+
+    let missions = [missionContent1, missionContent2, missionContent3, missionContent4,  missionContent5];
+
+    missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4,  missionContent5];
+
+    missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4,  missionContent5];
+
+    missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4,  missionContent5];
+
+    missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4,  missionContent5];
+
     const handleGame = () => {
 
         const game = {
@@ -73,10 +125,12 @@ export const Question = (props) => {
             questionText: questionObject.questionText,
             initialCode: questionObject.initialCode,
             answerCode: questionObject.answerCode,
-            players: players,
+            initialPlayers: players,
+            players: nowplayers,
             presentPlayer: 0,
             editor: questionObject.initialCode,
-            missions: [],
+            editorHistory: [{name: "初期コード", code: questionObject.initialCode}],
+            missions: missions,
             nextMissionIndex: 0,
             presentDay: 1,
             maxDay: 4,
@@ -85,7 +139,9 @@ export const Question = (props) => {
             maxCodingTurn: 2,
             codingMaxStringNum: 2000,
             codingMaxTime: 60,
-            meetingmaxTime: 120
+            meetingmaxTime: 120,
+            isRandom: false,
+            maxMissionNum: 3
         }
 
         //問題を設定

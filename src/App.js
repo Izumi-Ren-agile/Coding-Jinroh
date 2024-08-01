@@ -9,6 +9,8 @@ import {NightGame} from './components/NightGame';
 import {ConfirmPlayer} from './components/ConfirmPlayer';
 import {Question} from './components/Question';
 import {Vote} from './components/Vote';
+import {VoteResult} from './components/VoteResult';
+import {Result} from './components/Result';
 
 
 function App() {
@@ -22,14 +24,9 @@ function App() {
         <Route path="/confirmPlayer" element={<ConfirmPlayer />}/>
         <Route path="/question" element={<Question />} />
         <Route path="/vote" element={<Vote />} />
-        {/* 
         <Route path="/confirmPlayer" element={<ConfirmPlayer />} />
-        
-        <Route path="/naightGame" element={<NightGame />} />
-        <Route path="/dayGame" element={<DayGame />} />
-        
         <Route path="/voteResult" element={<VoteResult />} />
-        <Route path="/result" element={<Result />} /> */} 
+        <Route path="/result" element={<Result />} />
         {/* <DataFunc collectionId={"QUESTION_CONTENT"} documentId={"1"} field={"question"}/> */}
         {/* <DataFunc collectionId={"QUESTION_CONTENT"} field={"question"}/>*/}
       </Routes>

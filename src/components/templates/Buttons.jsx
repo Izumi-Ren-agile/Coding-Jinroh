@@ -5,13 +5,9 @@ export const Buttons = (props) => {
     const { children } = props;
 
     const buttonsStyle = css`
-    display: flex;
-    justify-content: right;
-    gap: 10px;
-    width: 100%;
-    margin: 20px 0 auto;
-    min-height: 80%;
-    box-sizing: border-box;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
 `
     return (
         <div css={buttonsStyle}>
