@@ -111,8 +111,8 @@ export const Vote = (props) => {
     margin:5px;
   `;
   
-  const handleSelect = (index) => {
-    setSelectedPlayerIndex(index);
+  const handleSelect = (player) => {
+    setSelectedPlayerIndex(player.id);
   };
 
 
@@ -120,8 +120,9 @@ export const Vote = (props) => {
     if (selectedPlayerIndex !== null) {
       // votedの値の更新
       const updatedPlayers = players.map((player, index) => {
-        if (index === selectedPlayerIndex) {
+        if (player.id === selectedPlayerIndex) {
             console.log("yes")
+            console.log({ ...player, voted: player.voted + 1 });
           return { ...player, voted: player.voted + 1 };
         }
         return player;
@@ -202,14 +203,14 @@ useEffect(() => {
                     <div
                       className="player"
                       key={index}
-                      id={`player${index}`}
+                      id={player.id}
                     ></div>
                     <p>{player.name}</p>
                     <button
                       className={`btn-group, vote-item-btn, ${
-                        index === selectedPlayerIndex ? "selected" : "select"
+                        player.id === selectedPlayerIndex ? "selected" : "select"
                       }`}
-                      onClick={() => handleSelect(index)}
+                      onClick={() => handleSelect(player)}
                     >
                       {index === selectedPlayerIndex ? "選択中" : "選択"}
                     </button>
