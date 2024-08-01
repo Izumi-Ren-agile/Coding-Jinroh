@@ -131,14 +131,12 @@ export const Vote = (props) => {
       const updatedPlayers = players.map((player, index) => {
         // 選択されたプレイヤーのvotedを更新
         if (player.id === selectedPlayerIndex) {
-            console.log("yes")
-            console.log({ ...player, voted: player.voted + 1 });
           return { ...player, voted: player.voted + 1 };
         }
         return player;
       });
 
-      console.log("updatedPlayers"+{...updatedPlayers})
+      console.log("updatedPlayers",updatedPlayers)
       // プレイヤーを新しいプレイヤーに更新
       setPlayers(updatedPlayers);
       setIsVoteUpdated(true);//更新フラグを立てる
@@ -164,20 +162,20 @@ const presentPlayerName = presentPlayer ? presentPlayer.name : null;
 // setIsConfirmed(true)
 
 // 確認ダイアログを表示する関数
-const showConfirmationDialog = () => {
-  const confirmed = window.confirm(`${presentPlayerName}さんですか？`);
-  if (confirmed) {
-    setIsConfirmed(true);
-  } else {
-    showConfirmationDialog();
-  }
-};
+
 
 // コンポーネントがマウントされたときに確認ダイアログを表示する
 useEffect(() => {
   let ignore = false;
+  const showConfirmationDialog = async() => {
+    const confirmed = window.confirm(`${presentPlayerName}さんですか？`);
+    if (confirmed) {
+      setIsConfirmed(true);
+    } else {
+      showConfirmationDialog();
+    }
+  };
 
-  
   if(!ignore){
     showConfirmationDialog();
   }
