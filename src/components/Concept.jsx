@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./concept.css";
+import {SelectData} from "./SelectData";
+import {InsertData} from "./InsertData";
 
 export const Concept = () => {
   const navigate = useNavigate();
@@ -12,9 +14,20 @@ export const Concept = () => {
         navigate('/inputPlayer');
     }
 
-    
+    const g={
+      h:"nkjn",
+      k:"hdsj"
+    }
+
+    const testObject={
+      d:"hgshjd",
+      e:"dhsja",
+      f:g
+    }
   return (
       <div className="container">
+        {/* <h1><SelectData collectionId={"QUESTION_CONTENT"} documentId={"10"} field={"answerCode"} /></h1>
+        <h1><InsertData collectionId={"killing"} documentId={"変えれてます？"} jsonObject={{a:"hooooo",b:"toBePartiallyChecked",c:"get",d:testObject}}/></h1> */}
       <header class="regular-header">
         <h1>コーディング人狼</h1>
       </header>
