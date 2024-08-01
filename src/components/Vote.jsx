@@ -111,6 +111,7 @@ export const Vote = (props) => {
     border-radius: 10px;
     justify-content: space-between;;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin:5px;
   `;
   
   const handleSelect = (index) => {
