@@ -7,7 +7,14 @@ import "./vote.css";
 
 export const Vote = (props) => {
   const navigate = useNavigate();
+  // const location = useLocation();
+ 
+  // 前の画面からのデータ取得
+  // const game = location.state || {}; // location.stateがundefinedの場合に備えて空オブジェクトを使用
+
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [isVoteUpdated, setIsVoteUpdated] = useState(false); // 更新が完了したかを示すフラグ
+  
 
   const initialPlayers = [
     {
@@ -15,7 +22,6 @@ export const Vote = (props) => {
       name: "ikeda",
       isJinroh: false,
       color: "red",
-      isAlive: true,
       isPM: false,
       voted: 0,
     },
@@ -24,7 +30,6 @@ export const Vote = (props) => {
       name: "izumi",
       isJinroh: false,
       color: "blue",
-      isAlive: true,
       isPM: false,
       voted: 0,
     },
@@ -33,7 +38,6 @@ export const Vote = (props) => {
       name: "nishimura",
       isJinroh: true,
       color: "red",
-      isAlive: true,
       isPM: false,
       voted: 0,
     },
@@ -42,7 +46,6 @@ export const Vote = (props) => {
       name: "takahashi",
       isJinroh: false,
       color: "red",
-      isAlive: true,
       isPM: false,
       voted: 0,
     },
@@ -51,7 +54,6 @@ export const Vote = (props) => {
       name: "papa",
       isJinroh: false,
       color: "red",
-      isAlive: true,
       isPM: false,
       vote: 0,
     },
@@ -72,7 +74,9 @@ export const Vote = (props) => {
     questionText: questionObject.questionText,
     initialCode: questionObject.initialCode,
     answerCode: questionObject.answerCode,
-    players: initialPlayers,
+    initialplayers: initialPlayers,
+    players: initialPlayers, //変更予定
+    presentPlayer: 0,
     editor: questionObject.initialCode,
     missions: [],
     nextMissionIndex: 0,
@@ -84,8 +88,8 @@ export const Vote = (props) => {
     codingMaxStringNum: 2000,
     codingMaxTime: 60,
     meetingmaxTime: 120,
-    presentPlayer: 123457, // 現在のプレイヤーのIDを追加
-  };
+    isRandom: false
+}
 
   const [players, setPlayers] = useState(game.players);
   const [selectedPlayerIndex, setSelectedPlayerIndex] = useState(null);
@@ -111,56 +115,75 @@ export const Vote = (props) => {
     border-radius: 10px;
     justify-content: space-between;;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin:5px;
   `;
   
-  const handleSelect = (index) => {
-    setSelectedPlayerIndex(index);
+  //選択されたユーザーのidを保存する
+  const handleSelect = (player) => {
+    setSelectedPlayerIndex(player.id);
   };
 
 
+  //投票
   const handleVote = () => {
     if (selectedPlayerIndex !== null) {
-      // votedの値の更新
+      // votedの値の更新、新しいplayerの配列を定義
       const updatedPlayers = players.map((player, index) => {
-        if (index === selectedPlayerIndex) {
-            console.log("yes")
+        // 選択されたプレイヤーのvotedを更新
+        if (player.id === selectedPlayerIndex) {
           return { ...player, voted: player.voted + 1 };
         }
         return player;
       });
+
+      console.log("updatedPlayers",updatedPlayers)
+      // プレイヤーを新しいプレイヤーに更新
       setPlayers(updatedPlayers);
+      setIsVoteUpdated(true);//更新フラグを立てる
       setSelectedPlayerIndex(null); // 選択を初期化する
-      console.log(players)
     }
-
-    //
-
-    //
-    navigate('/Voteresult', {state: game});
-
   };
 
+  // playersの状態が更新された後に実行する処理
+  useEffect(() => {
+    if (isVoteUpdated) {
+      // 状態更新後のプレイヤーの状態
+      console.log("Players after setPlayers: ", players);
+
+      navigate("/voteResult", { state: game }); // 更新が完了した後に遷移する
+    }
+  }, [players, isVoteUpdated, navigate, game]);
+
+
   // game.presentPlayer に対応する player.name を取得
-const presentPlayer = game.players.find(player => player.id === game.presentPlayer);
+const presentPlayer = game.players[game.presentPlayer];
 const presentPlayerName = presentPlayer ? presentPlayer.name : null;
 
+// setIsConfirmed(true)
 
 // 確認ダイアログを表示する関数
-const showConfirmationDialog = () => {
-  const confirmed = window.confirm(`${presentPlayerName}さんですか？`);
-  console.log("confirmed:"+confirmed);
-  if (confirmed) {
-    setIsConfirmed(true);
-    console.log("setconfirmed:"+setIsConfirmed);
-  } else {
-    showConfirmationDialog();
-  }
-};
+
 
 // コンポーネントがマウントされたときに確認ダイアログを表示する
 useEffect(() => {
-  showConfirmationDialog();
+  let ignore = false;
+  const showConfirmationDialog = async() => {
+    const confirmed = window.confirm(`${presentPlayerName}さんですか？`);
+    if (confirmed) {
+      setIsConfirmed(true);
+    } else {
+      showConfirmationDialog();
+    }
+  };
+
+  if(!ignore){
+    showConfirmationDialog();
+  }
+  return()=>{
+    ignore=true
+  }
 },[]);
+
 
 
   return (
@@ -194,21 +217,21 @@ useEffect(() => {
           <div css={playerVoteContainer}>
             {players.map(
               (player, index) =>
-                player.id !== game.presentPlayer && ( //現在のプレイヤーを表示しない条件
+                player.id !== presentPlayer.id && ( //現在のプレイヤーを表示しない条件
                   <div css={voteItem} key={index}>
                     <div
                       className="player"
                       key={index}
-                      id={`player${index}`}
+                      id={player.id}
                     ></div>
                     <p>{player.name}</p>
                     <button
                       className={`btn-group, vote-item-btn, ${
-                        index === selectedPlayerIndex ? "selected" : "select"
+                        player.id === selectedPlayerIndex ? "selected" : "select"
                       }`}
-                      onClick={() => handleSelect(index)}
+                      onClick={() => handleSelect(player)}
                     >
-                      {index === selectedPlayerIndex ? "選択中" : "選択"}
+                      {player.id === selectedPlayerIndex ? "選択中" : "選択"}
                     </button>
                   </div>
                 )
