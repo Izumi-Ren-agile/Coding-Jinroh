@@ -30,6 +30,8 @@ function App() {
         
         <Route path="/naightGame" element={<NightGame />} />
         <Route path="/dayGame" element={<DayGame />} />
+        
+
         <Route path="/result" element={<Result />} /> */} 
         {/* <DataFunc collectionId={"QUESTION_CONTENT"} documentId={"1"} field={"question"}/> */}
         {/* <DataFunc collectionId={"QUESTION_CONTENT"} field={"question"}/>*/}
