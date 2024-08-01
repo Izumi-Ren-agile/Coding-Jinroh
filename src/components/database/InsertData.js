@@ -4,12 +4,11 @@ import {
   getFirestore,
   collection,
   getDocs,
-  setDoc,
-  doc,
+  addDoc,
 } from "firebase/firestore/lite";
 
 export const InsertData = (props) => {
-  const { collectionId, documentId, jsonObject } = props;
+  const { collectionId,jsonObject } = props;
 
   const firebaseConfig = {
     apiKey: "AIzaSyCyffFMwAi7Ms8TYEa3G6_flcjhLzmWllI",
@@ -23,47 +22,33 @@ export const InsertData = (props) => {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // Add or update JSON object with a specific document ID
-  async function setData(db, jsonObject) {
+  // Add JSON object to a specific collection
+  async function addData(db, jsonObject) {
     try {
-      const docRef = doc(db, collectionId, documentId || '');
-      await setDoc(docRef, jsonObject);
+      const dataCol = collection(db, collectionId);
+      const docRef = await addDoc(dataCol, jsonObject);
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   }
 
-  const [data, setDataList] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     // Fetch existing data from the collection
     const fetchData = async () => {
       const dataCol = collection(db, collectionId);
       const dataSnapshot = await getDocs(dataCol);
-      const dataList = dataSnapshot.docs
-        .filter((doc) => doc.id === (documentId || doc.id))
-        .map((doc) => doc.data());
-      setDataList(dataList);
+      const dataList = dataSnapshot.docs;
+      setData(dataList);
     };
 
-    // Set the new JSON object
-    if (documentId) {
-      setData(db, jsonObject).catch(console.error);
-    } else {
-      console.error("Error: documentId is required to set data.");
-    }
+    // Add the new JSON object
+    addData(db, jsonObject).catch(console.error);
 
     fetchData().catch(console.error); // Fetch existing data and update state
   }, [jsonObject]);
-
-  return (
-    <>
-      {data.map((col, index) => (
-        <div key={index}>{JSON.stringify(col)}</div>
-      ))}
-    </>
-  );
-}
+};
 
 export default InsertData;
