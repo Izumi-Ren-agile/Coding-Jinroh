@@ -1,3 +1,13 @@
 {
-  
+  "type": "service_account",
+  "project_id": "coding-jinroh",
+  "private_key_id": "03e900b22f005c8cf9708e3d95c052d3dea6e67a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCtob2UrCseAvOo\n30Lvl5dK3MTLKKqr5dmrgxTx2k4cg8WX2SI9gCiHE0Oc3he/v0+AgajmhyVxJ01c\n1pviYVF0faozdlFH41tJI9skt5LGve5PiAsOThWwvWkUbbA/hUVXyg9Ozt/ellol\nxkHZNniGKwBjKtI9BoUX6lwJoZjVlIad0ONXoNOOPadEj7FtfLB+igPkYXEOSgsF\naKQ5SoYh0Iu+tf0lqGpjp/TLJq70MMpAkvpK/wxtZJX3gEi+cyDcn0g2z3+8WQwT\ngLpZ5nFsI1tpJfojEfvvntFgeg5jHrbITkP/8fgw4RZri49ktrVjpZxfXd+GEcgv\nft9L+9nvAgMBAAECggEABJVBn+6QmMoOTLM9pg/oa2nfhQ3ZBtn1l1IS3HSK1LRr\n/zGmv5Nl/nUHko+1CHw5P7SscDOVTUdyuXQt2yu1k2reTabeRzlYXjW3FBe+Esbg\nWU5+Zn/VbLvaBKC8kKU7L3q+UY1+WdIoJZCIidmm7+cZPalt1cbQtWNSquJpyC8a\nn6rtz0YVN3H83vTJ9h83vI1GrZ3sgNfwD/ACBgQfm5BUWj5z3A6IMQ3rD4+Js9T1\ndEQeb5S73Rx7MfL1Zg7bYd1XLnyt9XfGY47wygGrYK2oTh14dU30zw8W4ZrnNvZQ\npT/7JCIrF+dqRyWu5MO5/CD+61lgnEJWPrqfX7hi6QKBgQDz0bf+8MU2arNBiwlW\n5WXlkuAQKqq5vxbfgB0+aTvpaL/vpH7BJICg6y0mfG/ZcXe2YboyLz/Esh3Y+9nU\nxtOQEbx3CK/TarNpN7p+ELVDCupANi2+LNdyvklRAW5kYjUyTIwF7RJW4/UijxCY\nQRGuhuYgvYuTlBEDl/Xx0Aq0CwKBgQC2Tl9pj93jUC6TgQBEPZ++7N33x35LFEb4\n4nQvXs1ybFTNh8x/bu0wV4vkZIcp6lglC9XS3xa9R2nJlT16LiwceNXZxJX0xP21\n+/y6h0eY9wvYXOI/OtAoQfHp4/NWAgnxYhswgVVVGLZE4EU32ZRXU4s26gRzJx4k\npfOiO9scLQKBgQDDJ1GGlWDEtZLVG1xWWTa+ElmVlxEfq3u7WOgPVFvH7zfxsFBk\nd7sdEiAJdgBwowmWyZInKPp5jbemPa+VR69+2TNoc2OIbRc9WIXE8cqj5tCopLTo\nSywHg5dbZzHc116M7AgHlkHfmoZTKv+1Xh+w+fiorA5UCWe04KTS8BohEQKBgC9e\nBaRj4P8i4jcpGWyhplPxL2slxkazqg0YqZ91PmQwiYgtdJDXvYEF/i8Ff6kAXo6h\nmJkFpd7gIzhhMmwAey2ap9XBIkVKubEDHBNK+utfpRA+cfqDyXnsSHLA64S5WuQA\n3ZeowwctOI6ExvdP7R8TceR+wVE6JLbY94h7jN6xAoGBAN3342T3KbXJ5mEapGxT\neVx56UVVe8jOpePK4U6RO/8gbxKwlhRNAsIQa9ZIb1pnsL/JQ8TXN0EInIDcjgT3\nTNaMwFhEqj5TEyeiYIc5f943bw7W3kbVkLhDL6BTCD9ucwHN6l09IfyZlOnej5xG\n03E7rnxYpsZGNkXfEMHyaxfF\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-narty@coding-jinroh.iam.gserviceaccount.com",
+  "client_id": "113768764815165346149",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-narty%40coding-jinroh.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
 }
