@@ -103,7 +103,8 @@ export const InputPlayer = () => {
               onClick={() => {
                 handleConfirmPlayer();
                 gameObjectfileWrite(dummyGameObject);
-                setData(dummyGameObject, "merging", "test");
+                setData(dummyGameObject, "reading", "書き込みはできる？");
+                readData("users","aturing");
               }}
             >
               決定
@@ -543,6 +544,6 @@ export const readData = (collectionId, documentId) => {
     body: JSON.stringify(readObject),
   })
     .then((response) => response.text())
-    .then((data) => console.log(data))
+    .then((data) => console.log("読み込みapi:",data))
     .catch((error) => console.error("Error:", error));
 };

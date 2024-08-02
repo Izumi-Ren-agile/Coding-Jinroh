@@ -61,7 +61,7 @@ app.get("/read-gameObject", (req, res) => {
 
 /*-------------------------------------------------------------------------------------------------------*/
 //データベースまわりのAPI
-const serviceAccount = require("./coding-jinroh-03e900b22f00.json");
+const serviceAccount = require("./coding-jinroh-f06366860c17.json");
 
 initializeApp({
   credential: cert(serviceAccount),
@@ -86,7 +86,7 @@ app.post("/set-data", async (req, res) => {
 //データの読み取り
 app.get("/read-data", async (req, res) => {
   const snapshot = await db.collection(req.body.collectionId).get();
-  const data=snapshot[0];
+  const data=snapshot.docs.filter(doc => doc.id === req.body.documentId).map(doc => doc.data());
   return res.status(200).json(JSON.parse(data));
 });
 
