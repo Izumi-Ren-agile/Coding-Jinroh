@@ -156,9 +156,9 @@ export const Question = (props) => {
             editorHistory: [{name: "初期コード", code: questionObject.initialCode}],
             missions: missions,
             nextMissionIndex: 0,
-            presentDay: 1,
+            presentDay: 0,
             maxDay: 4,
-            gamePhase: "night",
+            gamePhase: "confirmRole",
             presentCodingTurn: 1,
             maxCodingTurn: 2,
             codingMaxStringNum: 2000,
@@ -178,7 +178,7 @@ export const Question = (props) => {
 
         //問題を設定
 
-        navigate('/nightGame', {state: gamePy}); //本当はDB保管
+        navigate('/confirmPlayer', {state: gamePy}); //本当はDB保管
     }
 
     return (

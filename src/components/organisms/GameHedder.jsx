@@ -34,7 +34,7 @@ export const GameHedder = (props) => {
     flex-direction: column;
 `
     const textStyle = css`
-    color: ${gameObject.gamePhase === "night" ? 'white' : 'black'};
+    color: ${gameObject.gamePhase === "night" ? '#ede4dd' : gameObject.gamePhase === "confirmRole" ? '#ede4dd' : '#526D82'};
 `
     const dayIndicatorStyle = css`
     ${textStyle}
@@ -126,7 +126,7 @@ export const GameHedder = (props) => {
             <div css={hedderLeftStyle}>
                 <div css={dayIndicatorContainerStyle}>
                     <h1 css={dayIndicatorStyle}>Day{gameObject.presentDay}</h1>
-                    <p css={phaseIndicatorStyle}>{gameObject.gamePhase === "night" ? "コーディングフェーズ" : "会議フェーズ"}</p>
+                    <p css={phaseIndicatorStyle}>{gameObject.gamePhase === "night" ? "コーディングフェーズ" : "confirmRole" ? "役職確認フェーズ" : "会議フェーズ"}</p>
                 </div>
                 <div css={playersContainerStyle}>
                     {gameObject.players.map((player, index) => (
