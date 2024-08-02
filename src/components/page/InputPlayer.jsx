@@ -103,7 +103,7 @@ export const InputPlayer = () => {
               onClick={() => {
                 handleConfirmPlayer();
                 gameObjectfileWrite(dummyGameObject);
-                setData(dummyGameObject, "tessss", "ttttttttttt");
+                setData(dummyGameObject, "merging", "test");
               }}
             >
               決定

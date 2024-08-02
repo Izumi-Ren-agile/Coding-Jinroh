@@ -5,7 +5,7 @@ import { PlayerAtom } from '../atom/Playeratom'; // 適切なパスに変更
 export const Playersmol = (props) => {
     const { players } = props;
 
-    // プレイヤーリストを2行に並べるためのスタイル
+    // プレイヤーリストを2行4列に並べるためのスタイル
     const containerStyle = css`
         display: flex;
         flex-direction: column; /* プレイヤーを縦に並べる */
