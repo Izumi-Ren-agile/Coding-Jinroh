@@ -9,11 +9,14 @@ export const InputPlayer = () => {
   const [isToConfirm, setIsToConfirm] = useState(false);
   const [players, setPlayers] = useState([]);
   const [gameObject, setGameObject] = useState({ property: "default" });
+  const [flagOfCreateGameObject, setFlagOfGameObject] = useState(false);
+  const [initialGameObject, setInitialGameObject] = useState({});
 
   const navigate = useNavigate();
   const handleConfirmPlayer = () => {
     navigate("/confirmPlayer", { state: players });
   };
+  //画面遷移のためのuseEffect
   useEffect(() => {
     if (isToConfirm) {
       handleConfirmPlayer();
@@ -21,6 +24,18 @@ export const InputPlayer = () => {
     localStorage.setItem("gameObject", JSON.stringify({ test: "test" }));
     console.log("どうも" + localStorage.getItem("gameObject"));
   }, [players]);
+
+  //ゲームオブジェクト作成
+  useEffect(() => {
+    if (flagOfCreateGameObject === true) {
+      setInitialGameObject(createGameObject(players));
+      console.log(
+        "useEffectによるゲームオブジェクトの作成:",
+        initialGameObject
+      );
+      //setFlagOfGameObject(false);
+    }
+  }, [flagOfCreateGameObject]);
 
   const gameObjectfileRead = () => {
     fetch("/read-gameObject")
@@ -34,11 +49,17 @@ export const InputPlayer = () => {
         console.error(error);
       });
   };
-  gameObjectfileRead();
+
+  useEffect(() => {
+    gameObjectfileRead();
+  }, []);
+
+  useEffect(() => {
+    console.log("ゲームオブジェクト:", gameObject);
+  }, [gameObject]);
 
   return (
     <>
-      {console.log("ゲームオブジェクト取得確認tokademonai", gameObject)}
       <body>
         <div>
           <header>
@@ -80,9 +101,9 @@ export const InputPlayer = () => {
             <button
               id="submit-button"
               onClick={() => {
-                // setPlayers(playerCalc());
-                // setIsToConfirm(true);
-                gameObjectfileWrite();
+                handleConfirmPlayer();
+                gameObjectfileWrite(dummyGameObject);
+                setData(dummyGameObject, "merging", "test");
               }}
             >
               決定
@@ -106,6 +127,9 @@ export const playerCalc = () => {
       this.color = color;
       this.isAlive = isAlive;
       this.isPM = isPM;
+      this.yourMission = [];
+      this.voted = 0;
+      this.imagePath = "/images/image";
     }
 
     setStatus(isAlive) {
@@ -118,14 +142,14 @@ export const playerCalc = () => {
   }
 
   const colors = [
-    "red",
-    "blue",
     "lime",
     "pink",
     "aqua",
     "purple",
     "yellow",
     "orange",
+    "red",
+    "gray",
   ];
 
   const player1Name = document.getElementById("player1").value;
@@ -208,8 +232,8 @@ export const returnRandomIndex = (min, max, howMany) => {
 };
 
 export const createGameObject = (Players) => {
-  //  プレイヤーたち
-  const players = Players;
+  //gameId
+  const gameId = new Date().toString();
 
   //クエスチョンIDの設定
   const qDbId = "QUESTION_CONTENT";
@@ -236,26 +260,42 @@ export const createGameObject = (Players) => {
     field: "answerCode",
   });
 
+  //最初のプレイヤーたち
+  const initialPlayers = Players;
+
+  //  プレイヤーたち
+  const players = Players;
+
+  //現在コーディング中のプレイヤー
+  const presentPlayer = 0;
+
   //エディターに書かれたコード
-  const editor = "";
+  const editor = initialCode;
+
+  //エディターヒストリー
+  const editorHistory = [{ name: "初期コード", code: initialCode }];
 
   //ミッションの取得
   const mDbId = "MISSION_CONTENT";
   const howManyMissions = 5; //プレイヤー一人当たりに取得してくるミッションの数
-  const missionIndex = returnRandomIndex(1, CountData(mDbId), 1);
-  const newMissions = [];
+  const missionIndex = returnRandomIndex(
+    1,
+    CountData(mDbId),
+    players.length * howManyMissions
+  );
+  const missions = [];
   for (let m in missionIndex) {
-    newMissions.push(m);
+    missions.push(m);
   }
 
-  //使用済みミッション
-  const usedMissions = [];
+  //次のミッション
+  const nextMissionIndex = 0;
 
   //現在のゲーム内の日付（Day1,Day2,Day3...とつづくやつ）
   const presentDay = 1;
 
   //マックスの日数
-  const maxDay = players <= 4 ? 4 : 6;
+  const maxDay = 4;
 
   //ゲームフェイズ
   const gamePhase = "night";
@@ -267,26 +307,37 @@ export const createGameObject = (Players) => {
   const maxCodingTurn = 2;
 
   //一回のコーディングで書ける最大文字数
-  const codingMaxStringNum = 9000; //実質無制限 //一回のコーディングに使える時間
+  const codingMaxStringNum = 2000; //実質無制限 //一回のコーディングに使える時間
 
+  //コーディングの時間制限
   const codingMaxTime = 60; //秒
 
   //会議に使える時間
-  const meetingMaxTime = 120; //秒
+  const meetingmaxTime = 120; //秒
 
-  //現在のプレイヤー
-  const presentPlayer = 0;
+  //コーディングの順番をランダムにするか
+  const isRandom = false;
+
+  //ミッションの最大数
+  const maxMissionNum = 3;
+
+  //言語
+  const codeLanguage = "java";
 
   //ゲームオブジェクト
   const gameObject = {
+    gameId,
     questionId,
     questionText,
     initialCode,
     answerCode,
-    players: players,
+    initialPlayers,
+    players,
+    presentPlayer,
     editor,
-    newMissions,
-    usedMissions,
+    editorHistory,
+    missions,
+    nextMissionIndex,
     presentDay,
     maxDay,
     gamePhase,
@@ -294,65 +345,202 @@ export const createGameObject = (Players) => {
     maxCodingTurn,
     codingMaxStringNum,
     codingMaxTime,
-    meetingMaxTime,
-    presentPlayer,
+    meetingmaxTime,
+    isRandom,
+    maxMissionNum,
+    codeLanguage,
   };
-
-  const dummyGameObject = {
-    questionId: 2,
-    questionText: "dummy",
-    initialCode: "dummy code",
-    answerCode: "dummy answer",
-    players: players,
-    editor: "dummy dummy dummy",
-    newMissions: ["mission1", "mission2", "mission3"],
-    usedMissions: ["mission4"],
-    presentDay: 1,
-    maxDay: 4,
-    gamePhase: 1,
-    presentCodingTurn: 1,
-    maxCodingTurn: 2,
-    codingMaxStringNum: 10000,
-    codingMaxTime: 60,
-    meetingMaxTime: 120,
-    presentPlayer: players[0],
-  };
-  //データベースに保存
-  //const gDbId = "GAME_OBJECTS";
-  // InsertData({ collectionId: gDbId, jsonObject: gameObject});
-  // InsertData({ collectionId: "mimimimi", jsonObject: gameObject});
-  // console.log(gameObject);
-  //return gameObject;
-
-  //プロパティファイルに保存
+  return gameObject;
 };
 
-export const gameObjectfileWrite = () => {
-  const dummyGameObject = {
-    questionId: 2,
-    questionText: "dummy testtest",
-    initialCode: "dummy code",
-    answerCode: "dummy answer",
-    players: ["p1", "p2", "p3"],
-    editor: "dummy dummy dummy",
-    newMissions: ["mission1", "mission2", "mission3"],
-    usedMissions: ["mission4"],
-    presentDay: 1,
-    maxDay: 4,
-    gamePhase: 1,
-    presentCodingTurn: 1,
-    maxCodingTurn: 2,
-    codingMaxStringNum: 10000,
-    codingMaxTime: 60,
-    meetingMaxTime: 120,
-    presentPlayer: "p1",
-  };
+const questionObject = {
+  questionId: "",
+  questionText:
+    "以下の仕様を満たす countWords メソッドの作成\n 仕様：\n<br /> ・与えられた文字列に含まれる単語の数を数えるメソッド ・単語はスペースで区切られているものとする",
+  initialCode:
+    'public class Main {\npublic static void main(String[] args) {\n        // テストケース\n        System.out.println(countWords("Hello world"));             // 出力: 2\n        System.out.println(countWords("Java is fun"));             // 出力: 3\n        System.out.println(countWords(" Count the words "));       // 出力: 3\n        System.out.println(countWords("This is a test"));          // 出力: 4\n        System.out.println(countWords("OneTwoThree"));             // 出力: 1\n    }\n\n    // 与えられた文字列に含まれる単語の数を数えるメソッド\n    public static int countWords(String str) {\n        // 文字列がnullまたは空の場合、単語数は0\n        if (str == null || str.isEmpty()) {\n            return 0;\n        }\n        \n        // 文字列をトリムして前後の空白を取り除く\n        str = str.trim();\n\n        // 文字列が再び空の場合（空白のみの文字列だった場合）、単語数は0\n        if (str.isEmpty()) {\n            return 0;\n        }\n        \n        // 文字列をスペースで分割して単語の配列を作成\n        String[] words = str.split("\\s+");\n\n        // 配列の長さを返す（これが単語数になる）\n        return words.length;\n}\n}\n\n',
+  answerCode: "bbbbbbbbbbbbb",
+};
+const player1 = {
+  id: 123456,
+  name: "ikeda",
+  isJinroh: false,
+  color: "lime",
+  //isAlive: true,
+  isPM: false,
+  yourMission: [], //初期値はから配列でOK
+  voted: 0,
+  imagePath: "/images/image",
+};
+
+const player2 = {
+  id: 123456,
+  name: "izumi",
+  isJinroh: false,
+  color: "pink",
+  isAlive: true,
+  isPM: false,
+  yourMission: [],
+  voted: 0,
+  imagePath: "/images/image",
+};
+
+const player3 = {
+  id: 123456,
+  name: "nishimura",
+  isJinroh: true,
+  color: "aqua",
+  isAlive: true,
+  isPM: false,
+  yourMission: [],
+  voted: 0,
+  imagePath: "/images/image",
+};
+
+const player4 = {
+  id: 123456,
+  name: "takahashi",
+  isJinroh: false,
+  color: "purple",
+  isAlive: true,
+  isPM: false,
+  yourMission: [],
+  voted: 0,
+  imagePath: "/images/image",
+};
+
+const player5 = {
+  id: 123456,
+  name: "papa",
+  isJinroh: false,
+  color: "yellow",
+  isAlive: true,
+  isPM: false,
+  yourMission: [],
+  voted: 0,
+  imagePath: "/images/image",
+};
+
+const player6 = {
+  id: 123456,
+  name: "papa",
+  isJinroh: false,
+  color: "orange",
+  isAlive: true,
+  isPM: false,
+  yourMission: [],
+  voted: 0,
+  imagePath: "/images/image",
+};
+
+const players = [player1, player2, player3, player4, player5];
+
+const missionContent0 = {
+  mission: "文字列\n'int0'\nを含めろ！",
+  arg: "int",
+};
+
+const missionContent1 = {
+  mission: "文字列\n'int'\nを含めろ！",
+  arg: "int",
+};
+
+const missionContent2 = {
+  mission: "文字列\n'int2'\nを含めろ！",
+  arg: "int",
+};
+
+const missionContent3 = {
+  mission: "文字列\n'int3'\nを含めろ！",
+  arg: "int",
+};
+
+const missionContent4 = {
+  mission: "文字列\n'int4'\nを含めろ！",
+  arg: "int",
+};
+
+const missionContent5 = {
+  mission: "文字列\n'int5'\nを含めろ！",
+  arg: "int",
+};
+
+let missions = [
+  missionContent1,
+  missionContent2,
+  missionContent3,
+  missionContent4,
+  missionContent5,
+];
+
+const dummyGameObject = {
+  gameId: "1234dummyData",
+  questionId: questionObject.questionId,
+  questionText: questionObject.questionText,
+  initialCode: questionObject.initialCode,
+  answerCode: questionObject.answerCode,
+  initialPlayers: players,
+  players: players,
+  presentPlayer: 0,
+  editor: questionObject.initialCode,
+  editorHistory: [{ name: "初期コード", code: questionObject.initialCode }],
+  missions: missions,
+  nextMissionIndex: 0,
+  presentDay: 1,
+  maxDay: 4,
+  gamePhase: "night",
+  presentCodingTurn: 1,
+  maxCodingTurn: 2,
+  codingMaxStringNum: 2000,
+  codingMaxTime: 60,
+  meetingmaxTime: 120,
+  isRandom: false,
+  maxMissionNum: 3,
+  codeLanguage: "java",
+};
+export const gameObjectfileWrite = (object) => {
   fetch("/write-gameObject", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(dummyGameObject),
+    body: JSON.stringify(object),
+  })
+    .then((response) => response.text())
+    .then((data) => console.log(data))
+    .catch((error) => console.error("Error:", error));
+};
+
+export const setData = (object, collectionId, documentId) => {
+  const sendObject = {
+    object,
+    collectionId,
+    documentId,
+  };
+
+  fetch("/set-data", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(sendObject),
+  })
+    .then((response) => response.text())
+    .then((data) => console.log(data))
+    .catch((error) => console.error("Error:", error));
+};
+
+export const readData = (collectionId, documentId) => {
+  const readObject={
+    collectionId,
+    documentId
+  }
+  fetch("/read-data", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(readObject),
   })
     .then((response) => response.text())
     .then((data) => console.log(data))

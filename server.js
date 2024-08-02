@@ -3,6 +3,18 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 
+const {
+  initializeApp,
+  applicationDefault,
+  cert,
+} = require("firebase-admin/app");
+const {
+  getFirestore,
+  Timestamp,
+  FieldValue,
+  Filter,
+} = require("firebase-admin/firestore");
+
 // expressオブジェクトの生成
 const app = express();
 
@@ -36,13 +48,53 @@ app.post("/write-gameObject", (req, res) => {
 });
 
 app.get("/read-gameObject", (req, res) => {
-  fs.readFile("gameObject.json","utf8",(err,data)=>{
-    if(err){
-        return res.status(500).send("ゲームオブジェクトの読み取りエラーが発生しました");
-    }else{
-        return res.status(200).json(JSON.parse(data));
-    };
-  })
+  fs.readFile("gameObject.json", "utf8", (err, data) => {
+    if (err) {
+      return res
+        .status(500)
+        .send("ゲームオブジェクトの読み取りエラーが発生しました");
+    } else {
+      return res.status(200).json(JSON.parse(data));
+    }
+  });
+});
+
+/*-------------------------------------------------------------------------------------------------------*/
+//データベースまわりのAPI
+const serviceAccount = require("./coding-jinroh-03e900b22f00.json");
+
+initializeApp({
+  credential: cert(serviceAccount),
+});
+
+const db = getFirestore();
+
+//データの追加・アップデート
+app.post("/set-data", async (req, res) => {
+  try {
+    const docRef = db
+      .collection(req.body.collectionId)
+      .doc(req.body.documentId);
+    await docRef.set(req.body.object);
+    res.send("Data added successfully");
+  } catch (error) {
+    console.error("Error adding document: ", error);
+    res.status(500).send("Error setting data");
+  }
+});
+
+//データの読み取り
+app.get("/read-data", async (req, res) => {
+  const snapshot = await db.collection(req.body.collectionId).get();
+  const data=snapshot[0];
+  return res.status(200).json(JSON.parse(data));
+});
+
+/*-------------------------------------------------------------------------------*/
+
+// Reactルーターのためのフォールバック
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 // サーバの設定
