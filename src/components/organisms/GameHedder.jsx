@@ -9,7 +9,8 @@ export const GameHedder = (props) => {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    height: 180px;
+    max-height: 180px;
+    flex-grow: 1;
     flex-basis: 180px;
     padding: 20px;
 `
@@ -77,38 +78,49 @@ export const GameHedder = (props) => {
     const timeStyle = css`
     ${textStyle}
     font-size: 25px;
+    text-align: center;
     font-weight: bold;
 `
     const playerIndicatorStyle = css`
     ${textStyle}
     font-size: 13px;
     font-weight: bold;
+    text-align: center;
     margin-bottom: 10px;
 `
     const missionStyle = css`
     align-items: center;
-    padding: 20px;
+    padding: 20px 10px;
     border: 5px solid ${gameObject.players[gameObject.presentPlayer].color};
     border-radius: 5px;
     text-align: center;
     font-size: 18px;
     right: 0; /* 右端に配置 */
     top: 0; /* ヘッダー内で上に配置 */
-    width: 130px;
+    width: 115px;
     height: 100%;
 `
     const missionTextStyle = css`
     ${textStyle}
-    font-size: 13px;
+    color: ${gameObject.players[gameObject.presentPlayer].color};
+    font-size: 15px;
     font-weight: bold;
+    text-align: center;
     margin-bottom: 10px;
 `
     const missionContentStyle = css`
     ${textStyle}
     font-size: 13px;
     font-weight: bold;
+    text-align: center;
     white-space: pre-wrap;
 `
+    const missions = gameObject.gamePhase === "night" ? gameObject.players[gameObject.presentPlayer].yourMission : [];
+
+    const gameDescription = gameObject.gamePhase === "night" ? `${gameObject.players[gameObject.presentPlayer].name}さんのターン` : "人狼を見つけよう";
+
+    const buttonText = gameObject.gamePhase === "night" ? "次の人へ" : "会議を終える";
+
     return (
         <div css={hedderContainerStyle}>
             <div css={hedderLeftStyle}>
@@ -123,22 +135,16 @@ export const GameHedder = (props) => {
                 </div>
             </div>
             <div css={hedderRightStyle}>
-                <div css={missionStyle}>
-                    <p css={missionTextStyle}>MISSION</p>
-                    <p css={missionContentStyle}>{gameObject.players[gameObject.presentPlayer].yourMission[0].mission}</p>
-                </div>
-                <div css={missionStyle}>
-                    <p css={missionTextStyle}>MISSION</p>
-                    <p css={missionContentStyle}>{gameObject.players[gameObject.presentPlayer].yourMission[1].mission}</p>
-                </div>
-                <div css={missionStyle}>
-                    <p css={missionTextStyle}>MISSION</p>
-                    <p css={missionContentStyle}>{gameObject.players[gameObject.presentPlayer].yourMission[2].mission}</p>
-                </div>
+                {missions.map((missionObject) => (
+                    <div css={missionStyle}>
+                        <p css={missionTextStyle}>MISSION</p>
+                        <p css={missionContentStyle}>{missionObject.mission}</p>
+                    </div>
+                ))}
                 <div css={timerStyle}>
                     <p id="timer" css={timeStyle}>120秒</p>
-                    <p css={playerIndicatorStyle}>{gameObject.players[gameObject.presentPlayer].name}さんのターン</p>
-                    <Button type="primary" onClick={handleFinishTurn}>次の人へ</Button>
+                    <p css={playerIndicatorStyle}>{gameDescription}</p>
+                    <Button type="primary" onClick={handleFinishTurn}>{buttonText}</Button>
                 </div>
             </div>
         </div>

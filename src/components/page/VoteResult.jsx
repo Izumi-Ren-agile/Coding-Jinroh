@@ -3,11 +3,10 @@ import { css } from "@emotion/react";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "antd";
-import { Contents } from "./templates/Contents";
-import { Content50 } from "./templates/Content50";
-import { PlayerAtom } from "./atom/Playeratom"; // PlayerAtomをインポート
-import { Playersmol } from "./molecules/Playersmol"; // Playersmolをインポート
-import "./game.css";
+import { Contents } from "../templates/Contents";
+import { Content50 } from "../templates/Content50";
+import { PlayerAtom } from "../atom/Playeratom"; // PlayerAtomをインポート
+import { Playersmol } from "../molecules/Playersmol"; // Playersmolをインポート
 
 export const VoteResult = () => {
   const [players, setPlayers] = useState([]);
