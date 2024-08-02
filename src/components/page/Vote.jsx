@@ -1,95 +1,95 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect } from 'react';
 import { css } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { useState } from "react";
 import "./vote.css";
 
 export const Vote = (props) => {
   const navigate = useNavigate();
-  // const location = useLocation();
+  const location = useLocation();
  
   // 前の画面からのデータ取得
-  // const game = location.state || {}; // location.stateがundefinedの場合に備えて空オブジェクトを使用
+  const game = location.state || {}; // location.stateがundefinedの場合に備えて空オブジェクトを使用
 
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [isVoteUpdated, setIsVoteUpdated] = useState(false); // 更新が完了したかを示すフラグ
   
 
-  const initialPlayers = [
-    {
-      id: 123456,
-      name: "ikeda",
-      isJinroh: false,
-      color: "red",
-      isPM: false,
-      voted: 0,
-    },
-    {
-      id: 123457,
-      name: "izumi",
-      isJinroh: false,
-      color: "blue",
-      isPM: false,
-      voted: 0,
-    },
-    {
-      id: 123458,
-      name: "nishimura",
-      isJinroh: true,
-      color: "red",
-      isPM: false,
-      voted: 0,
-    },
-    {
-      id: 123459,
-      name: "takahashi",
-      isJinroh: false,
-      color: "red",
-      isPM: false,
-      voted: 0,
-    },
-    {
-      id: 123460,
-      name: "papa",
-      isJinroh: false,
-      color: "red",
-      isPM: false,
-      vote: 0,
-    },
-  ];
+  // const initialPlayers = [
+  //   {
+  //     id: 123456,
+  //     name: "ikeda",
+  //     isJinroh: false,
+  //     color: "red",
+  //     isPM: false,
+  //     voted: 0,
+  //   },
+  //   {
+  //     id: 123457,
+  //     name: "izumi",
+  //     isJinroh: false,
+  //     color: "blue",
+  //     isPM: false,
+  //     voted: 0,
+  //   },
+  //   {
+  //     id: 123458,
+  //     name: "nishimura",
+  //     isJinroh: true,
+  //     color: "red",
+  //     isPM: false,
+  //     voted: 0,
+  //   },
+  //   {
+  //     id: 123459,
+  //     name: "takahashi",
+  //     isJinroh: false,
+  //     color: "red",
+  //     isPM: false,
+  //     voted: 0,
+  //   },
+  //   {
+  //     id: 123460,
+  //     name: "papa",
+  //     isJinroh: false,
+  //     color: "red",
+  //     isPM: false,
+  //     vote: 0,
+  //   },
+  // ];
 
-  const questionObject = {
-    questionId: "",
-    questionText:
-      "以下の仕様を満たす countWords メソッドの作成\n 仕様： ・与えられた文字列に含まれる単語の数を数えるメソッド ・単語はスペースで区切られているものとする",
-    initialCode:
-      'public class Main { public static void main(String[] args) { // テストケース System.out.println(countWords("Hello world")); // 出力: 2 System.out.println(countWords("Java is fun")); // 出力: 3 System.out.println(countWords(" Count the words ")); // 出力: 3 System.out.println(countWords("This is a test")); // 出力: 4 System.out.println(countWords("OneTwoThree")); // 出力: 1 } // 与えられた文字列に含まれる単語の数を数えるメソッド public static int countWords(String str) { //ここに実装 return null; } }',
-    answerCode: "bbbbbbbbbbbbb",
-  };
+  // const questionObject = {
+  //   questionId: "",
+  //   questionText:
+  //     "以下の仕様を満たす countWords メソッドの作成\n 仕様： ・与えられた文字列に含まれる単語の数を数えるメソッド ・単語はスペースで区切られているものとする",
+  //   initialCode:
+  //     'public class Main { public static void main(String[] args) { // テストケース System.out.println(countWords("Hello world")); // 出力: 2 System.out.println(countWords("Java is fun")); // 出力: 3 System.out.println(countWords(" Count the words ")); // 出力: 3 System.out.println(countWords("This is a test")); // 出力: 4 System.out.println(countWords("OneTwoThree")); // 出力: 1 } // 与えられた文字列に含まれる単語の数を数えるメソッド public static int countWords(String str) { //ここに実装 return null; } }',
+  //   answerCode: "bbbbbbbbbbbbb",
+  // };
 
-  const game = {
-    gameId: "1234",
-    questionId: questionObject.questionId,
-    questionText: questionObject.questionText,
-    initialCode: questionObject.initialCode,
-    answerCode: questionObject.answerCode,
-    initialplayers: initialPlayers,
-    players: initialPlayers, //変更予定
-    presentPlayer: 0,
-    editor: questionObject.initialCode,
-    missions: [],
-    nextMissionIndex: 0,
-    presentDay: 1,
-    maxDay: 4,
-    gamePhase: "night",
-    presentCodingTurn: 1,
-    maxCodingTurn: 2,
-    codingMaxStringNum: 2000,
-    codingMaxTime: 60,
-    meetingmaxTime: 120,
-    isRandom: false
-}
+//   const game = {
+//     gameId: "1234",
+//     questionId: questionObject.questionId,
+//     questionText: questionObject.questionText,
+//     initialCode: questionObject.initialCode,
+//     answerCode: questionObject.answerCode,
+//     initialplayers: initialPlayers,
+//     players: initialPlayers, //変更予定
+//     presentPlayer: 0,
+//     editor: questionObject.initialCode,
+//     missions: [],
+//     nextMissionIndex: 0,
+//     presentDay: 1,
+//     maxDay: 4,
+//     gamePhase: "night",
+//     presentCodingTurn: 1,
+//     maxCodingTurn: 2,
+//     codingMaxStringNum: 2000,
+//     codingMaxTime: 60,
+//     meetingmaxTime: 120,
+//     isRandom: false
+// }
 
   const [players, setPlayers] = useState(game.players);
   const [selectedPlayerIndex, setSelectedPlayerIndex] = useState(null);
@@ -147,10 +147,21 @@ export const Vote = (props) => {
   // playersの状態が更新された後に実行する処理
   useEffect(() => {
     if (isVoteUpdated) {
+      //presentPlayerの値を更新
+      game.presentPlayer+=1;
+      if(players.length > presentPlayer){
+        //players.length > presentPlayerなら/vote
+        navigate("/vote", { state: game }); // 更新が完了した後に遷移する
+
+      }else{
+      //players.length < presentPlayerなら/voteResult
+      navigate("/voteResult", { state: game }); // 更新が完了した後に遷移する
+
+      }
+
       // 状態更新後のプレイヤーの状態
       console.log("Players after setPlayers: ", players);
 
-      navigate("/voteResult", { state: game }); // 更新が完了した後に遷移する
     }
   }, [players, isVoteUpdated, navigate, game]);
 
@@ -158,11 +169,6 @@ export const Vote = (props) => {
   // game.presentPlayer に対応する player.name を取得
 const presentPlayer = game.players[game.presentPlayer];
 const presentPlayerName = presentPlayer ? presentPlayer.name : null;
-
-// setIsConfirmed(true)
-
-// 確認ダイアログを表示する関数
-
 
 // コンポーネントがマウントされたときに確認ダイアログを表示する
 useEffect(() => {
