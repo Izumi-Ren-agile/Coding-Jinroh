@@ -8,9 +8,8 @@ export const Content50 = (props) => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 0;
   height: 70%;
-  width: 50%;
+  width: 100%;
 `
     return (
         <div css={contentStyle}>

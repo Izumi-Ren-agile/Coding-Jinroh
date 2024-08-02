@@ -1,109 +1,79 @@
-/* ゲーム画面 - 昼A */
+html, body {
+  height: 100%;
+  margin: 0;
+}
 
-body {
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .header {
-    width: 100%;
-    padding: 20px;
-  }
-  
-  .day-indicator {
-    text-align: center;
-  }
-  
-  .day-indicator p {
-    font-size: 16px;
-    font-weight: 400;
-    color: #FFFFFF;
-  }
-  
-  .players-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .player-atom {
-    width: 71px;
-    height: 71px;
-    background: #D9D9D9;
-    border: 3px solid #1E1E1E;
-    border-radius: 50%;
-    margin: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .timer {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .timer #timer {
-    font-size: 24px;
-    color: #000000;
-  }
-  
-  .content {
-    width: 100%;
-    background: #FFFFFF;
-  }
-  
-  .vote-result {
-    text-align: center;
-    margin: 20px auto;
-    width: 819px;
-  }
-  
-  .vote-result .result-title h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #000000;
-  }
-  
-  .vote-result .expelled h1 {
-    font-size: 36px;
-    font-weight: 700;
-    color: #000000;
-  }
-  
-  .image-section img {
-    width: 50%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
-  
-  .cordingphase_re {
-    
-    text-align: center;
-    margin: 20px 0; /* 上下のスペースを確保 */
-  }
-  
-  .cordingphase_re button {
-    font-size: 24px;
-    font-weight: 700;
-    color: #FFFFFF;
-    background: #2F2BF7;
-    border: none;
-    border-radius: 9px;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin-left: 300px;
-  }
-  
-  .cordingphase_re button:hover {
-    background: #1E1E1E;
-  }
-  
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  max-height: calc(100%-180px);
+  box-sizing: border-box;
+  padding-bottom:50px;
+}
+
+.content_top {
+  margin-bottom: 20px;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.content_main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  flex-grow: 1;
+  margin-bottom: 20px;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+.content_left h2{
+  text-align: right;
+}
+
+.content_left h1{
+  text-align: right;
+  padding-top: 30px;
+}
+
+.content_right, .content_left {
+  flex: 1;
+  max-width: 48%;
+  box-sizing: border-box;
+}
+
+.content_right img {
+  max-width: 80%;
+  max-height: 300px; /* 高さに制限を設定 */
+  object-fit: contain;
+}
+
+.cordingphase_re {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.cordingphase_re button {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: #2F2BF7;
+  border: none;
+  border-radius: 9px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.cordingphase_re button:hover {
+  background: #1E1E1E;
+}
