@@ -8,6 +8,7 @@ import { Content70 } from '../templates/Content70';
 import { Contents } from '../templates/Contents';
 import { Compiler } from "../compile/CompilerAsMethod";
 import { Tag } from '../molecules/Tag';
+import { TabsOfCodeEditor } from '../molecules/TabsOfCodeEditor';
 
 export const NightGame = () => {
     const location = useLocation();
@@ -16,6 +17,8 @@ export const NightGame = () => {
     const [code, setCode] = useState(gameObject.editor);
     const [compiledCode, setCompiledCode] = useState('');
     const [yourMission, setYourMission] = useState([]);
+    const [isConfirmed, setIsConfirmed] = useState(false);
+    const [presentPlayerIndex, setPresentPlayerIndex] = useState(0);
     const navigate = useNavigate();
 
     console.log(gameObject.nextMissionIndex);
@@ -59,7 +62,7 @@ export const NightGame = () => {
                     gameObject.presentPlayer = 0;
                     if (gameObject.presentDay < gameObject.maxDay) {
                         gameObject.presentDay++;
-                        navigate('/result', {state: gameObject});
+                        navigate('/result', { state: gameObject });
                     } else {
                         navigate('/result');
                     }
@@ -76,15 +79,41 @@ export const NightGame = () => {
         console.log(code);
     };
 
+    useEffect(() => {
+        if(gameObject.presentPlayer !== presentPlayerIndex){
+            setPresentPlayerIndex(gameObject.presentPlayer);
+        }
 
+    }, [gameObject])
+
+    // コンポーネントがマウントされたときに確認ダイアログを表示する
+    useEffect(() => {
+        let ignore = false;
+        const showConfirmationDialog = async () => {
+            const confirmed = window.confirm(`${gameObject.players[presentPlayerIndex].name}さんですか？`);
+            if (confirmed) {
+                setIsConfirmed(true);
+            } else {
+                showConfirmationDialog();
+            }
+        };
+
+        if (!ignore) {
+            showConfirmationDialog();
+        }
+        return () => {
+            ignore = true
+        }
+    }, [presentPlayerIndex]);
 
     return (
-        <div className="container" style={{ backgroundColor: gameObject.gamePhase === "night" ? '#526D82' : 'white' }}>
+        <div className="container" style={{ backgroundColor: gameObject.gamePhase === "night" ? '#526D82' : '#ede4dd' }}>
             <GameHedder gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={yourMission} />
             <Contents>
                 <Content70>
                     <Tag secondText={"あと〇文字"}>エディター</Tag>
-                    <CodeEditor code={code} onChange={handleChange} handleRunCode={handleRunCode} />
+                    {gameObject.gamePhase === "night" ? (
+                        <CodeEditor code={code} onChange={handleChange} handleRunCode={handleRunCode} />) : (<TabsOfCodeEditor editorHistory={gameObject.editorHistory} onChange={handleChange} handleRunCode={handleRunCode} />)}
                     <Tag secondText={""}>実行結果</Tag>
                     <Console consoleCode={Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output ? Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output : Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).buildErrors ? Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).buildErrors : ''} />
                 </Content70>

@@ -103,8 +103,6 @@ export const InputPlayer = () => {
               onClick={() => {
                 handleConfirmPlayer();
                 gameObjectfileWrite(dummyGameObject);
-                setData(dummyGameObject, "reading", "書き込みはできる？");
-                readData("users","aturing");
               }}
             >
               決定
