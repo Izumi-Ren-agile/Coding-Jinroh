@@ -6,6 +6,7 @@ import { Button } from "antd";
 import { Contents } from "./templates/Contents";
 import { Content50 } from "./templates/Content50";
 import { PlayerAtom } from "./atom/Playeratom"; // PlayerAtomをインポート
+import { Header } from "./templates/gameheader"; // Header コンポーネントを正しいパスでインポート
 import "./game.css";
 
 export const VoteResult = () => {
@@ -39,20 +40,9 @@ export const VoteResult = () => {
 
   return (
     <div className="container">
-      <div className="header">
-        <div className="day-indicator">
-          <h1>Day {game.presentDay || "N/A"}</h1>
-          <p>{game.gamePhase || "N/A"}</p>
-        </div>
-        <div className="players-container">
-          {players.map((player, index) => (
-            <PlayerAtom key={index} name={player.name} index={index} />
-          ))}
-        </div>
-        <div className="timer">
-          <p id="timer">16秒</p>
-        </div>
-      </div>
+      {/* Header コンポーネントを使用 */}
+      <Header game={game} />
+      
       <Contents>
         <Content50>
           <div>
