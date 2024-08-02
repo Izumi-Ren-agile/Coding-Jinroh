@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { css } from "@emotion/react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GameHedder } from '../organisms/GameHedder';
+import{PlayerAtom} from '../atom/Playeratom'
 import "./vote.css";
 
 export const Vote = () => {
@@ -19,11 +20,11 @@ export const Vote = () => {
   const missionContent2 = { mission: "文字列\n'int2'\nを含めろ！", arg: "int" };
 
   const player1 = { id: 123456, name: "ikeda", isJinroh: false, color: "lime", isAlive: true, isPM: false, yourMission: [missionContent0] };
-  const player2 = { id: 123456, name: "izumi", isJinroh: false, color: "pink", isAlive: true, isPM: false, yourMission: [missionContent1, missionContent2, missionContent2], solvedMissionNum: 0 };
-  const player3 = { id: 123456, name: "nishimura", isJinroh: true, color: "aqua", isAlive: true, isPM: false, yourMission: [missionContent1, missionContent1, missionContent2] };
-  const player4 = { id: 123456, name: "takahashi", isJinroh: false, color: "purple", isAlive: true, isPM: false, yourMission: [] };
-  const player5 = { id: 123456, name: "papa", isJinroh: false, color: "yellow", isAlive: true, isPM: false, yourMission: [] };
-  const player6 = { id: 123456, name: "papa", isJinroh: false, color: "orange", isAlive: true, isPM: false, yourMission: [] };
+  const player2 = { id: 123457, name: "izumi", isJinroh: false, color: "pink", isAlive: true, isPM: false, yourMission: [missionContent1, missionContent2, missionContent2], solvedMissionNum: 0 };
+  const player3 = { id: 123458, name: "nishimura", isJinroh: true, color: "aqua", isAlive: true, isPM: false, yourMission: [missionContent1, missionContent1, missionContent2] };
+  const player4 = { id: 123459, name: "takahashi", isJinroh: false, color: "purple", isAlive: true, isPM: false, yourMission: [] };
+  const player5 = { id: 123460, name: "papa", isJinroh: false, color: "yellow", isAlive: true, isPM: false, yourMission: [] };
+  const player6 = { id: 123461, name: "yu-chan", isJinroh: false, color: "orange", isAlive: true, isPM: false, yourMission: [] };
 
   const initialplayers = [player1, player2, player3, player4, player5];
   const nowplayers = [player1, player2, player3, player4, player5, player6];
@@ -77,7 +78,7 @@ export const Vote = () => {
   // スタイル定義
   const playerVoteContainer = css`
     width: 80%;
-    margin: 5px 10%; 
+    margin: 20px 10%; 
     min-height: 60%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -99,12 +100,29 @@ export const Vote = () => {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 5px;
   `;
-
-
+  const loadingMessage = css`
+  margin:auto;
+  font-size: 6rem;
+  position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left:50%;
+    top:50%;
   
+  `;
+
+  // const voteBtn = css`{
+  //   font-size: larger;
+  //   font-weight: bold;
+  //   width: 200px;
+  //   height: 80px;
+  //   position: absolute;
+  //   transform: translateX(-50%);
+  //   left:50%;
+  // }`
   
   // 選択されたユーザーのIDを保存する
   const handleSelect = (player) => {
+    console.log("selectPlayer", player);
     setSelectedPlayerIndex(player.id);
   };
 
@@ -141,13 +159,9 @@ export const Vote = () => {
         // players.length < presentPlayerなら/voteResult
         navigate("/voteResult", { state: gameObject }); // 更新が完了した後に遷移
       }
-      // 状態更新後のプレイヤーの状態をログに出力
-      console.log("Players after setPlayers: ", gameObject.players);
-    }
+  }
   }, [isVoteUpdated, players.length, gameObject.presentPlayer, navigate, gameObject]);
-
-  console.log("gameObject.players", gameObject.players);
-
+  // console.log("gameObject.players", gameObject.players);
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
     // 二回マウントされるのを防ぐための指定
@@ -177,48 +191,44 @@ export const Vote = () => {
         {isConfirmed ? (
           <div className="text-center-content">
             <h2>{presentPlayerName}さん、人狼だと思う人に投票してください</h2>
-            <br />
-            <br />
             <div css={playerVoteContainer}>
               {gameObject.players.map(
-                (player, index) =>
-                  gameObject.presentPlayer !== index && (
-                    <div css={voteItem} key={index}>
-                      <div className="player" key={index} id={player.id}></div>
-                      <p>{player.name}</p>
-                      <button
-                        className={`btn-group vote-item-btn ${
-                          player.id === selectedPlayerIndex ? "selected" : "select"
-                        }`}
-                        onClick={() => handleSelect(player)}
-                      >
-                        {player.id === selectedPlayerIndex ? "選択中" : "選択"}
-                      </button>
-                    </div>
-                  )
-              )}
+        (player, index) =>
+          gameObject.presentPlayer !== index && (
+            <div css={voteItem} key={index}>
+              {/* PlayerAtomには、playerを入れたい */}
+              {/* <PlayerAtom player={player} index={index}/> */}
+
+              {/* 暫定 */}
+              <PlayerAtom name={player.name} index={index} />
+
+              <p>{player.name}</p>
+              <button
+                className={`btn-group vote-item-btn ${
+                  player.id === selectedPlayerIndex ? "selected" : "select"
+                }`}
+                onClick={() => handleSelect(player)}
+              id={player.id}
+              >
+                {player.id === selectedPlayerIndex ? "選択中" : "選択"}
+              </button>
             </div>
-            <br />
-            <br />
+          )
+      )}
+            </div>
             <button
-              className="submit btn-group vote-btn"
+            // css={voteBtn}
+                          className="submit btn-group vote-btn"
               onClick={handleVote}
               disabled={selectedPlayerIndex === null}
             >
               {selectedPlayerIndex === null ? (
-                <>
-                  選択
-                  <br />
-                  してください
-                </>
-              ) : (
-                "投票"
-              )}
+                <>選択<br />してください</>) : ("投票")}
             </button>
           </div>
         ) : (
           <div>
-            <h2>確認中...</h2>
+            <h2 css={loadingMessage}>確認中...</h2>
           </div>
         )}
       </div>

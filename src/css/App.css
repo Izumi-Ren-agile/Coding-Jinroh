@@ -52,16 +52,10 @@ a{
 
 
 .btn-group {
-    position: absolute;
-    width: 200px;
-    height: 73px;
     background: #27374D;
+    color:#ede4dd;
     border-radius: 10px;
     font-family: 'Inter', sans-serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 120%;
     letter-spacing: -0.03em;
     display: flex;
     align-items: center;

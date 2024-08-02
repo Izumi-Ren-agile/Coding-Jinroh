@@ -9,26 +9,24 @@ button:disabled {
   }
   
  
-  
-  /* .submit {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  } */
-  
   .submit:disabled {
     background-color: #ccc;
     cursor: not-allowed;
   }
 
   .vote-item-btn{
-    margin-right: 5px;
-    
+    font-size: larger;
+    font-weight: bold;
+    width: 100px;
+
+
   }
 
   .vote-btn{
+    font-size: larger;
+    font-weight: bold;
+    width: 200px;
+    height: 80px;
     position: absolute;
     transform: translateX(-50%);
     left:50%;
