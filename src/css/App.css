@@ -39,7 +39,6 @@ body .NightTimeBody{
     flex-direction: column;
     justify-content: space-between; /* 上下に要素を分ける */
     overflow: hidden;
-    flex-grow: 1;
 }
 
 .text-container {

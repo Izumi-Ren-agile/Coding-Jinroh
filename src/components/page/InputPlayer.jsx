@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import InsertData from "./database/UpdateData";
-import { CountData } from "./database/CountData";
-import { SelectData } from "./database/SelectData";
-import NonhookCountData from "./database/NonhookCountData";
+import InsertData from "../database/UpdateData";
+import { CountData } from "../database/CountData";
+import { SelectData } from "../database/SelectData";
+import NonhookCountData from "../database/NonhookCountData";
 
 export const InputPlayer = () => {
   const [isToConfirm, setIsToConfirm] = useState(false);
@@ -120,12 +120,12 @@ export const playerCalc = () => {
   const colors = [
     "red",
     "blue",
-    "green",
+    "lime",
     "pink",
-    "black",
+    "aqua",
     "purple",
     "yellow",
-    "white",
+    "orange",
   ];
 
   const player1Name = document.getElementById("player1").value;

@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import "./concept.css";
-import {SelectData} from "./database/SelectData";
-import {UpdateData} from "./database/UpdateData";
-import InsertData from "./database/InsertData";
-import { CountData } from "./database/CountData";
-import CompileTest from "./compile/CompilerAsComponent";
-import { Compiler } from "./compile/CompilerAsMethod";
-import { SimpleCompiler } from "./compile/SimpleCompiler";
+import {SelectData} from "../database/SelectData";
+import {UpdateData} from "../database/UpdateData";
+import InsertData from "../database/InsertData";
+import { CountData } from "../database/CountData";
+import CompileTest from "../compile/CompilerAsComponent";
+import { Compiler } from "../compile/CompilerAsMethod";
+import { SimpleCompiler } from "../compile/SimpleCompiler";
 
 export const Concept = () => {
   const navigate = useNavigate();

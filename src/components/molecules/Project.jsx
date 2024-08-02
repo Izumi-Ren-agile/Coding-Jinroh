@@ -1,32 +1,48 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { Tag } from '../molecules/Tag';
 
 export const Project = (props) => {
     const { question } = props;
 
+    const projectStyle = css`
+    flex-grow: 1;
+    display: flex;
+    width: 30%;
+    min-height: calc(100vh - 180px);
+    max-height: calc(100vh - 180px);
+    height: calc(100% - 180px);
+    flex-direction: column;
+    gap: 20px;
+`
     const projectContainerStyle = css`
     flex-grow: 1; // 余白に合わせて伸張する
-      flex-basis: 80%;
     background: white;
+    min-height: 100%;
+    max-height: 100%;
+    height: 100%;
     padding: 10px;
     border: 5px solid #e0e0e0;
     border-radius: 5px;
     margin-bottom: 20px;
-    display: flex;
-    flex-direction: colomn;
+    overflow: auto;
 `
     const projectTextStyle = css`
     width: 100%;
     height: 100%;
+    flex-grow: 1;
     color: black;
     padding: 20px;
     font-weight: bold;
     white-space: pre-wrap;
-    overflow-y: scroll;
+
 `
     return (
-        <div css={projectContainerStyle}>
-            <p css={projectTextStyle}>〇〇君<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{question}<br /><br />よろしく頼む。<br /><br />〇〇課長</p>
+        <div css={projectStyle}>
+            <Tag secondText={""}>プロジェクト</Tag>
+            <div css={projectContainerStyle}>
+                <p css={projectTextStyle}>〇〇君<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{question}<br /><br />よろしく頼む。<br /><br />〇〇課長</p>
+            </div>
         </div>
     );
 };
