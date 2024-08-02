@@ -5,9 +5,9 @@ export const Tag = (props) => {
     const { children, secondText } = props;
 
     const tagStyle = css`
-  max-width: 100%;
-  min-height: 18px;
-  margin: 20px 0;
+  min-height: 25px;
+  max-height: 25px;
+  margin: 0;
   padding: 0px 20px;
   background: #e0e0e0;
   border-radius: 3px;

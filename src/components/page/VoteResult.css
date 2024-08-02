@@ -1,0 +1,109 @@
+/* ゲーム画面 - 昼A */
+
+body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .header {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  .day-indicator {
+    text-align: center;
+  }
+  
+  .day-indicator p {
+    font-size: 16px;
+    font-weight: 400;
+    color: #FFFFFF;
+  }
+  
+  .players-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .player-atom {
+    width: 71px;
+    height: 71px;
+    background: #D9D9D9;
+    border: 3px solid #1E1E1E;
+    border-radius: 50%;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .timer {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .timer #timer {
+    font-size: 24px;
+    color: #000000;
+  }
+  
+  .content {
+    width: 100%;
+    background: #FFFFFF;
+  }
+  
+  .vote-result {
+    text-align: center;
+    margin: 20px auto;
+    width: 819px;
+  }
+  
+  .vote-result .result-title h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+  }
+  
+  .vote-result .expelled h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #000000;
+  }
+  
+  .image-section img {
+    width: 50%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .cordingphase_re {
+    
+    text-align: center;
+    margin: 20px 0; /* 上下のスペースを確保 */
+  }
+  
+  .cordingphase_re button {
+    font-size: 24px;
+    font-weight: 700;
+    color: #FFFFFF;
+    background: #2F2BF7;
+    border: none;
+    border-radius: 9px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 300px;
+  }
+  
+  .cordingphase_re button:hover {
+    background: #1E1E1E;
+  }
+  

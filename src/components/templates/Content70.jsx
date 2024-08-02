@@ -5,12 +5,14 @@ export const Content70 = (props) => {
     const { children } = props;
 
     const contentStyle = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin: 0;
-  height: 100%;
-  width: 70%;
+    flex-grow: 1;
+    height:100%;
+    display: flex;
+    width: 70%;
+    min-height: calc(100vh - 180px);
+    max-height: calc(100vh - 180px);
+    flex-direction: column;
+    gap: 20px;
 `
     return (
         <div css={contentStyle}>
