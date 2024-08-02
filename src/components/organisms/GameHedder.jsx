@@ -5,6 +5,46 @@ import { Button } from "antd";
 export const GameHedder = (props) => {
     const { gameObject, handleFinishTurn } = props;
 
+    const thisPhaseCalc = (gamePhase) => {
+        switch (gamePhase) {
+            case 'night':
+                return {
+                    phaseText: "コーディングフェーズ",
+                    backgroundColor: '#526D82',
+                    textColor: '#ede4dd',
+                    missions: gameObject.players[gameObject.presentPlayer].yourMission,
+                    gameDescription: `${gameObject.players[gameObject.presentPlayer].name}さんのターン`,
+                    isButton: true,
+                    buttonText: "次の人へ"
+                };
+            case 'daytime':
+                return {
+                    phaseText: "会議フェーズ",
+                    backgroundColor: '#ede4dd',
+                    textColor: "#526D82",
+                    missions: [],
+                    gameDescription: "人狼を見つけよう",
+                    isButton: true,
+                    buttonText: "会議を終える"
+                };
+            case 'confirmRole':
+                return {
+                    phaseText: "役職確認フェーズ",
+                    backgroundColor: '#526D82',
+                    textColor: '#ede4dd',
+                    missions: [],
+                    gameDescription: "役職を確認しよう",
+                    isButton: false,
+                    buttonText: "次の人へ"
+                };
+            default:
+                return {missions: []};
+        }
+    }
+
+    const thisPhase = thisPhaseCalc(gameObject.gamePhase);
+    console.log(thisPhase)
+
     const hedderContainerStyle = css`
     display: flex;
     justify-content: space-between;
@@ -34,7 +74,7 @@ export const GameHedder = (props) => {
     flex-direction: column;
 `
     const textStyle = css`
-    color: ${gameObject.gamePhase === "night" ? 'white' : 'black'};
+    color: ${thisPhase.textColor};
 `
     const dayIndicatorStyle = css`
     ${textStyle}
@@ -115,18 +155,12 @@ export const GameHedder = (props) => {
     text-align: center;
     white-space: pre-wrap;
 `
-    const missions = gameObject.gamePhase === "night" ? gameObject.players[gameObject.presentPlayer].yourMission : [];
-
-    const gameDescription = gameObject.gamePhase === "night" ? `${gameObject.players[gameObject.presentPlayer].name}さんのターン` : "人狼を見つけよう";
-
-    const buttonText = gameObject.gamePhase === "night" ? "次の人へ" : "会議を終える";
-
     return (
         <div css={hedderContainerStyle}>
             <div css={hedderLeftStyle}>
                 <div css={dayIndicatorContainerStyle}>
                     <h1 css={dayIndicatorStyle}>Day{gameObject.presentDay}</h1>
-                    <p css={phaseIndicatorStyle}>{gameObject.gamePhase === "night" ? "コーディングフェーズ" : "会議フェーズ"}</p>
+                    <p css={phaseIndicatorStyle}>{thisPhase.phaseText}</p>
                 </div>
                 <div css={playersContainerStyle}>
                     {gameObject.players.map((player, index) => (
@@ -135,7 +169,7 @@ export const GameHedder = (props) => {
                 </div>
             </div>
             <div css={hedderRightStyle}>
-                {missions.map((missionObject) => (
+                {thisPhase.missions.map((missionObject) => (
                     <div css={missionStyle}>
                         <p css={missionTextStyle}>MISSION</p>
                         <p css={missionContentStyle}>{missionObject.mission}</p>
@@ -143,8 +177,8 @@ export const GameHedder = (props) => {
                 ))}
                 <div css={timerStyle}>
                     <p id="timer" css={timeStyle}>120秒</p>
-                    <p css={playerIndicatorStyle}>{gameDescription}</p>
-                    <Button type="primary" onClick={handleFinishTurn}>{buttonText}</Button>
+                    <p css={playerIndicatorStyle}>{thisPhase.gameDescription}</p>
+                    <Button type="primary" onClick={handleFinishTurn}>{thisPhase.buttonText}</Button>
                 </div>
             </div>
         </div>

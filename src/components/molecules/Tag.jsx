@@ -9,8 +9,9 @@ export const Tag = (props) => {
   max-height: 25px;
   margin: 0;
   padding: 0px 20px;
-  background: #e0e0e0;
+  background: #ede4dd;
   border-radius: 3px;
+  border-color: #526D82;
   display: flex;
   justify-content: space-between;
 `
