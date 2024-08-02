@@ -25,9 +25,11 @@ export const Question = (props) => {
         name: "ikeda",
         isJinroh: false,
         color: "lime",
-        isAlive: true,
+        //isAlive: true,
         isPM: false,
-        yourMission: [missionContent0]
+        yourMission: [missionContent0],//初期値はから配列でOK
+        voted:0,
+        imagePath:'/images/image'
     }
 
     const player2 = {
