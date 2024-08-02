@@ -1,17 +1,41 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GameHedder } from '../organisms/GameHedder';
 import { Card } from '../molecules/Card';
 
 export const ConfirmPlayer = () => {
-  const location = useLocation();
-  const gameO = location.state; //DB
-  const [gameObject, setGameObject] = useState(gameO); //DB
+  const [gameObject, setGameObject] = useState({ property: "default" });
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [presentPlayerIndex, setPresentPlayerIndex] = useState(0);
+  const [roleCardPath, setRoleCardPath] = useState("");
+  const [isLoad, setIsLoad] = useState(false);
   const navigate = useNavigate();
+
+  const gameObjectfileRead = () => {
+    fetch("/read-gameObject")
+      .then((response) => response.json())
+      .then((data) => {
+        if (gameObject.property === "default") {
+          setGameObject(data);
+          console.log("data-read", data);
+          setIsLoad(true);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    gameObjectfileRead();
+    console.log("use-Effect");
+  }, []);
+
+  useEffect(() => {
+    console.log("ゲームオブジェクト:", gameObject);
+  }, [gameObject]);
 
   const handleFinishTurn = () => {
     if (gameObject.presentPlayer < gameObject.players.length - 1) {
@@ -28,6 +52,7 @@ export const ConfirmPlayer = () => {
     if (gameObject.presentPlayer !== presentPlayerIndex) {
       setPresentPlayerIndex(gameObject.presentPlayer);
     }
+    setRoleCardPath(gameObject ? "" : gameObject.players[presentPlayerIndex].isJinroh ? "/images/card-jinroh.png" : "/images/card-citizen.png");
   }, [gameObject])
 
   console.log(gameObject)
@@ -52,20 +77,13 @@ export const ConfirmPlayer = () => {
     }
   }, [presentPlayerIndex]);
 
-  const roleCardPath = gameObject.players[presentPlayerIndex].isJinroh ? "/images/card-jinroh.png" : "/images/card-citizen.png";
-
-  const contentsStyle = css`
-  display: flex;
-  flex-direction: column;
-  `
-
   return (
-    <div className="container" style={{ backgroundColor: '#526D82' }}>
-      <GameHedder gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={[]} />
-      <div style={{flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-evenly", gap: "20px"}}>
-        <h1>あなたの役職は...</h1>
-        <Card roleCardPath={roleCardPath} />
-      </div>
-    </div>
+        <div className="container" style={{ backgroundColor: '#526D82' }}>
+          <GameHedder gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={[]} />
+          <div style={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-evenly", gap: "20px" }}>
+            <h1>あなたの役職は...</h1>
+            <Card roleCardPath={roleCardPath} />
+          </div>
+        </div>
   );
 };

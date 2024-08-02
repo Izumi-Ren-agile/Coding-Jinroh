@@ -3,7 +3,15 @@ import { css } from "@emotion/react";
 import { Button } from "antd";
 
 export const GameHedder = (props) => {
-    const { gameObject, handleFinishTurn } = props;
+    let { gameObject, handleFinishTurn } = props;
+
+    console.log(gameObject);
+
+    gameObject = gameObject.property ? {
+        gamePhase: 'confirmRole',
+        players: [{color: "red", name: "yu-chan"}],
+        presentPlayer: 0,
+    } : gameObject;
 
     const thisPhaseCalc = (gamePhase) => {
         switch (gamePhase) {
