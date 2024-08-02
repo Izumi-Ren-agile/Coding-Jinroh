@@ -10,21 +10,18 @@ export const CodeEditor = (props) => {
   const { code, onChange, handleRunCode } = props;
 
   const editorBackgroundStyle = css`
-  width: 100%;
-  flex-grow: 1;
-  flex-basis: 50%;
-  max-height: 50%;
-  display: flex;
-  flex-direction: colomn;
+  flex-grow: 5;
   padding: 10px;
   background-color: #282c34; /* CodeMirrorのテーマに合わせた色 */
   border-radius: 5px;
+  overflow: auto;
+  position: relative;
 `
   const codeEditorStyle = css`
   width: 100%;
+  height: 100%;
   border: none; /* エディターのボーダーを取り除く */
   white-space: pre-wrap;
-  overflow-y: scroll;
 `
   return (
     <div css={editorBackgroundStyle}>
@@ -35,9 +32,9 @@ export const CodeEditor = (props) => {
         css={codeEditorStyle}
         onChange={onChange}
       />
-      {/* <Buttons>
+      <Buttons>
         <Button type="primary" onClick={handleRunCode}>実行</Button>
-      </Buttons> */}
+      </Buttons>
     </div>
   );
 };

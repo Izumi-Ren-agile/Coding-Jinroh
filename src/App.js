@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './css/App.css';
-import { Concept } from './components/Concept';
-import { Rule } from './components/Rule';
-import { InputPlayer } from './components/InputPlayer';
-import {NightGame} from './components/NightGame';
-import {ConfirmPlayer} from './components/ConfirmPlayer';
-import {Question} from './components/Question';
-import {Vote} from './components/Vote';
-import {VoteResult} from './components/VoteResult';
-import {Result} from './components/Result';
+import { Concept } from './components/page/Concept';
+import { Rule } from './components/page/Rule';
+import { InputPlayer } from './components/page/InputPlayer';
+import {NightGame} from './components/page/NightGame';
+import {ConfirmPlayer} from './components/page/ConfirmPlayer';
+import {Question} from './components/page/Question';
+import {Vote} from './components/page/Vote';
+import {VoteResult} from './components/page/VoteResult';
+import {Result} from './components/page/Result';
 
 
 function App() {
