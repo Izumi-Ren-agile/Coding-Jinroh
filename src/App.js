@@ -4,8 +4,8 @@ import './css/App.css';
 import { Concept } from './components/page/Concept';
 import { Rule } from './components/page/Rule';
 import { InputPlayer } from './components/page/InputPlayer';
-import {NightGame} from './components/page/NightGame';
-import {ConfirmPlayer} from './components/page/ConfirmPlayer';
+import {GamePage} from './components/view/GamePage';
+import {ConfirmPlayerPage} from './components/view/ConfirmPlayerPage';
 import {Question} from './components/page/Question';
 import {Vote} from './components/page/Vote';
 import {VoteResult} from './components/page/VoteResult';
@@ -19,11 +19,11 @@ function App() {
         <Route path="/" element={<Concept />} />
         <Route path="/rule" element={<Rule />} />
         <Route path="/inputPlayer" element={<InputPlayer />} />
-        <Route path="/nightGame" element={<NightGame />}/>
-        <Route path="/confirmPlayer" element={<ConfirmPlayer />}/>
+        <Route path="/GamePage" element={<GamePage />}/>
+        {/* <Route path="/confirmPlayer" element={<ConfirmPlayer />}/> */}
         <Route path="/question" element={<Question />} />
         <Route path="/vote" element={<Vote />} />
-        <Route path="/confirmPlayer" element={<ConfirmPlayer />} />
+        <Route path="/confirmPlayerPage" element={<ConfirmPlayerPage />} />
         <Route path="/voteResult" element={<VoteResult />} />
         <Route path="/result" element={<Result />} />
         {/* <DataFunc collectionId={"QUESTION_CONTENT"} documentId={"1"} field={"question"}/> */}

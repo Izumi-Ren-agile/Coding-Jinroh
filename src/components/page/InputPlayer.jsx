@@ -14,7 +14,7 @@ export const InputPlayer = () => {
 
   const navigate = useNavigate();
   const handleConfirmPlayer = () => {
-    navigate("/confirmPlayer", { state: players });
+    navigate("/confirmPlayerPage", { state: players });
   };
   //画面遷移のためのuseEffect
   useEffect(() => {
@@ -297,7 +297,7 @@ export const createGameObject = (Players) => {
   const maxDay = 4;
 
   //ゲームフェイズ
-  const gamePhase = "night";
+  const gamePhase = "confirmRole";
 
   //現在のコーディングターン（コーディングはDay一つにつき複数回行われる）
   const presentCodingTurn = 1;
@@ -472,6 +472,33 @@ let missions = [
   missionContent5,
 ];
 
+missions = [
+  ...missions,
+  missionContent1,
+  missionContent2,
+  missionContent3,
+  missionContent4,
+  missionContent5,
+];
+
+missions = [
+  ...missions,
+  missionContent1,
+  missionContent2,
+  missionContent3,
+  missionContent4,
+  missionContent5,
+];
+
+missions = [
+  ...missions,
+  missionContent1,
+  missionContent2,
+  missionContent3,
+  missionContent4,
+  missionContent5,
+];
+
 const dummyGameObject = {
   gameId: "1234dummyData",
   questionId: questionObject.questionId,
@@ -487,7 +514,7 @@ const dummyGameObject = {
   nextMissionIndex: 0,
   presentDay: 1,
   maxDay: 4,
-  gamePhase: "night",
+  gamePhase: "confirmRole",
   presentCodingTurn: 1,
   maxCodingTurn: 2,
   codingMaxStringNum: 2000,
