@@ -84,13 +84,18 @@ app.post("/set-data", async (req, res) => {
 });
 
 //データの読み取り
-app.get("/read-data", async (req, res) => {
+app.post("/read-data", async (req, res) => {
   const snapshot = await db.collection(req.body.collectionId).get();
   const data=snapshot.docs.filter(doc => doc.id === req.body.documentId).map(doc => doc.data());
-  return res.status(200).json(JSON.parse(data));
+  return res.status(200).json(data);
 });
 
 /*-------------------------------------------------------------------------------*/
+
+//ゲームオブジェクトの作成
+const createGameObject=()=>{
+  
+}
 
 // Reactルーターのためのフォールバック
 app.get("*", (req, res) => {
