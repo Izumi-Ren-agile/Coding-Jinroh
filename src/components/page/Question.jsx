@@ -180,7 +180,7 @@ export const Question = (props) => {
 
         //問題を設定
 
-        navigate('/GamePage');
+        navigate('/gamePage');
     }
 
     return (

@@ -30,7 +30,7 @@ export const ConfirmPlayerPage = () => {
             body: JSON.stringify(object),
         })
             .then((response) => response.text())
-            .then((data) => console.log(data))
+            .then((data) => {console.log(data);setIsLoad(false);})
             .catch((error) => console.error("Error:", error));
     };
 
@@ -47,7 +47,7 @@ export const ConfirmPlayerPage = () => {
         if (gameObject.presentPlayer < gameObject.players.length - 1) {
             gameObject.presentPlayer++;
             setGameObject(gameObject);
-            setIsLoad(false);
+           // setIsLoad(false);
             gameObjectfileWrite(gameObject); //書き込み
         } else {
             gameObject.presentPlayer = 0;

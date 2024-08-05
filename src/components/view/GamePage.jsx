@@ -31,12 +31,12 @@ export const GamePage = () => {
             body: JSON.stringify(object),
         })
             .then((response) => response.text())
-            .then((data) => console.log(data))
+            .then((data) => { console.log(data); })
             .catch((error) => console.error("Error:", error));
     };
 
     useEffect(() => {
-        gameObjectfileRead();
+        setTimeout(gameObjectfileRead, 10);
         console.log("aaaaaaaaa", gameObject);
     }, [isLoad]);
 
@@ -54,51 +54,51 @@ export const GamePage = () => {
             })
             setCode(gameObject.editor);
         }
-}, [gameObject]);
+    }, [gameObject]);
 
-const handleFinishTurn = () => {
-    setIsLoad(false);
+    const handleFinishTurn = () => {
+        setIsLoad(false);
 
-    if (gameObject.gamePhase === "night") {
-        gameObject.editor = code;
-        gameObject.editorHistory = [...gameObject.editorHistory, { name: `day${gameObject.presentDay}-${gameObject.presentCodingTurn} ${gameObject.players[gameObject.presentPlayer].name}`, code: code }]
-    }
+        if (gameObject.gamePhase === "night") {
+            gameObject.editor = code;
+            gameObject.editorHistory = [...gameObject.editorHistory, { name: `day${gameObject.presentDay}-${gameObject.presentCodingTurn} ${gameObject.players[gameObject.presentPlayer].name}`, code: code }]
+        }
 
-    if (gameObject.presentPlayer < gameObject.players.length - 1) {
-        gameObject.presentPlayer++;
-        gameObjectfileWrite(gameObject); //書き込み
-    } else {
-        if (gameObject.presentCodingTurn < gameObject.maxCodingTurn) {
-            gameObject.presentPlayer = 0;
-            gameObject.presentCodingTurn++;
+        if (gameObject.presentPlayer < gameObject.players.length - 1) {
+            gameObject.presentPlayer++;
             gameObjectfileWrite(gameObject); //書き込み
         } else {
-            if (gameObject.gamePhase === "night") {
-                gameObject.gamePhase = "daytime";
+            if (gameObject.presentCodingTurn < gameObject.maxCodingTurn) {
+                gameObject.presentPlayer = 0;
+                gameObject.presentCodingTurn++;
                 gameObjectfileWrite(gameObject); //書き込み
             } else {
-                gameObject.presentPlayer = 0;
-                if (gameObject.presentDay < gameObject.maxDay) {
-                    gameObject.presentDay++;
+                if (gameObject.gamePhase === "night") {
+                    gameObject.gamePhase = "daytime";
                     gameObjectfileWrite(gameObject); //書き込み
-                    navigate('/vote');
                 } else {
-                    gameObjectfileWrite(gameObject); //書き込み
-                    navigate('/vote');
+                    gameObject.presentPlayer = 0;
+                    if (gameObject.presentDay < gameObject.maxDay) {
+                        gameObject.presentDay++;
+                        gameObjectfileWrite(gameObject); //書き込み
+                        navigate('/votePage');
+                    } else {
+                        gameObjectfileWrite(gameObject); //書き込み
+                        navigate('/votePage');
+                    }
                 }
             }
         }
-    }
-};
+    };
 
-const handleChange = (value) => {
-    setCode(value);
-};
+    const handleChange = (value) => {
+        setCode(value);
+    };
 
-return (
-    <>{isLoad ? (
-        <Game gameObject={gameObject} handleFinishTurn={handleFinishTurn} code={code} handleChange={handleChange} />
-    ) : <Load backgroundColor='#526D82' />}
-    </>
-);
+    return (
+        <>{isLoad ? (
+            <Game gameObject={gameObject} handleFinishTurn={handleFinishTurn} code={code} handleChange={handleChange} />
+        ) : <Load backgroundColor='#526D82' />}
+        </>
+    );
 };
