@@ -64,8 +64,21 @@ a{
 .btn-group:hover {
     background: #990200;
 }
+
+/*!
+ * "fontname" is lisenced under the SIL Open Font License 1.1
+ * by https://microraptor.booth.pm/items/3041172?registration=1
+ */
+ @font-face {
+    font-family: 'gritchfont';
+    src: url('../fonts/TrueType/瀞ノグリッチゴシックH1.ttf') format('truetype'),
+         url('../fonts/TrueType/瀞ノグリッチゴシックH2.ttf') format('truetype'),
+         url('../fonts/TrueType/瀞ノグリッチゴシックH3.ttf') format('truetype'),
+         url('../fonts/TrueType/瀞ノグリッチゴシックH4.ttf') format('truetype');
+    }
 h1{
     text-align: center;
+     /* font-family: 'gritchfont'; */
 }
 
 /*ゲーム画面以外のヘッダー*/
