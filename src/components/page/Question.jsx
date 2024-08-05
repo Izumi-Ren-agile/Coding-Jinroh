@@ -180,7 +180,7 @@ export const Question = (props) => {
 
         //問題を設定
 
-        navigate('/confirmPlayer', {state: gamePy}); //本当はDB保管
+        navigate('/gamePage');
     }
 
     return (
