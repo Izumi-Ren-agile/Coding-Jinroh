@@ -100,9 +100,12 @@ export const InputPlayer = () => {
           <div class="button-container">
             <button
               id="submit-button"
-              onClick={() => {
+              onClick={async () => {
+                const players = playerCalc();
+                const gameObject = await createGameObject(players);
+                console.log("ゲームオブジェクトは作れているよね？",gameObject);
+                await gameObjectfileWrite(gameObject);
                 handleConfirmPlayer();
-                gameObjectfileWrite(dummyGameObject);
               }}
             >
               決定
@@ -230,328 +233,6 @@ export const returnRandomIndex = (min, max, howMany) => {
   return indexies.sort(compareFunc);
 };
 
-export const createGameObject = (Players) => {
-  //gameId
-  const gameId = new Date().toString();
-
-  //クエスチョンIDの設定
-  const qDbId = "QUESTION_CONTENT";
-  const questionId = returnRandomIndex(1, CountData(qDbId), 1);
-
-  //クエスチョンテキストの取得
-  const questionText = SelectData({
-    collectionId: qDbId,
-    documentId: questionId,
-    field: "question",
-  });
-
-  //初期に入力されているコードの取得
-  const initialCode = SelectData({
-    collectionId: qDbId,
-    documentId: questionId,
-    field: "inicialCode",
-  }); //inicialはinitialのスペルミス。本当にこれでデータベースに保存されているので気にする必要なし
-
-  //答えのコードの取得
-  const answerCode = SelectData({
-    collectionId: qDbId,
-    documentId: questionId,
-    field: "answerCode",
-  });
-
-  //最初のプレイヤーたち
-  const initialPlayers = Players;
-
-  //  プレイヤーたち
-  const players = Players;
-
-  //現在コーディング中のプレイヤー
-  const presentPlayer = 0;
-
-  //エディターに書かれたコード
-  const editor = initialCode;
-
-  //エディターヒストリー
-  const editorHistory = [{ name: "初期コード", code: initialCode }];
-
-  //ミッションの取得
-  const mDbId = "MISSION_CONTENT";
-  const howManyMissions = 5; //プレイヤー一人当たりに取得してくるミッションの数
-  const missionIndex = returnRandomIndex(
-    1,
-    CountData(mDbId),
-    players.length * howManyMissions
-  );
-  const missions = [];
-  for (let m in missionIndex) {
-    missions.push(m);
-  }
-
-  //次のミッション
-  const nextMissionIndex = 0;
-
-  //現在のゲーム内の日付（Day1,Day2,Day3...とつづくやつ）
-  const presentDay = 1;
-
-  //マックスの日数
-  const maxDay = 4;
-
-  //ゲームフェイズ
-  const gamePhase = "confirmRole";
-
-  //現在のコーディングターン（コーディングはDay一つにつき複数回行われる）
-  const presentCodingTurn = 1;
-
-  //最大のコーディングターン
-  const maxCodingTurn = 2;
-
-  //一回のコーディングで書ける最大文字数
-  const codingMaxStringNum = 2000; //実質無制限 //一回のコーディングに使える時間
-
-  //コーディングの時間制限
-  const codingMaxTime = 60; //秒
-
-  //会議に使える時間
-  const meetingmaxTime = 120; //秒
-
-  //コーディングの順番をランダムにするか
-  const isRandom = false;
-
-  //ミッションの最大数
-  const maxMissionNum = 3;
-
-  //言語
-  const codeLanguage = "java";
-
-  //ゲームオブジェクト
-  const gameObject = {
-    gameId,
-    questionId,
-    questionText,
-    initialCode,
-    answerCode,
-    initialPlayers,
-    players,
-    presentPlayer,
-    editor,
-    editorHistory,
-    missions,
-    nextMissionIndex,
-    presentDay,
-    maxDay,
-    gamePhase,
-    presentCodingTurn,
-    maxCodingTurn,
-    codingMaxStringNum,
-    codingMaxTime,
-    meetingmaxTime,
-    isRandom,
-    maxMissionNum,
-    codeLanguage,
-  };
-  return gameObject;
-};
-
-const questionObject = {
-  questionId: "",
-  questionText:
-    "以下の仕様を満たす countWords メソッドの作成\n 仕様：\n<br /> ・与えられた文字列に含まれる単語の数を数えるメソッド ・単語はスペースで区切られているものとする",
-  initialCode:
-    'public class Main {\npublic static void main(String[] args) {\n        // テストケース\n        System.out.println(countWords("Hello world"));             // 出力: 2\n        System.out.println(countWords("Java is fun"));             // 出力: 3\n        System.out.println(countWords(" Count the words "));       // 出力: 3\n        System.out.println(countWords("This is a test"));          // 出力: 4\n        System.out.println(countWords("OneTwoThree"));             // 出力: 1\n    }\n\n    // 与えられた文字列に含まれる単語の数を数えるメソッド\n    public static int countWords(String str) {\n        // 文字列がnullまたは空の場合、単語数は0\n        if (str == null || str.isEmpty()) {\n            return 0;\n        }\n        \n        // 文字列をトリムして前後の空白を取り除く\n        str = str.trim();\n\n        // 文字列が再び空の場合（空白のみの文字列だった場合）、単語数は0\n        if (str.isEmpty()) {\n            return 0;\n        }\n        \n        // 文字列をスペースで分割して単語の配列を作成\n        String[] words = str.split("\\s+");\n\n        // 配列の長さを返す（これが単語数になる）\n        return words.length;\n}\n}\n\n',
-  answerCode: "bbbbbbbbbbbbb",
-};
-const player1 = {
-  id: 1111,
-  name: "ikeda",
-  isJinroh: false,
-  color: "lime",
-  //isAlive: true,
-  isPM: false,
-  yourMission: [], //初期値はから配列でOK
-  voted: 0,
-  imagePath: "/images/image",
-};
-
-const player2 = {
-  id: 2222,
-  name: "izumi",
-  isJinroh: false,
-  color: "pink",
-  isAlive: true,
-  isPM: false,
-  yourMission: [],
-  voted: 0,
-  imagePath: "/images/image",
-};
-
-const player3 = {
-  id: 3333,
-  name: "nishimura",
-  isJinroh: true,
-  color: "aqua",
-  isAlive: true,
-  isPM: false,
-  yourMission: [],
-  voted: 0,
-  imagePath: "/images/image",
-};
-
-const player4 = {
-  id: 4444,
-  name: "takahashi",
-  isJinroh: false,
-  color: "purple",
-  isAlive: true,
-  isPM: false,
-  yourMission: [],
-  voted: 0,
-  imagePath: "/images/image",
-};
-
-const player5 = {
-  id: 5555,
-  name: "papa",
-  isJinroh: false,
-  color: "yellow",
-  isAlive: true,
-  isPM: false,
-  yourMission: [],
-  voted: 0,
-  imagePath: "/images/image",
-};
-
-const player6 = {
-  id: 6666,
-  name: "papa",
-  isJinroh: false,
-  color: "orange",
-  isAlive: true,
-  isPM: false,
-  yourMission: [],
-  voted: 0,
-  imagePath: "/images/image",
-};
-
-//初心者用1
-const questionObject1 = {
-  questionId: "",
-  questionText:
-    `以下はHiと出力されるメソッドです。
-これを、Helloと出力するメソッドに直してください。
-ヒント１：メソッドとは
-メソッドとは、内容がまとまっている処理や反復する処理など、プログラムの処理をひとつにまとめたものです。
-ヒント２："System.out.println()" を利用して実行すると、出力に()内の文字が表示されます。これを、標準出力への出力といいます。
-ヒント３：文字列
-文字列とは、文字の連続した並びのことです。”Hi”,”Hello”は文字列です。
-文字列は””(ダブルクオート)か’’（シングルクオート）で囲んで表します。`,
-  initialCode:
-    `public class Main {
-    public static void main(String[] args) {
-    //ここにコードを入力
-        System.out.println("Hi")
-    }
-    
-}`,
-  answerCode: `public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello")
-    }
-    
-}`,
-};
-
-const players = [player1, player2, player3];
-
-const missionContent0 = {
-  mission: "文字列\n'int0'\nを含めろ！",
-  arg: "int",
-};
-
-const missionContent1 = {
-  mission: "文字列\n'int'\nを含めろ！",
-  arg: "int",
-};
-
-const missionContent2 = {
-  mission: "文字列\n'int2'\nを含めろ！",
-  arg: "int",
-};
-
-const missionContent3 = {
-  mission: "文字列\n'int3'\nを含めろ！",
-  arg: "int",
-};
-
-const missionContent4 = {
-  mission: "文字列\n'int4'\nを含めろ！",
-  arg: "int",
-};
-
-const missionContent5 = {
-  mission: "文字列\n'int5'\nを含めろ！",
-  arg: "int",
-};
-
-let missions = [
-  missionContent1,
-  missionContent2,
-  missionContent3,
-  missionContent4,
-  missionContent5,
-];
-
-missions = [
-  ...missions,
-  missionContent1,
-  missionContent2,
-  missionContent3,
-  missionContent4,
-  missionContent5,
-];
-
-missions = [
-  ...missions,
-  missionContent1,
-  missionContent2,
-  missionContent3,
-  missionContent4,
-  missionContent5,
-];
-
-missions = [
-  ...missions,
-  missionContent1,
-  missionContent2,
-  missionContent3,
-  missionContent4,
-  missionContent5,
-];
-
-const dummyGameObject = {
-  gameId: "1234dummyData",
-  questionId: questionObject1.questionId,
-  questionText: questionObject1.questionText,
-  initialCode: questionObject1.initialCode,
-  answerCode: questionObject1.answerCode,
-  initialPlayers: players,
-  players: players,
-  presentPlayer: 0,
-  editor: questionObject1.initialCode,
-  editorHistory: [{ name: "初期コード", code: questionObject.initialCode }],
-  missions: missions,
-  nextMissionIndex: 0,
-  presentDay: 1,
-  maxDay: 4,
-  gamePhase: "confirmRole",
-  presentCodingTurn: 1,
-  maxCodingTurn: 2,
-  codingMaxStringNum: 2000,
-  codingMaxTime: 60,
-  meetingmaxTime: 120,
-  isRandom: false,
-  maxMissionNum: 3,
-  codeLanguage: "java",
-};
 export const gameObjectfileWrite = (object) => {
   fetch("/write-gameObject", {
     method: "POST",
@@ -585,10 +266,10 @@ export const setData = (object, collectionId, documentId) => {
 };
 
 export const readData = (collectionId, documentId) => {
-  const readObject={
+  const readObject = {
     collectionId,
-    documentId
-  }
+    documentId,
+  };
   fetch("/read-data", {
     method: "POST",
     headers: {
@@ -597,6 +278,25 @@ export const readData = (collectionId, documentId) => {
     body: JSON.stringify(readObject),
   })
     .then((response) => response.text())
-    .then((data) => console.log(data))
+    .then((data) => console.log("読み込みapi:", data))
     .catch((error) => console.error("Error:", error));
+};
+
+export const createGameObject = async (Players) => {
+  let returnGameObject;
+  const playersObject = {
+    players: Players,
+  };
+  await fetch("/create-gameObject", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(playersObject),
+  })
+    .then((response) => response.text())
+    .then((data) => returnGameObject=data)
+    .catch((error) => console.error("Error:", error));
+
+  return JSON.parse(returnGameObject);
 };
