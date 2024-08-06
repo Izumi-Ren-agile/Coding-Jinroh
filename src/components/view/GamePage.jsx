@@ -71,18 +71,12 @@ export const GamePage = () => {
                     await gameObjectfileWrite(gameObject); //書き込み
                 } else {
                     gameObject.presentPlayer = 0;
-                    if (gameObject.presentDay < gameObject.maxDay) {
-                        gameObject.presentDay++;
-                        await gameObjectfileWrite(gameObject); //書き込み
-                        navigate('/votePage');
-                    } else {
-                        await gameObjectfileWrite(gameObject); //書き込み
-                        navigate('/votePage');
-                    }
+                    gameObject.gamePhase = "vote";
+                    await gameObjectfileWrite(gameObject); //書き込み
+                    navigate('/votePage');
                 }
             }
         }
-
         setIsLoad(false);
     };
 

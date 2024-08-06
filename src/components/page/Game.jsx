@@ -32,7 +32,7 @@ export const Game = (props) => {
 
     return (
         <div className="container" style={{ backgroundColor: gameObject.gamePhase === "night" ? '#526D82' : '#ede4dd' }}>
-            <GameHeader gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={gameObject.players[gameObject.presentPlayer].yourMission} />
+            <GameHeader gameObject={gameObject} handleFinishTurn={handleFinishTurn} />
             {gameObject.property ? (<></>) : (
                 <Contents>
                     <Content70>
