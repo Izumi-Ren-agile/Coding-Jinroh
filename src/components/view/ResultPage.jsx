@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Load } from '../page/Load';
-import { Vote } from "../page/Vote";
+import { ConfirmPlayer } from "../page/ConfirmPlayer";
 
-export const VotePage = () => {
+export const ResultPage = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });
     const [isLoad, setIsLoad] = useState(false); //useLoad
     const navigate = useNavigate();
-    const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 
     const gameObjectfileRead = async () => {
         console.log(gameObject)
@@ -31,51 +30,35 @@ export const VotePage = () => {
             body: JSON.stringify(object),
         })
             .then((response) => response.text())
-            .then((data) => { console.log(data); })
+            .then((data) => {console.log(data);})
             .catch((error) => console.error("Error:", error));
     };
 
     useEffect(() => {
         gameObjectfileRead();
+        console.log("use-Effect");
     }, [isLoad]);
 
     useEffect(() => {
         console.log("ゲームオブジェクト:", gameObject);
-    }, [gameObject]);
+    }, [gameObject]); //確認
 
-    //選択されたユーザーのidを保存する
-    const handleSelect = (player) => {
-        setSelectedPlayerId(player.id);
-    };
-
-    //投票
-    const handleVote = async () => {
-        // votedの値の更新、新しいplayerの配列を定義
-        gameObject.players.map((player) => {
-            // 選択されたプレイヤーのvotedを更新
-            if (player.id === selectedPlayerId) {
-                player.voted++;
-            }
-        });
-
-        setSelectedPlayerId(null); // 選択を初期化する
-
+    const handleFinishTurn = async () => {
         if (gameObject.presentPlayer < gameObject.players.length - 1) {
             gameObject.presentPlayer++;
             await gameObjectfileWrite(gameObject); //書き込み
-            navigate("/votePage"); // 更新が完了した後に遷移する
-
+            setIsLoad(false);
         } else {
             gameObject.presentPlayer = 0;
+            gameObject.gamePhase = "night";
             await gameObjectfileWrite(gameObject); //書き込み
-            navigate("/voteResultPage"); // 更新が完了した後に遷移する
-
+            navigate('/question');
         }
     };
 
     return (
         <>{isLoad ? (
-            <Vote gameObject={gameObject} handleVote={handleVote} selectedPlayerIndex={selectedPlayerId} handleSelect={handleSelect} />
+            <ConfirmPlayer gameObject={gameObject} handleFinishTurn={handleFinishTurn} />
         ) : <Load backgroundColor='#526D82' />}
         </>
     );

@@ -19,7 +19,7 @@ export const Game = (props) => {
   const [error, setError] = useState(null); // エラーメッセージ
   const language  = gameObject.codeLanguage; // 使用するプログラミング言語を"java"に設定
 //   const [sourceCode, setSourceCode] = useState(code)
-  
+
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
