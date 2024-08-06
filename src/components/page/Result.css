@@ -1,0 +1,16 @@
+/* Result.css */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 全画面の高さを確保 */
+}
+
+.content {
+    flex: 1; /* コンテンツ部分が残りのスペースを占めるようにする */
+    padding: 20px;
+}
+
+.content h2 {
+    padding-top: 200px;
+    font-size: 50px; /* フォントサイズの設定は適宜調整 */
+}

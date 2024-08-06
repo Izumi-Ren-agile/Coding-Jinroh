@@ -5,7 +5,7 @@ import { useSpring, animated } from 'react-spring';
 import './card.css'; // 後でスタイルを定義します
 
 export const Card = (props) => {
-    const { roleCardPath } = props;
+    const { nowPlayer } = props;
     const [flipped, setFlipped] = useState(false);
     const { transform, opacity } = useSpring({
         transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
@@ -25,7 +25,7 @@ export const Card = (props) => {
                     </animated.div>
                 </div>
                 <div className="card-back">
-                    <img src={roleCardPath} alt="Card Back" />
+                    <img src={nowPlayer.isJinroh ? "/images/card-jinroh.png" : "/images/card-citizen.png"} alt="Card Back" />
                 </div>
             </animated.div>
         </div>
