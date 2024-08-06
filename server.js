@@ -175,7 +175,8 @@ const createGameObject = async (Players) => {
   );
   const missions = [];
   for (let i = 0; i < missionIndex.length; i++) {
-    missions.push(missionIndex[i]);
+    const missionObject=await readData2(mDbId,missionIndex[i]+"");
+    missions.push(missionObject);
   }
 
   //次のミッション
@@ -217,6 +218,12 @@ const createGameObject = async (Players) => {
   //現在のターンが始まった時間
   const startingTurn = 0;
 
+  //ゲームの結果
+  const gameResult="draw";
+
+  //InputとOutputのペア
+  const verificationInOut=await readData(qDbId, questionId + "", "verificationInOut");
+
   //ゲームオブジェクト
   const gameObject = {
     gameId,
@@ -243,6 +250,8 @@ const createGameObject = async (Players) => {
     maxMissionNum,
     codeLanguage,
     startingTurn,
+    gameResult,
+    verificationInOut
   };
   return gameObject;
 };

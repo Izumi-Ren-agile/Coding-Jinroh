@@ -108,6 +108,7 @@ export const playerCalc = () => {
       this.yourMission = [];
       this.voted = 0;
       this.imagePath = "/images/image";
+      this.solvedMission=[];
     }
 
     setStatus(isAlive) {

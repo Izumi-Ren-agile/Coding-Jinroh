@@ -183,7 +183,7 @@ export const GameHeader = (props) => {
                 {thisPhase.missions.map((missionObject) => (
                     <div css={missionStyle}>
                         <p css={missionTextStyle}>MISSION</p>
-                        <p css={missionContentStyle}>{missionObject.mission}</p>
+                        <p css={missionContentStyle}>{missionObject.mission.replace(/\\n/g,'\n')}</p>
                     </div>
                 ))}
                 <div css={timerStyle}>

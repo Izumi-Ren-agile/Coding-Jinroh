@@ -42,7 +42,7 @@ export const Game = (props) => {
                         <Tag secondText={""}>実行結果</Tag>
                         <Console consoleCode={Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output ? Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output : Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).buildErrors ? Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).buildErrors : ''} />
                     </Content70>
-                    <Project question={gameObject.questionText} secondText={""} />
+                    <Project question={gameObject.questionText.replace(/\\n/g,'\n')} secondText={""} />
                 </Contents>
             )}
         </div>
