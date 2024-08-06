@@ -201,6 +201,9 @@ const createGameObject = async (Players) => {
   //言語
   const codeLanguage = "java";
 
+  //現在のターンが始まった時間
+  const startingTurn=0;
+
   //ゲームオブジェクト
   const gameObject = {
     gameId,
@@ -226,6 +229,7 @@ const createGameObject = async (Players) => {
     isRandom,
     maxMissionNum,
     codeLanguage,
+    startingTurn,
   };
   return gameObject;
 };
