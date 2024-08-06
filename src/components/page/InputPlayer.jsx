@@ -361,7 +361,7 @@ const questionObject = {
   answerCode: "bbbbbbbbbbbbb",
 };
 const player1 = {
-  id: 123456,
+  id: 1111,
   name: "ikeda",
   isJinroh: false,
   color: "lime",
@@ -373,7 +373,7 @@ const player1 = {
 };
 
 const player2 = {
-  id: 123456,
+  id: 2222,
   name: "izumi",
   isJinroh: false,
   color: "pink",
@@ -385,7 +385,7 @@ const player2 = {
 };
 
 const player3 = {
-  id: 123456,
+  id: 3333,
   name: "nishimura",
   isJinroh: true,
   color: "aqua",
@@ -397,7 +397,7 @@ const player3 = {
 };
 
 const player4 = {
-  id: 123456,
+  id: 4444,
   name: "takahashi",
   isJinroh: false,
   color: "purple",
@@ -409,7 +409,7 @@ const player4 = {
 };
 
 const player5 = {
-  id: 123456,
+  id: 5555,
   name: "papa",
   isJinroh: false,
   color: "yellow",
@@ -421,7 +421,7 @@ const player5 = {
 };
 
 const player6 = {
-  id: 123456,
+  id: 6666,
   name: "papa",
   isJinroh: false,
   color: "orange",
@@ -430,6 +430,34 @@ const player6 = {
   yourMission: [],
   voted: 0,
   imagePath: "/images/image",
+};
+
+//初心者用1
+const questionObject1 = {
+  questionId: "",
+  questionText:
+    `以下はHiと出力されるメソッドです。
+これを、Helloと出力するメソッドに直してください。
+ヒント１：メソッドとは
+メソッドとは、内容がまとまっている処理や反復する処理など、プログラムの処理をひとつにまとめたものです。
+ヒント２："System.out.println()" を利用して実行すると、出力に()内の文字が表示されます。これを、標準出力への出力といいます。
+ヒント３：文字列
+文字列とは、文字の連続した並びのことです。”Hi”,”Hello”は文字列です。
+文字列は””(ダブルクオート)か’’（シングルクオート）で囲んで表します。`,
+  initialCode:
+    `public class Main {
+    public static void main(String[] args) {
+    //ここにコードを入力
+        System.out.println("Hi")
+    }
+    
+}`,
+  answerCode: `public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello")
+    }
+    
+}`,
 };
 
 const players = [player1, player2, player3, player4, player5];
@@ -501,14 +529,14 @@ missions = [
 
 const dummyGameObject = {
   gameId: "1234dummyData",
-  questionId: questionObject.questionId,
-  questionText: questionObject.questionText,
-  initialCode: questionObject.initialCode,
-  answerCode: questionObject.answerCode,
+  questionId: questionObject1.questionId,
+  questionText: questionObject1.questionText,
+  initialCode: questionObject1.initialCode,
+  answerCode: questionObject1.answerCode,
   initialPlayers: players,
   players: players,
   presentPlayer: 0,
-  editor: questionObject.initialCode,
+  editor: questionObject1.initialCode,
   editorHistory: [{ name: "初期コード", code: questionObject.initialCode }],
   missions: missions,
   nextMissionIndex: 0,

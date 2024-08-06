@@ -7,7 +7,7 @@ import { GameHedder } from '../organisms/GameHedder';
 import "./vote.css";
 
 export const Vote = (props) => {
-  const {gameObject, handleVote, selectedPlayerIndex, handleSelect} = props;
+  const { gameObject, handleVote, selectedPlayerIndex, handleSelect } = props;
   // const navigate = useNavigate();
   // const location = useLocation();
 
@@ -173,20 +173,13 @@ export const Vote = (props) => {
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
-    let ignore = false;
     const showConfirmationDialog = async () => {
       const confirmed = window.confirm(`${gameObject.players[gameObject.presentPlayer].name}さんですか？`);
       if (!confirmed) {
         showConfirmationDialog();
       }
     };
-
-    if (!ignore) {
-      showConfirmationDialog();
-    }
-    return () => {
-      ignore = true
-    }
+    showConfirmationDialog();
   }, []);
 
 
@@ -215,49 +208,49 @@ export const Vote = (props) => {
 
       <div className="main-content">
         {/* {isConfirmed ? ( */}
-          <div className="text-center-content">
-            <h2>{gameObject.players[gameObject.presentPlayer].name}さん、人狼だと思う人に投票してください</h2>
-            <br />
-            <br />
-            <div css={playerVoteContainer}>
-              {gameObject.players.map(
-                (player, index) =>
-                  player.id !== gameObject[gameObject.presentPlayer].id && ( //現在のプレイヤーを表示しない条件
-                    <div css={voteItem} key={index}>
-                      <div
-                        className="player"
-                        key={index}
-                        id={player.id}
-                      ></div>
-                      <p>{player.name}</p>
-                      <button
-                        className={`btn-group, vote-item-btn, ${player.id === selectedPlayerIndex ? "selected" : "select"
-                          }`}
-                        onClick={() => handleSelect(player)}
-                      >
-                        {player.id === selectedPlayerIndex ? "選択中" : "選択"}
-                      </button>
-                    </div>
-                  )
-              )}
-            </div>
-            <br /><br />
-            <button
-              className="submit btn-group vote-btn"
-              onClick={handleVote}
-              disabled={selectedPlayerIndex === null}
-            >
-              {selectedPlayerIndex === null ? (
-                <>
-                  選択
-                  <br />
-                  してください
-                </>
-              ) : (
-                "投票"
-              )}
-            </button>
+        <div className="text-center-content">
+          <h2>{gameObject.players[gameObject.presentPlayer].name}さん、人狼だと思う人に投票してください</h2>
+          <br />
+          <br />
+          <div css={playerVoteContainer}>
+            {gameObject.players.map(
+              (player, index) =>
+                player.id !== gameObject.players[gameObject.presentPlayer].id && ( //現在のプレイヤーを表示しない条件
+                  <div css={voteItem} key={index}>
+                    <div
+                      className="player"
+                      key={index}
+                      id={player.id}
+                    ></div>
+                    <p>{player.name}</p>
+                    <button
+                      className={`btn-group, vote-item-btn, ${player.id === selectedPlayerIndex ? "selected" : "select"
+                        }`}
+                      onClick={() => handleSelect(player)}
+                    >
+                      {player.id === selectedPlayerIndex ? "選択中" : "選択"}
+                    </button>
+                  </div>
+                )
+            )}
           </div>
+          <br /><br />
+          <button
+            className="submit btn-group vote-btn"
+            onClick={handleVote}
+            disabled={selectedPlayerIndex === null}
+          >
+            {selectedPlayerIndex === null ? (
+              <>
+                選択
+                <br />
+                してください
+              </>
+            ) : (
+              "投票"
+            )}
+          </button>
+        </div>
         {/*) : (
           <div>
             <h2>確認中...</h2>

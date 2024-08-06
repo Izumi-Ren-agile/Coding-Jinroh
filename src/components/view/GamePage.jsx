@@ -9,12 +9,13 @@ export const GamePage = () => {
     const [code, setCode] = useState('');
     const navigate = useNavigate();
 
-    const gameObjectfileRead = () => {
+    const gameObjectfileRead = async () => {
         console.log(gameObject)
-        fetch("/read-gameObject")
+        await fetch("/read-gameObject")
             .then((response) => response.json())
             .then((data) => {
                 setGameObject(data);
+                setCode(gameObject.editor);
                 setIsLoad(true);
             })
             .catch((error) => {
@@ -22,8 +23,8 @@ export const GamePage = () => {
             });
     };
 
-    const gameObjectfileWrite = (object) => {
-        fetch("/write-gameObject", {
+    const gameObjectfileWrite = async (object) => {
+        await fetch("/write-gameObject", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -36,28 +37,20 @@ export const GamePage = () => {
     };
 
     useEffect(() => {
-        setTimeout(gameObjectfileRead, 10);
-        console.log("aaaaaaaaa", gameObject);
-    }, [isLoad]);
-
-    useEffect(() => {
-        console.log("ゲームオブジェクト:", gameObject);
-        if (!gameObject.property) {
-            gameObject.players.map((player) => {
+        (async () => {
+            await gameObjectfileRead();
+            await gameObject.players.map(async (player) => {
                 while (player.yourMission.length < gameObject.maxMissionNum) {
                     player.yourMission.push(gameObject.missions[gameObject.nextMissionIndex]);
                     gameObject.nextMissionIndex++;
-                    console.log(gameObject.nextMissionIndex);
-                    setGameObject(gameObject);
                 }
-                gameObjectfileWrite(gameObject); //書き込み
+                await gameObjectfileWrite(gameObject); //書き込み
             })
-            setCode(gameObject.editor);
-        }
-    }, [gameObject]);
+            await gameObjectfileRead();
+        })()
+    }, [isLoad]);
 
-    const handleFinishTurn = () => {
-        setIsLoad(false);
+    const handleFinishTurn = async () => {
 
         if (gameObject.gamePhase === "night") {
             gameObject.editor = code;
@@ -66,29 +59,31 @@ export const GamePage = () => {
 
         if (gameObject.presentPlayer < gameObject.players.length - 1) {
             gameObject.presentPlayer++;
-            gameObjectfileWrite(gameObject); //書き込み
+            await gameObjectfileWrite(gameObject); //書き込み
         } else {
             if (gameObject.presentCodingTurn < gameObject.maxCodingTurn) {
                 gameObject.presentPlayer = 0;
                 gameObject.presentCodingTurn++;
-                gameObjectfileWrite(gameObject); //書き込み
+                await gameObjectfileWrite(gameObject); //書き込み
             } else {
                 if (gameObject.gamePhase === "night") {
                     gameObject.gamePhase = "daytime";
-                    gameObjectfileWrite(gameObject); //書き込み
+                    await gameObjectfileWrite(gameObject); //書き込み
                 } else {
                     gameObject.presentPlayer = 0;
                     if (gameObject.presentDay < gameObject.maxDay) {
                         gameObject.presentDay++;
-                        gameObjectfileWrite(gameObject); //書き込み
+                        await gameObjectfileWrite(gameObject); //書き込み
                         navigate('/votePage');
                     } else {
-                        gameObjectfileWrite(gameObject); //書き込み
+                        await gameObjectfileWrite(gameObject); //書き込み
                         navigate('/votePage');
                     }
                 }
             }
         }
+
+        setIsLoad(false);
     };
 
     const handleChange = (value) => {

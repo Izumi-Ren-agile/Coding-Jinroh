@@ -7,20 +7,13 @@ export const ConfirmPlayer = (props) => {
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
-    let ignore = false;
-    const showConfirmationDialog = async () => {
+    const showConfirmationDialog = () => {
       const confirmed = window.confirm(`${gameObject.players[gameObject.presentPlayer].name}さんですか？`);
       if (!confirmed) {
         showConfirmationDialog();
       }
     };
-
-    if (!ignore) {
-      showConfirmationDialog();
-    }
-    return () => {
-      ignore = true
-    }
+    showConfirmationDialog();
   }, []);
 
   return (

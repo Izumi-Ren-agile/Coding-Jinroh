@@ -8,9 +8,9 @@ export const ConfirmPlayerPage = () => {
     const [isLoad, setIsLoad] = useState(false); //useLoad
     const navigate = useNavigate();
 
-    const gameObjectfileRead = () => {
+    const gameObjectfileRead = async () => {
         console.log(gameObject)
-        fetch("/read-gameObject")
+        await fetch("/read-gameObject")
             .then((response) => response.json())
             .then((data) => {
                 setGameObject(data);
@@ -21,8 +21,8 @@ export const ConfirmPlayerPage = () => {
             });
     };
 
-    const gameObjectfileWrite = (object) => {
-        fetch("/write-gameObject", {
+    const gameObjectfileWrite = async (object) => {
+        await fetch("/write-gameObject", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

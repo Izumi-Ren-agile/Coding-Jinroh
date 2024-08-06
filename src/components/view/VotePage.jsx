@@ -11,11 +11,11 @@ export const VotePage = () => {
 
     //const [isVoteUpdated, setIsVoteUpdated] = useState(false); // 更新が完了したかを示すフラグ
     // const [players, setPlayers] = useState();
-    const [selectedPlayerIndex, setSelectedPlayerIndex] = useState(null);
+    const [selectedPlayerId, setSelectedPlayerId] = useState(null);
 
-    const gameObjectfileRead = () => {
+    const gameObjectfileRead = async () => {
         console.log(gameObject)
-        fetch("/read-gameObject")
+        await fetch("/read-gameObject")
             .then((response) => response.json())
             .then((data) => {
                 setGameObject(data);
@@ -26,8 +26,8 @@ export const VotePage = () => {
             });
     };
 
-    const gameObjectfileWrite = (object) => {
-        fetch("/write-gameObject", {
+    const gameObjectfileWrite = async (object) => {
+        await fetch("/write-gameObject", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -35,13 +35,12 @@ export const VotePage = () => {
             body: JSON.stringify(object),
         })
             .then((response) => response.text())
-            .then((data) => { console.log(data); setIsLoad(false); })
+            .then((data) => { console.log(data); })
             .catch((error) => console.error("Error:", error));
     };
 
     useEffect(() => {
         gameObjectfileRead();
-        console.log("aaaaaaaaa", gameObject);
     }, [isLoad]);
 
     useEffect(() => {
@@ -83,17 +82,17 @@ export const VotePage = () => {
 
     //選択されたユーザーのidを保存する
     const handleSelect = (player) => {
-        setSelectedPlayerIndex(player.id);
+        setSelectedPlayerId(player.id);
     };
 
     //投票
-    const handleVote = () => {
-        if (selectedPlayerIndex !== null) {
+    const handleVote = async () => {
+        if (selectedPlayerId !== null) {
             // votedの値の更新、新しいplayerの配列を定義
-            const updatedPlayers = gameObject.players.map((player, index) => {
+            const updatedPlayers = gameObject.players.map((player) => {
                 // 選択されたプレイヤーのvotedを更新
-                if (player.id === selectedPlayerIndex) {
-                    return { ...gameObject.player[gameObject.presentPlayer], voted: player.voted + 1 };
+                if (player.id === selectedPlayerId) {
+                    return { ...player, voted: player.voted + 1 };
                 }
                 return player;
             });
@@ -104,17 +103,17 @@ export const VotePage = () => {
             // プレイヤーを新しいプレイヤーに更新
  //           setPlayers(updatedPlayers);
  //           setIsVoteUpdated(true);//更新フラグを立てる
-            setSelectedPlayerIndex(null); // 選択を初期化する
+            setSelectedPlayerId(null); // 選択を初期化する
 
             gameObject.presentPlayer += 1;
             if (gameObject.players.length > gameObject.presentPlayer) {
                 //players.length > presentPlayerなら/vote
-                gameObjectfileWrite(gameObject); //書き込み
+                await gameObjectfileWrite(gameObject); //書き込み
                 navigate("/votePage"); // 更新が完了した後に遷移する
 
             } else {
                 //players.length < presentPlayerなら/voteResult
-                gameObjectfileWrite(gameObject); //書き込み
+                await gameObjectfileWrite(gameObject); //書き込み
                 navigate("/voteResult"); // 更新が完了した後に遷移する
 
             }
@@ -162,7 +161,7 @@ export const VotePage = () => {
 
     return (
         <>{isLoad ? (
-            <Vote gameObject={gameObject} handleVote={handleVote} selectedPlayerIndex={selectedPlayerIndex} handleSelect={handleSelect} />
+            <Vote gameObject={gameObject} handleVote={handleVote} selectedPlayerIndex={selectedPlayerId} handleSelect={handleSelect} />
         ) : <Load backgroundColor='#526D82' />}
         </>
     );

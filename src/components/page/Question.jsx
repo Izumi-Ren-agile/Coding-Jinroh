@@ -40,6 +40,7 @@ export const Question = (props) => {
         isAlive: true,
         isPM: false,
         yourMission: [missionContent1, missionContent2, missionContent2],
+        voted:0,
         solvedMissionNum: 0
     }
 
@@ -50,7 +51,9 @@ export const Question = (props) => {
         color: "aqua",
         isAlive: true,
         isPM: false,
-        yourMission: [missionContent1, missionContent1, missionContent2]
+        yourMission: [missionContent1, missionContent1, missionContent2],
+        voted:0,
+        solvedMissionNum: 0
     }
 
     const player4 = {
@@ -60,7 +63,9 @@ export const Question = (props) => {
         color: "purple",
         isAlive: true,
         isPM: false,
-        yourMission: []
+        yourMission: [],
+        voted:0,
+        solvedMissionNum: 0
     }
 
     const player5 = {
@@ -70,7 +75,9 @@ export const Question = (props) => {
         color: "yellow",
         isAlive: true,
         isPM: false,
-        yourMission: []
+        yourMission: [],
+        voted:0,
+        solvedMissionNum: 0
     }
 
     const player6 = {
@@ -80,7 +87,9 @@ export const Question = (props) => {
         color: "orange",
         isAlive: true,
         isPM: false,
-        yourMission: []
+        yourMission: [],
+        voted:0,
+        solvedMissionNum: 0
     }
 
     const players = [
