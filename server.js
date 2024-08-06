@@ -160,7 +160,6 @@ const createGameObject = async (Players) => {
     await countData(mDbId),
     players.length * howManyMissions
   );
-  console.log("ミッションインデックス",missionIndex);
   const missions = [];
   for (let i = 0; i < missionIndex.length; i++) {
     missions.push(missionIndex[i]);

@@ -100,11 +100,12 @@ export const InputPlayer = () => {
           <div class="button-container">
             <button
               id="submit-button"
-              onClick={() => {
-                // handleConfirmPlayer();
-                // gameObjectfileWrite(dummyGameObject);
-                //readData("API_TEST","api1");
-                createGameObject(playerCalc());
+              onClick={async () => {
+                const players = playerCalc();
+                const gameObject = await createGameObject(players);
+                console.log("ゲームオブジェクトは作れているよね？",gameObject);
+                await gameObjectfileWrite(gameObject);
+                handleConfirmPlayer();
               }}
             >
               決定
@@ -542,10 +543,10 @@ export const setData = (object, collectionId, documentId) => {
 };
 
 export const readData = (collectionId, documentId) => {
-  const readObject={
+  const readObject = {
     collectionId,
-    documentId
-  }
+    documentId,
+  };
   fetch("/read-data", {
     method: "POST",
     headers: {
@@ -554,15 +555,16 @@ export const readData = (collectionId, documentId) => {
     body: JSON.stringify(readObject),
   })
     .then((response) => response.text())
-    .then((data) => console.log("読み込みapi:",data))
+    .then((data) => console.log("読み込みapi:", data))
     .catch((error) => console.error("Error:", error));
 };
 
-export const createGameObject = (Players) => {
-  const playersObject={
-    players:Players
-  }
-  fetch("/create-gameObject", {
+export const createGameObject = async (Players) => {
+  let returnGameObject;
+  const playersObject = {
+    players: Players,
+  };
+  await fetch("/create-gameObject", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -570,6 +572,28 @@ export const createGameObject = (Players) => {
     body: JSON.stringify(playersObject),
   })
     .then((response) => response.text())
-    .then((data) => console.log("クリエイトゲームオブジェクト:",data))
+    .then((data) => returnGameObject=data)
     .catch((error) => console.error("Error:", error));
+
+  return JSON.parse(returnGameObject);
 };
+
+// const createGameObject = async (Players) => {
+//   const playersObject={
+//     players:Players
+//   }
+//   const response = await fetch("/create-gameObject", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(playersObject),
+//   });
+
+//   if (!response.ok) {
+//     throw new Error("Network response was not ok.");
+//   }
+//   const data=await response.body;
+//   console.log("レスポンスどうなってるの",data)
+//   return data;
+// };
