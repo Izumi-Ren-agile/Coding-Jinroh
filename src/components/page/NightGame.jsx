@@ -11,76 +11,50 @@ import { Tag } from '../molecules/Tag';
 import { TabsOfCodeEditor } from '../molecules/TabsOfCodeEditor';
 
 export const NightGame = () => {
-    const location = useLocation();
-    const gameO = location.state; //DB
-    const [gameObject, setGameObject] = useState(gameO); //DB
-    const [code, setCode] = useState(gameObject.editor);
+    const [gameObject, setGameObject] = useState({ property: "default" });
+    const [code, setCode] = useState('');
     const [compiledCode, setCompiledCode] = useState('');
     const [yourMission, setYourMission] = useState([]);
     const [isConfirmed, setIsConfirmed] = useState(false);
     const [presentPlayerIndex, setPresentPlayerIndex] = useState(0);
     const navigate = useNavigate();
 
-    console.log(gameObject.nextMissionIndex);
+    const gameObjectfileRead = () => {
+        fetch("/read-gameObject")
+            .then((response) => response.json())
+            .then((data) => {
+                if (gameObject.property === "default") {
+                    setGameObject(data);
+                    console.log("data-read", data);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
     useEffect(() => {
+        gameObjectfileRead();
+        console.log("use-Effect");
+    }, []);
+
+    useEffect(() => {
+        console.log("ゲームオブジェクト:", gameObject);
+    }, [gameObject]);
+
+    useEffect(() => {
+        if(!gameObject.property){
         console.log(gameObject.players[gameObject.presentPlayer].yourMission.length);
         while (gameObject.players[gameObject.presentPlayer].yourMission.length < gameObject.maxMissionNum) {
             console.log('bb')
             gameObject.players[gameObject.presentPlayer].yourMission.push(gameObject.missions[gameObject.nextMissionIndex]);
             gameObject.nextMissionIndex++;
             setGameObject(gameObject);
-        }
+        }}
     }, [gameObject]);
 
-    const compileResult = Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output; //なんかようわからんけどこの一文あったらPythonでの実行がうまくいく（変数自体は使ってない）
-
-    function getRandomInt(max) {
-        return Math.floor(Math.random() * max);
-    }
-
-    const handleRunCode = () => {
-        setCompiledCode(code);
-    };
-
-    const handleFinishTurn = () => {
-
-        if (gameObject.gamePhase === "night") {
-            gameObject.editorHistory = [...gameObject.editorHistory, { name: `day${gameObject.presentDay} ${gameObject.players[gameObject.presentPlayer].name}`, code: code }]
-        }
-
-        if (gameObject.presentPlayer < gameObject.players.length - 1) {
-            gameObject.presentPlayer++;
-        } else {
-            if (gameObject.presentCodingTurn < gameObject.maxCodingTurn) {
-                gameObject.presentPlayer = 0;
-                gameObject.presentCodingTurn++;
-            } else {
-                if (gameObject.gamePhase === "night") {
-                    gameObject.gamePhase = "daytime";
-                } else {
-                    gameObject.presentPlayer = 0;
-                    if (gameObject.presentDay < gameObject.maxDay) {
-                        gameObject.presentDay++;
-                        navigate('/result', { state: gameObject });
-                    } else {
-                        navigate('/result');
-                    }
-                }
-            }
-        }
-        setGameObject(state => { return { ...gameObject } });
-        console.log(gameObject);
-    };
-
-    const handleChange = (value) => {
-        console.log(code);
-        setCode(value);
-        console.log(code);
-    };
-
     useEffect(() => {
-        if(gameObject.presentPlayer !== presentPlayerIndex){
+        if (gameObject.presentPlayer !== presentPlayerIndex) {
             setPresentPlayerIndex(gameObject.presentPlayer);
         }
 
@@ -106,9 +80,52 @@ export const NightGame = () => {
         }
     }, [presentPlayerIndex]);
 
+    //const compileResult = Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output; //なんかようわからんけどこの一文あったらPythonでの実行がうまくいく（変数自体は使ってない）
+
+    const handleRunCode = () => {
+        setCompiledCode(code);
+    };
+
+    // const handleFinishTurn = () => {
+
+    //     if (gameObject.gamePhase === "night") {
+    //         gameObject.editorHistory = [...gameObject.editorHistory, { name: `day${gameObject.presentDay} ${gameObject.players[gameObject.presentPlayer].name}`, code: code }]
+    //     }
+
+    //     if (gameObject.presentPlayer < gameObject.players.length - 1) {
+    //         gameObject.presentPlayer++;
+    //     } else {
+    //         if (gameObject.presentCodingTurn < gameObject.maxCodingTurn) {
+    //             gameObject.presentPlayer = 0;
+    //             gameObject.presentCodingTurn++;
+    //         } else {
+    //             if (gameObject.gamePhase === "night") {
+    //                 gameObject.gamePhase = "daytime";
+    //             } else {
+    //                 gameObject.presentPlayer = 0;
+    //                 if (gameObject.presentDay < gameObject.maxDay) {
+    //                     gameObject.presentDay++;
+    //                     navigate('/vote');
+    //                 } else {
+    //                     navigate('/vote');
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     setGameObject(state => { return { ...gameObject } });
+    //     console.log(gameObject);
+    // };
+
+    const handleChange = (value) => {
+        console.log(code);
+        setCode(value);
+        console.log(code);
+    };
+
     return (
         <div className="container" style={{ backgroundColor: gameObject.gamePhase === "night" ? '#526D82' : '#ede4dd' }}>
             <GameHedder gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={yourMission} />
+            {gameObject.property ? (<></>) : (
             <Contents>
                 <Content70>
                     <Tag secondText={"あと〇文字"}>エディター</Tag>
@@ -119,6 +136,7 @@ export const NightGame = () => {
                 </Content70>
                 <Project question={gameObject.questionText} secondText={""} />
             </Contents>
+            )}
             <script src="hedder.js"></script>
         </div>
     );

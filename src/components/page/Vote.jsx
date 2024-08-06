@@ -1,20 +1,23 @@
 /** @jsxImportSource @emotion/react */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from "@emotion/react";
-import { useNavigate,useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { GameHedder } from '../organisms/GameHedder';
+  import{PlayerAtom} from '../atom/Playeratom'
 import "./vote.css";
 
 export const Vote = (props) => {
-  const navigate = useNavigate();
-  const location = useLocation();
- 
-  // 前の画面からのデータ取得
-  const game = location.state || {}; // location.stateがundefinedの場合に備えて空オブジェクトを使用
+  const { gameObject, handleVote, selectedPlayerIndex, handleSelect } = props;
+  // const navigate = useNavigate();
+  // const location = useLocation();
 
-  const [isConfirmed, setIsConfirmed] = useState(false);
-  const [isVoteUpdated, setIsVoteUpdated] = useState(false); // 更新が完了したかを示すフラグ
-  
+  // // 前の画面からのデータ取得
+  // const game = location.state || {}; // location.stateがundefinedの場合に備えて空オブジェクトを使用
+
+  // const [isConfirmed, setIsConfirmed] = useState(false);
+  // const [isVoteUpdated, setIsVoteUpdated] = useState(false); // 更新が完了したかを示すフラグ
+
 
   // const initialPlayers = [
   //   {
@@ -59,43 +62,57 @@ export const Vote = (props) => {
   //   },
   // ];
 
-  // const questionObject = {
-  //   questionId: "",
-  //   questionText:
-  //     "以下の仕様を満たす countWords メソッドの作成\n 仕様： ・与えられた文字列に含まれる単語の数を数えるメソッド ・単語はスペースで区切られているものとする",
-  //   initialCode:
-  //     'public class Main { public static void main(String[] args) { // テストケース System.out.println(countWords("Hello world")); // 出力: 2 System.out.println(countWords("Java is fun")); // 出力: 3 System.out.println(countWords(" Count the words ")); // 出力: 3 System.out.println(countWords("This is a test")); // 出力: 4 System.out.println(countWords("OneTwoThree")); // 出力: 1 } // 与えられた文字列に含まれる単語の数を数えるメソッド public static int countWords(String str) { //ここに実装 return null; } }',
-  //   answerCode: "bbbbbbbbbbbbb",
-  // };
+  // プレイヤーとミッションのサンプルデータ
+  const missionContent0 = { mission: "文字列\n'int0'\nを含めろ！", arg: "int" };
+  const missionContent1 = { mission: "文字列\n'int'\nを含めろ！", arg: "int" };
+  const missionContent2 = { mission: "文字列\n'int2'\nを含めろ！", arg: "int" };
 
-//   const game = {
-//     gameId: "1234",
-//     questionId: questionObject.questionId,
-//     questionText: questionObject.questionText,
-//     initialCode: questionObject.initialCode,
-//     answerCode: questionObject.answerCode,
-//     initialplayers: initialPlayers,
-//     players: initialPlayers, //変更予定
-//     presentPlayer: 0,
-//     editor: questionObject.initialCode,
-//     missions: [],
-//     nextMissionIndex: 0,
-//     presentDay: 1,
-//     maxDay: 4,
-//     gamePhase: "night",
-//     presentCodingTurn: 1,
-//     maxCodingTurn: 2,
-//     codingMaxStringNum: 2000,
-//     codingMaxTime: 60,
-//     meetingmaxTime: 120,
-//     isRandom: false
-// }
+  const player1 = { id: 123456, name: "ikeda", isJinroh: false, color: "lime", isAlive: true, isPM: false, yourMission: [missionContent0] };
+  const player2 = { id: 123457, name: "izumi", isJinroh: false, color: "pink", isAlive: true, isPM: false, yourMission: [missionContent1, missionContent2, missionContent2], solvedMissionNum: 0 };
+  const player3 = { id: 123458, name: "nishimura", isJinroh: true, color: "aqua", isAlive: true, isPM: false, yourMission: [missionContent1, missionContent1, missionContent2] };
+  const player4 = { id: 123459, name: "takahashi", isJinroh: false, color: "purple", isAlive: true, isPM: false, yourMission: [] };
+  const player5 = { id: 123460, name: "papa", isJinroh: false, color: "yellow", isAlive: true, isPM: false, yourMission: [] };
+  const player6 = { id: 123461, name: "yu-chan", isJinroh: false, color: "orange", isAlive: true, isPM: false, yourMission: [] };
 
-  const [players, setPlayers] = useState(game.players);
-  const [selectedPlayerIndex, setSelectedPlayerIndex] = useState(null);
+  const initialplayers = [player1, player2, player3, player4, player5];
+  const nowplayers = [player1, player2, player3, player4, player5, player6];
+
+  const questionObject = {
+    questionId: "",
+    questionText: "以下の仕様を満たす countWords メソッドの作成\n 仕様： ・与えられた文字列に含まれる単語の数を数えるメソッド ・単語はスペースで区切られているものとする",
+    initialCode: 'public class Main { public static void main(String[] args) { // テストケース System.out.println(countWords("Hello world")); // 出力: 2 System.out.println(countWords("Java is fun")); // 出力: 3 System.out.println(countWords(" Count the words ")); // 出力: 3 System.out.println(countWords("This is a test")); // 出力: 4 System.out.println(countWords("OneTwoThree")); // 出力: 1 } // 与えられた文字列に含まれる単語の数を数えるメソッド public static int countWords(String str) { //ここに実装 return null; } }',
+    answerCode: "bbbbbbbbbbbbb",
+  };
+
+
+  //   const game = {
+  //     gameId: "1234",
+  //     questionId: questionObject.questionId,
+  //     questionText: questionObject.questionText,
+  //     initialCode: questionObject.initialCode,
+  //     answerCode: questionObject.answerCode,
+  //     initialplayers: initialPlayers,
+  //     players: initialPlayers, //変更予定
+  //     presentPlayer: 0,
+  //     editor: questionObject.initialCode,
+  //     missions: [],
+  //     nextMissionIndex: 0,
+  //     presentDay: 1,
+  //     maxDay: 4,
+  //     gamePhase: "night",
+  //     presentCodingTurn: 1,
+  //     maxCodingTurn: 2,
+  //     codingMaxStringNum: 2000,
+  //     codingMaxTime: 60,
+  //     meetingmaxTime: 120,
+  //     isRandom: false
+  // }
+
+  // const [players, setPlayers] = useState(game.players);
+  // const [selectedPlayerIndex, setSelectedPlayerIndex] = useState(null);
   const playerVoteContainer = css`
     width: 80%;
-    margin:5px 10% 5px 10%; 
+    margin:5px 10% 5px 10%;
     min-height: 60%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -104,99 +121,138 @@ export const Vote = (props) => {
     border-radius: 10px;
     justify-content: center;
     align-items: center;
-    
   `;
+  
   const voteItem = css`
     display: flex;
     align-items: center;
     background-color: white;
     padding: 10px;
-    color:#27374D;
+    color: #27374D;
     border-radius: 10px;
-    justify-content: space-between;;
+    justify-content: space-between;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin:5px;
+    margin: 5px;
   `;
+  const loadingMessage = css`
+  margin:auto;
+  font-size: 6rem;
+  position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    left:50%;
+    top:50%;
   
-  //選択されたユーザーのidを保存する
-  const handleSelect = (player) => {
-    setSelectedPlayerIndex(player.id);
-  };
+  `;
+
+  // //選択されたユーザーのidを保存する
+  // const handleSelect = (player) => {
+  //   setSelectedPlayerIndex(player.id);
+  // };
 
 
-  //投票
-  const handleVote = () => {
-    if (selectedPlayerIndex !== null) {
-      // votedの値の更新、新しいplayerの配列を定義
-      const updatedPlayers = players.map((player, index) => {
-        // 選択されたプレイヤーのvotedを更新
-        if (player.id === selectedPlayerIndex) {
-          return { ...player, voted: player.voted + 1 };
-        }
-        return player;
-      });
+  // //投票
+  // const handleVote = () => {
+  //   if (selectedPlayerIndex !== null) {
+  //     // votedの値の更新、新しいplayerの配列を定義
+  //     const updatedPlayers = players.map((player, index) => {
+  //       // 選択されたプレイヤーのvotedを更新
+  //       if (player.id === selectedPlayerIndex) {
+  //         return { ...player, voted: player.voted + 1 };
+  //       }
+  //       return player;
+  //     });
 
-      console.log("updatedPlayers",updatedPlayers)
-      // プレイヤーを新しいプレイヤーに更新
-      setPlayers(updatedPlayers);
-      setIsVoteUpdated(true);//更新フラグを立てる
-      setSelectedPlayerIndex(null); // 選択を初期化する
-    }
-  };
+  //     console.log("updatedPlayers", updatedPlayers)
+  //     // プレイヤーを新しいプレイヤーに更新
+  //     setPlayers(updatedPlayers);
+  //     setIsVoteUpdated(true);//更新フラグを立てる
+  //     setSelectedPlayerIndex(null); // 選択を初期化する
+  //   }
+  // };
 
-  // playersの状態が更新された後に実行する処理
-  useEffect(() => {
-    if (isVoteUpdated) {
-      //presentPlayerの値を更新
-      game.presentPlayer+=1;
-      if(players.length > presentPlayer){
-        //players.length > presentPlayerなら/vote
-        navigate("/vote", { state: game }); // 更新が完了した後に遷移する
+  // // playersの状態が更新された後に実行する処理
+  // useEffect(() => {
+  //   if (isVoteUpdated) {
+  //     //presentPlayerの値を更新
+  //     game.presentPlayer += 1;
+  //     if (players.length > presentPlayer) {
+  //       //players.length > presentPlayerなら/vote
+  //       navigate("/vote", { state: game }); // 更新が完了した後に遷移する
 
-      }else{
-      //players.length < presentPlayerなら/voteResult
-      navigate("/voteResult", { state: game }); // 更新が完了した後に遷移する
+  //     } else {
+  //       //players.length < presentPlayerなら/voteResult
+  //       navigate("/voteResult", { state: game }); // 更新が完了した後に遷移する
 
-      }
+  //     }
 
-      // 状態更新後のプレイヤーの状態
-      console.log("Players after setPlayers: ", players);
+  //     // 状態更新後のプレイヤーの状態
+  //     console.log("Players after setPlayers: ", players);
 
-    }
-  }, [players, isVoteUpdated, navigate, game]);
+  //   }
+  // }, [players, isVoteUpdated, navigate, game]);
 
 
   // game.presentPlayer に対応する player.name を取得
-const presentPlayer = game.players[game.presentPlayer];
-const presentPlayerName = presentPlayer ? presentPlayer.name : null;
+  // const presentPlayer = game.players[game.presentPlayer];
+  // const presentPlayerName = presentPlayer ? presentPlayer.name : null;
 
-// コンポーネントがマウントされたときに確認ダイアログを表示する
-useEffect(() => {
-  let ignore = false;
-  const showConfirmationDialog = async() => {
-    const confirmed = window.confirm(`${presentPlayerName}さんですか？`);
-    if (confirmed) {
-      setIsConfirmed(true);
-    } else {
-      showConfirmationDialog();
-    }
-  };
-
-  if(!ignore){
+  // コンポーネントがマウントされたときに確認ダイアログを表示する
+  useEffect(() => {
+    const showConfirmationDialog = async () => {
+      const confirmed = window.confirm(`${gameObject.players[gameObject.presentPlayer].name}さんですか？`);
+      if (!confirmed) {
+        showConfirmationDialog();
+      }
+    };
     showConfirmationDialog();
-  }
-  return()=>{
-    ignore=true
-  }
-},[]);
-
-
+  }, []);
 
   return (
     <div className="container">
-      {/* <GameHeader game={game} /> */}
+      <GameHedder gameObject={gameObject} />
 
-      <div className="header">
+      {/*<div className="main-content">
+        {isConfirmed ? (
+          <div className="text-center-content">
+            <h2>{presentPlayerName}さん、人狼だと思う人に投票してください</h2>
+            <div css={playerVoteContainer}>
+              {gameObject.players.map(
+        (player, index) =>
+          gameObject.presentPlayer !== index && (
+            <div css={voteItem} key={index}>
+              {/* PlayerAtomには、playerを入れたい */}
+              {/* <PlayerAtom player={player} index={index}/> */}
+
+              {/* 暫定 */}
+              <PlayerAtom name={player.name} index={index} />
+
+              <p>{player.name}</p>
+              <button
+                className={`btn-group vote-item-btn ${
+                  player.id === selectedPlayerIndex ? "selected" : "select"
+                }`}
+                onClick={() => handleSelect(player)}
+              id={player.id}
+              >
+                {player.id === selectedPlayerIndex ? "選択中" : "選択"}
+              </button>
+            </div>
+          )
+      )}
+            </div>
+            <button
+            // css={voteBtn}
+                          className="submit btn-group vote-btn"
+              onClick={handleVote}
+              disabled={selectedPlayerIndex === null}
+            >
+              {selectedPlayerIndex === null ? (
+                <>選択<br />してください</>) : ("投票")}
+            </button>
+          </div>
+        ) : ( */}
+
+      {/* <div className="header">
         <div className="day-indicator">
           <h1>Day {game.presentDay}</h1>
           <p>{game.gamePhase}</p>
@@ -211,19 +267,19 @@ useEffect(() => {
         <div className="timer">
           <p id="timer">16秒</p>
         </div>
-      </div>
+      </div> */}
 
 
       <div className="main-content">
-      {isConfirmed ? (
+        {/* {isConfirmed ? ( */}
         <div className="text-center-content">
-          <h2>{presentPlayerName}さん、人狼だと思う人に投票してください</h2>
+          <h2>{gameObject.players[gameObject.presentPlayer].name}さん、人狼だと思う人に投票してください</h2>
           <br />
           <br />
           <div css={playerVoteContainer}>
-            {players.map(
+            {gameObject.players.map(
               (player, index) =>
-                player.id !== presentPlayer.id && ( //現在のプレイヤーを表示しない条件
+                player.id !== gameObject.players[gameObject.presentPlayer].id && ( //現在のプレイヤーを表示しない条件
                   <div css={voteItem} key={index}>
                     <div
                       className="player"
@@ -232,9 +288,8 @@ useEffect(() => {
                     ></div>
                     <p>{player.name}</p>
                     <button
-                      className={`btn-group, vote-item-btn, ${
-                        player.id === selectedPlayerIndex ? "selected" : "select"
-                      }`}
+                      className={`btn-group, vote-item-btn, ${player.id === selectedPlayerIndex ? "selected" : "select"
+                        }`}
                       onClick={() => handleSelect(player)}
                     >
                       {player.id === selectedPlayerIndex ? "選択中" : "選択"}
@@ -260,14 +315,13 @@ useEffect(() => {
             )}
           </button>
         </div>
-        ) : (
+        {/*) : (
           <div>
-            <h2>確認中...</h2>
+            <h2 css={loadingMessage}>確認中...</h2>
           </div>
-        )}
-        
+        )}*/}
+
       </div>
-          
     </div>
   );
 };

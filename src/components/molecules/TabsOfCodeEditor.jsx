@@ -37,7 +37,7 @@ export const TabsOfCodeEditor = (props) => {
   })
   return (
 
-    <Tabs defaultActiveKey="1" onTabClick={handleRunCode} size="small" style={{ color: "#FFF", backgroundColor: "#282c34", flexGrow: "5", padding: "0 10px", borderRadius: "5px", overflow: "auto", display: "flex", position: "relative" }}>
+    <Tabs defaultActiveKey="1" size="small" style={{ color: "#FFF", backgroundColor: "#282c34", flexGrow: "5", padding: "0 10px", borderRadius: "5px", overflow: "auto", display: "flex", position: "relative" }}>
       {editorHistory.map((oneOfHistory, index) => (
         <TabPane tab={oneOfHistory.name} key={index + 3} style={{ color: "#FFF", backgroundColor: "#282c34" }}>
           <div css={editorBackgroundStyle}>
