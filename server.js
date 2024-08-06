@@ -2,6 +2,8 @@ const http = require("http");
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const { compileCode } = require("./serverCompilerApi");
+
 
 const {
   initializeApp,
@@ -265,6 +267,18 @@ const returnRandomIndex = (min, max, howMany) => {
 // Reactルーターのためのフォールバック
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+// コンパイルリクエストを処理するためのPOSTエンドポイント
+app.post("/compile", async (req, res) => {
+  const { language, sourceCode } = req.body;
+
+  try {
+    const result = await compileCode(language, sourceCode);
+    res.json({ stdout: result.stdout, buildStderr: result.build_stderr });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 // サーバの設定
