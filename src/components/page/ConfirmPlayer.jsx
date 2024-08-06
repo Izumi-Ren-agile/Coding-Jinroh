@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { GameHedder } from '../organisms/GameHedder';
+import { GameHeader } from '../organisms/GameHeader';
 import { Card } from '../molecules/Card';
 
 export const ConfirmPlayer = (props) => {
@@ -18,7 +18,7 @@ export const ConfirmPlayer = (props) => {
 
   return (
     <div className="container" style={{ backgroundColor: '#526D82' }}>
-      <GameHedder gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={[]} />
+      <GameHeader gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={[]} />
       <div style={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-evenly", gap: "20px" }}>
         <h1>あなたの役職は...</h1>
         <Card nowPlayer={gameObject.players[gameObject.presentPlayer]} />
