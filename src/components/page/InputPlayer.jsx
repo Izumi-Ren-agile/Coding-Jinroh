@@ -103,7 +103,8 @@ export const InputPlayer = () => {
               onClick={() => {
                 // handleConfirmPlayer();
                 // gameObjectfileWrite(dummyGameObject);
-                readData("API_TEST","api1");
+                //readData("API_TEST","api1");
+                createGameObject(playerCalc());
               }}
             >
               決定
@@ -231,127 +232,127 @@ export const returnRandomIndex = (min, max, howMany) => {
   return indexies.sort(compareFunc);
 };
 
-export const createGameObject = (Players) => {
-  //gameId
-  const gameId = new Date().toString();
+// export const createGameObject = (Players) => {
+//   //gameId
+//   const gameId = new Date().toString();
 
-  //クエスチョンIDの設定
-  const qDbId = "QUESTION_CONTENT";
-  const questionId = returnRandomIndex(1, CountData(qDbId), 1);
+//   //クエスチョンIDの設定
+//   const qDbId = "QUESTION_CONTENT";
+//   const questionId = returnRandomIndex(1, CountData(qDbId), 1);
 
-  //クエスチョンテキストの取得
-  const questionText = SelectData({
-    collectionId: qDbId,
-    documentId: questionId,
-    field: "question",
-  });
+//   //クエスチョンテキストの取得
+//   const questionText = SelectData({
+//     collectionId: qDbId,
+//     documentId: questionId,
+//     field: "question",
+//   });
 
-  //初期に入力されているコードの取得
-  const initialCode = SelectData({
-    collectionId: qDbId,
-    documentId: questionId,
-    field: "inicialCode",
-  }); //inicialはinitialのスペルミス。本当にこれでデータベースに保存されているので気にする必要なし
+//   //初期に入力されているコードの取得
+//   const initialCode = SelectData({
+//     collectionId: qDbId,
+//     documentId: questionId,
+//     field: "inicialCode",
+//   }); //inicialはinitialのスペルミス。本当にこれでデータベースに保存されているので気にする必要なし
 
-  //答えのコードの取得
-  const answerCode = SelectData({
-    collectionId: qDbId,
-    documentId: questionId,
-    field: "answerCode",
-  });
+//   //答えのコードの取得
+//   const answerCode = SelectData({
+//     collectionId: qDbId,
+//     documentId: questionId,
+//     field: "answerCode",
+//   });
 
-  //最初のプレイヤーたち
-  const initialPlayers = Players;
+//   //最初のプレイヤーたち
+//   const initialPlayers = Players;
 
-  //  プレイヤーたち
-  const players = Players;
+//   //  プレイヤーたち
+//   const players = Players;
 
-  //現在コーディング中のプレイヤー
-  const presentPlayer = 0;
+//   //現在コーディング中のプレイヤー
+//   const presentPlayer = 0;
 
-  //エディターに書かれたコード
-  const editor = initialCode;
+//   //エディターに書かれたコード
+//   const editor = initialCode;
 
-  //エディターヒストリー
-  const editorHistory = [{ name: "初期コード", code: initialCode }];
+//   //エディターヒストリー
+//   const editorHistory = [{ name: "初期コード", code: initialCode }];
 
-  //ミッションの取得
-  const mDbId = "MISSION_CONTENT";
-  const howManyMissions = 5; //プレイヤー一人当たりに取得してくるミッションの数
-  const missionIndex = returnRandomIndex(
-    1,
-    CountData(mDbId),
-    players.length * howManyMissions
-  );
-  const missions = [];
-  for (let m in missionIndex) {
-    missions.push(m);
-  }
+//   //ミッションの取得
+//   const mDbId = "MISSION_CONTENT";
+//   const howManyMissions = 5; //プレイヤー一人当たりに取得してくるミッションの数
+//   const missionIndex = returnRandomIndex(
+//     1,
+//     CountData(mDbId),
+//     players.length * howManyMissions
+//   );
+//   const missions = [];
+//   for (let m in missionIndex) {
+//     missions.push(m);
+//   }
 
-  //次のミッション
-  const nextMissionIndex = 0;
+//   //次のミッション
+//   const nextMissionIndex = 0;
 
-  //現在のゲーム内の日付（Day1,Day2,Day3...とつづくやつ）
-  const presentDay = 1;
+//   //現在のゲーム内の日付（Day1,Day2,Day3...とつづくやつ）
+//   const presentDay = 1;
 
-  //マックスの日数
-  const maxDay = 4;
+//   //マックスの日数
+//   const maxDay = 4;
 
-  //ゲームフェイズ
-  const gamePhase = "night";
+//   //ゲームフェイズ
+//   const gamePhase = "night";
 
-  //現在のコーディングターン（コーディングはDay一つにつき複数回行われる）
-  const presentCodingTurn = 1;
+//   //現在のコーディングターン（コーディングはDay一つにつき複数回行われる）
+//   const presentCodingTurn = 1;
 
-  //最大のコーディングターン
-  const maxCodingTurn = 2;
+//   //最大のコーディングターン
+//   const maxCodingTurn = 2;
 
-  //一回のコーディングで書ける最大文字数
-  const codingMaxStringNum = 2000; //実質無制限 //一回のコーディングに使える時間
+//   //一回のコーディングで書ける最大文字数
+//   const codingMaxStringNum = 2000; //実質無制限 //一回のコーディングに使える時間
 
-  //コーディングの時間制限
-  const codingMaxTime = 60; //秒
+//   //コーディングの時間制限
+//   const codingMaxTime = 60; //秒
 
-  //会議に使える時間
-  const meetingmaxTime = 120; //秒
+//   //会議に使える時間
+//   const meetingmaxTime = 120; //秒
 
-  //コーディングの順番をランダムにするか
-  const isRandom = false;
+//   //コーディングの順番をランダムにするか
+//   const isRandom = false;
 
-  //ミッションの最大数
-  const maxMissionNum = 3;
+//   //ミッションの最大数
+//   const maxMissionNum = 3;
 
-  //言語
-  const codeLanguage = "java";
+//   //言語
+//   const codeLanguage = "java";
 
-  //ゲームオブジェクト
-  const gameObject = {
-    gameId,
-    questionId,
-    questionText,
-    initialCode,
-    answerCode,
-    initialPlayers,
-    players,
-    presentPlayer,
-    editor,
-    editorHistory,
-    missions,
-    nextMissionIndex,
-    presentDay,
-    maxDay,
-    gamePhase,
-    presentCodingTurn,
-    maxCodingTurn,
-    codingMaxStringNum,
-    codingMaxTime,
-    meetingmaxTime,
-    isRandom,
-    maxMissionNum,
-    codeLanguage,
-  };
-  return gameObject;
-};
+//   //ゲームオブジェクト
+//   const gameObject = {
+//     gameId,
+//     questionId,
+//     questionText,
+//     initialCode,
+//     answerCode,
+//     initialPlayers,
+//     players,
+//     presentPlayer,
+//     editor,
+//     editorHistory,
+//     missions,
+//     nextMissionIndex,
+//     presentDay,
+//     maxDay,
+//     gamePhase,
+//     presentCodingTurn,
+//     maxCodingTurn,
+//     codingMaxStringNum,
+//     codingMaxTime,
+//     meetingmaxTime,
+//     isRandom,
+//     maxMissionNum,
+//     codeLanguage,
+//   };
+//   return gameObject;
+// };
 
 const questionObject = {
   questionId: "",
@@ -554,5 +555,21 @@ export const readData = (collectionId, documentId) => {
   })
     .then((response) => response.text())
     .then((data) => console.log("読み込みapi:",data))
+    .catch((error) => console.error("Error:", error));
+};
+
+export const createGameObject = (Players) => {
+  const playersObject={
+    players:Players
+  }
+  fetch("/create-gameObject", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(playersObject),
+  })
+    .then((response) => response.text())
+    .then((data) => console.log("クリエイトゲームオブジェクト:",data))
     .catch((error) => console.error("Error:", error));
 };
