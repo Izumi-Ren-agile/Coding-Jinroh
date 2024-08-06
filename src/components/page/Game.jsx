@@ -11,15 +11,14 @@ import { TabsOfCodeEditor } from "../molecules/TabsOfCodeEditor";
 
 export const Game = (props) => {
   const { gameObject, handleFinishTurn, code, handleChange } = props;
-  console.log("initialcode",code);
+  console.log("initialcode", code);
   const [compiledCode, setCompiledCode] = useState("");
   const [stdout, setStdout] = useState(null); // コンパイルの標準出力
   const [buildStderr, setBuildStderr] = useState(null); // コンパイルのエラーメッセージ
   const [loading, setLoading] = useState(false); // ローディング状態
   const [error, setError] = useState(null); // エラーメッセージ
-  const language  = gameObject.codeLanguage; // 使用するプログラミング言語を"java"に設定
-//   const [sourceCode, setSourceCode] = useState(code)
-
+  const language = gameObject.codeLanguage; // 使用するプログラミング言語を"java"に設定
+  //   const [sourceCode, setSourceCode] = useState(code)
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
@@ -38,9 +37,9 @@ export const Game = (props) => {
 
   //const compileResult = Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output; //なんかようわからんけどこの一文あったらPythonでの実行がうまくいく（変数自体は使ってない）
 
-//   const handleRunCode = () => {
-//     setCompiledCode(code);
-//   };
+  //   const handleRunCode = () => {
+  //     setCompiledCode(code);
+  //   };
 
   const handleRunCode = async () => {
     setLoading(true); // ローディング状態を開始
@@ -50,30 +49,30 @@ export const Game = (props) => {
       const response = await fetch("/compile", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({language, sourceCode: code}) // 言語とソースコードをリクエストボディに含める
+        body: JSON.stringify({ language, sourceCode: code }), // 言語とソースコードをリクエストボディに含める
       });
 
       if (!response.ok) {
         // レスポンスが成功していない場合はエラーメッセージを取得
         const errorResponse = await response.json();
-        throw new Error(errorResponse.message || "コンパイル中にエラーが発生しました");
+        throw new Error(
+          errorResponse.message || "コンパイル中にエラーが発生しました"
+        );
       }
 
       const result = await response.json(); // レスポンスをJSONとして解析
-      console.log(result)
-      console.log(code)
+      console.log(result);
+      console.log(code);
       setStdout(result.stdout); // 標準出力を設定
       setBuildStderr(result.buildStderr); // エラーメッセージを設定
-
     } catch (error) {
       setError(error); // エラーを設定
     } finally {
       setLoading(false); // ローディング状態を終了
     }
   };
-
 
   return (
     // <div className="container" style={{ backgroundColor: gameObject.gamePhase === "night" ? '#526D82' : '#ede4dd' }}>
@@ -116,7 +115,7 @@ export const Game = (props) => {
                 onChange={handleChange}
                 // onChange={(e) => setSourceCode(e.target.value)}
                 handleRunCode={handleRunCode}
-                loading = {loading}
+                loading={loading}
               />
             ) : (
               <TabsOfCodeEditor
@@ -130,10 +129,12 @@ export const Game = (props) => {
             {error && <div>Error: {error.message}</div>}
 
             <Console
-              consoleCode={stdout || (buildStderr && `\nErrors:\n${buildStderr}`)||""}
+              consoleCode={
+                stdout || (buildStderr && `\nErrors:\n${buildStderr}`) || ""
+              }
             />
           </Content70>
-          <Project question={gameObject.questionText} secondText={""} />
+          <Project question={gameObject.questionText.replace(/\\n/g,'\n')} secondText={""} />
         </Contents>
       )}
     </div>
