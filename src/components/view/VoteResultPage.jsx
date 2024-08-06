@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Load } from '../page/Load';
 import { ConfirmPlayer } from "../page/ConfirmPlayer";
 
-export const ConfirmPlayerPage = () => {
+export const VoteResultPage = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });
     const [isLoad, setIsLoad] = useState(false); //useLoad
     const navigate = useNavigate();
@@ -46,12 +46,14 @@ export const ConfirmPlayerPage = () => {
     const handleFinishTurn = async () => {
         if (gameObject.presentPlayer < gameObject.players.length - 1) {
             gameObject.presentPlayer++;
-            await gameObjectfileWrite(gameObject); //書き込み
+            setGameObject(gameObject);
+           // setIsLoad(false);
+            gameObjectfileWrite(gameObject); //書き込み
             setIsLoad(false);
         } else {
             gameObject.presentPlayer = 0;
             gameObject.gamePhase = "night";
-            await gameObjectfileWrite(gameObject); //書き込み
+            gameObjectfileWrite(gameObject); //書き込み
             navigate('/question');
         }
     };
