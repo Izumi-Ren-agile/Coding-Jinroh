@@ -7,7 +7,7 @@ import { Buttons } from '../templates/Buttons';
 import { Button } from "antd";
 
 export const CodeEditor = (props) => {
-  const { code, onChange, handleRunCode } = props;
+  const { code, onChange, handleRunCode,loading } = props;
 
   const editorBackgroundStyle = css`
   flex-grow: 5;
@@ -31,9 +31,10 @@ export const CodeEditor = (props) => {
         theme={oneDark}
         css={codeEditorStyle}
         onChange={onChange}
+        
       />
       <Buttons>
-        <Button type="primary" onClick={handleRunCode}>実行</Button>
+        <Button type="primary" onClick={handleRunCode} disabled={loading}>{loading?"実行中...":"実行"}</Button>
       </Buttons>
     </div>
   );
