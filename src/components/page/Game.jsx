@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { CodeEditor } from '../molecules/CodeEditor';
 import { Console } from '../molecules/Console';
 import { Project } from '../molecules/Project';
-import { GameHedder } from '../organisms/GameHedder';
+import { GameHeader } from '../organisms/GameHeader';
 import { Content70 } from '../templates/Content70';
 import { Contents } from '../templates/Contents';
 import { Compiler } from "../compile/CompilerAsMethod";
@@ -32,7 +32,7 @@ export const Game = (props) => {
 
     return (
         <div className="container" style={{ backgroundColor: gameObject.gamePhase === "night" ? '#526D82' : '#ede4dd' }}>
-            <GameHedder gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={gameObject.players[gameObject.presentPlayer].yourMission} />
+            <GameHeader gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={gameObject.players[gameObject.presentPlayer].yourMission} />
             {gameObject.property ? (<></>) : (
                 <Contents>
                     <Content70>

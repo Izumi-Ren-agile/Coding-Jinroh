@@ -473,7 +473,7 @@ const questionObject1 = {
 }`,
 };
 
-const players = [player1, player2, player3, player4, player5];
+const players = [player1, player2, player3];
 
 const missionContent0 = {
   mission: "文字列\n'int0'\nを含めろ！",

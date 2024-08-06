@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { Button } from "antd";
 
-export const GameHedder = (props) => {
+export const GameHeader = (props) => {
     let { gameObject, handleFinishTurn } = props;
 
     console.log(gameObject);

@@ -6,7 +6,6 @@ import { Vote } from "../page/Vote";
 export const VotePage = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });
     const [isLoad, setIsLoad] = useState(false); //useLoad
-    const [code, setCode] = useState('');
     const navigate = useNavigate();
 
     //const [isVoteUpdated, setIsVoteUpdated] = useState(false); // 更新が完了したかを示すフラグ
@@ -118,45 +117,6 @@ export const VotePage = () => {
 
             }
         }
-    };
-
-    const handleFinishTurn = () => {
-        //setIsLoad(false);
-
-        if (gameObject.gamePhase === "night") {
-            gameObject.editor = code;
-            gameObject.editorHistory = [...gameObject.editorHistory, { name: `day${gameObject.presentDay}-${gameObject.presentCodingTurn} ${gameObject.players[gameObject.presentPlayer].name}`, code: code }]
-        }
-
-        if (gameObject.presentPlayer < gameObject.players.length - 1) {
-            gameObject.presentPlayer++;
-            gameObjectfileWrite(gameObject); //書き込み
-        } else {
-            if (gameObject.presentCodingTurn < gameObject.maxCodingTurn) {
-                gameObject.presentPlayer = 0;
-                gameObject.presentCodingTurn++;
-                gameObjectfileWrite(gameObject); //書き込み
-            } else {
-                if (gameObject.gamePhase === "night") {
-                    gameObject.gamePhase = "daytime";
-                    gameObjectfileWrite(gameObject); //書き込み
-                } else {
-                    gameObject.presentPlayer = 0;
-                    if (gameObject.presentDay < gameObject.maxDay) {
-                        gameObject.presentDay++;
-                        gameObjectfileWrite(gameObject); //書き込み
-                        navigate('/vote');
-                    } else {
-                        gameObjectfileWrite(gameObject); //書き込み
-                        navigate('/vote');
-                    }
-                }
-            }
-        }
-    };
-
-    const handleChange = (value) => {
-        setCode(value);
     };
 
     return (
