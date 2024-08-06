@@ -18,8 +18,6 @@ export const Project = (props) => {
     const projectContainerStyle = css`
     flex-grow: 1; // 余白に合わせて伸張する
     background: white;
-    min-height: 100%;
-    max-height: 100%;
     height: 100%;
     padding: 10px;
     border: 5px solid #e0e0e0;

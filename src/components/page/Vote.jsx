@@ -2,17 +2,65 @@
 import React, { useEffect, useState } from 'react';
 import { css } from "@emotion/react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 import { GameHedder } from '../organisms/GameHedder';
-import{PlayerAtom} from '../atom/Playeratom'
+  import{PlayerAtom} from '../atom/Playeratom'
 import "./vote.css";
 
-export const Vote = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  // const gameO = location.state; // DBからのゲームオブジェクト
-  // const [gameObject, setGameObject] = useState(gameO || {}); // DBからのゲームオブジェクトの状態管理
-  const [isConfirmed, setIsConfirmed] = useState(false);
-  const [isVoteUpdated, setIsVoteUpdated] = useState(false); // 更新が完了したかを示すフラグ
+export const Vote = (props) => {
+  const { gameObject, handleVote, selectedPlayerIndex, handleSelect } = props;
+  // const navigate = useNavigate();
+  // const location = useLocation();
+
+  // // 前の画面からのデータ取得
+  // const game = location.state || {}; // location.stateがundefinedの場合に備えて空オブジェクトを使用
+
+  // const [isConfirmed, setIsConfirmed] = useState(false);
+  // const [isVoteUpdated, setIsVoteUpdated] = useState(false); // 更新が完了したかを示すフラグ
+
+
+  // const initialPlayers = [
+  //   {
+  //     id: 123456,
+  //     name: "ikeda",
+  //     isJinroh: false,
+  //     color: "red",
+  //     isPM: false,
+  //     voted: 0,
+  //   },
+  //   {
+  //     id: 123457,
+  //     name: "izumi",
+  //     isJinroh: false,
+  //     color: "blue",
+  //     isPM: false,
+  //     voted: 0,
+  //   },
+  //   {
+  //     id: 123458,
+  //     name: "nishimura",
+  //     isJinroh: true,
+  //     color: "red",
+  //     isPM: false,
+  //     voted: 0,
+  //   },
+  //   {
+  //     id: 123459,
+  //     name: "takahashi",
+  //     isJinroh: false,
+  //     color: "red",
+  //     isPM: false,
+  //     voted: 0,
+  //   },
+  //   {
+  //     id: 123460,
+  //     name: "papa",
+  //     isJinroh: false,
+  //     color: "red",
+  //     isPM: false,
+  //     vote: 0,
+  //   },
+  // ];
 
   // プレイヤーとミッションのサンプルデータ
   const missionContent0 = { mission: "文字列\n'int0'\nを含めろ！", arg: "int" };
@@ -36,49 +84,35 @@ export const Vote = () => {
     answerCode: "bbbbbbbbbbbbb",
   };
 
-  const missionContent3 = { mission: "文字列\n'int3'\nを含めろ！", arg: "int" };
-  const missionContent4 = { mission: "文字列\n'int4'\nを含めろ！", arg: "int" };
-  const missionContent5 = { mission: "文字列\n'int5'\nを含めろ！", arg: "int" };
 
-  let missions = [missionContent1, missionContent2, missionContent3, missionContent4, missionContent5];
-  missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4, missionContent5];
-  missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4, missionContent5];
-  missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4, missionContent5];
-  missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4, missionContent5];
+  //   const game = {
+  //     gameId: "1234",
+  //     questionId: questionObject.questionId,
+  //     questionText: questionObject.questionText,
+  //     initialCode: questionObject.initialCode,
+  //     answerCode: questionObject.answerCode,
+  //     initialplayers: initialPlayers,
+  //     players: initialPlayers, //変更予定
+  //     presentPlayer: 0,
+  //     editor: questionObject.initialCode,
+  //     missions: [],
+  //     nextMissionIndex: 0,
+  //     presentDay: 1,
+  //     maxDay: 4,
+  //     gamePhase: "night",
+  //     presentCodingTurn: 1,
+  //     maxCodingTurn: 2,
+  //     codingMaxStringNum: 2000,
+  //     codingMaxTime: 60,
+  //     meetingmaxTime: 120,
+  //     isRandom: false
+  // }
 
-  const gameObject = {
-    gameId: "1234",
-    questionId: questionObject.questionId,
-    questionText: questionObject.questionText,
-    initialCode: questionObject.initialCode,
-    answerCode: questionObject.answerCode,
-    initialPlayers: initialplayers,
-    players: nowplayers,
-    presentPlayer: 0,
-    editor: questionObject.initialCode,
-    editorHistory: [{ name: "初期コード", code: questionObject.initialCode }],
-    missions: missions,
-    nextMissionIndex: 0,
-    presentDay: 1,
-    maxDay: 4,
-    gamePhase: "night",
-    presentCodingTurn: 1,
-    maxCodingTurn: 2,
-    codingMaxStringNum: 2000,
-    codingMaxTime: 60,
-    meetingmaxTime: 120,
-    isRandom: false,
-    maxMissionNum: 3,
-    codeLanguage: "java"
-  };
-
-  const [players, setPlayers] = useState(gameObject.players || []);
-  const [selectedPlayerIndex, setSelectedPlayerIndex] = useState(null);
-
-  // スタイル定義
+  // const [players, setPlayers] = useState(game.players);
+  // const [selectedPlayerIndex, setSelectedPlayerIndex] = useState(null);
   const playerVoteContainer = css`
     width: 80%;
-    margin: 20px 10%; 
+    margin:5px 10% 5px 10%;
     min-height: 60%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -110,84 +144,74 @@ export const Vote = () => {
   
   `;
 
-  // const voteBtn = css`{
-  //   font-size: larger;
-  //   font-weight: bold;
-  //   width: 200px;
-  //   height: 80px;
-  //   position: absolute;
-  //   transform: translateX(-50%);
-  //   left:50%;
-  // }`
-  
-  // 選択されたユーザーのIDを保存する
-  const handleSelect = (player) => {
-    console.log("selectPlayer", player);
-    setSelectedPlayerIndex(player.id);
-  };
+  // //選択されたユーザーのidを保存する
+  // const handleSelect = (player) => {
+  //   setSelectedPlayerIndex(player.id);
+  // };
 
-  // 投票機能
-  const handleVote = () => {
-    if (selectedPlayerIndex !== null) {
-      // votedの値を更新し、新しいプレイヤー配列を定義
-      const updatedPlayers = players.map((player) => {
-        if (player.id === selectedPlayerIndex) {
-          return { ...player, voted: (player.voted || 0) + 1 };
-        }
-        return player;
-      });
-      // プレイヤーを新しいプレイヤー配列で更新
-      setPlayers(updatedPlayers);
-      setIsVoteUpdated(true); // 更新フラグを立てる
-      setSelectedPlayerIndex(null); // 選択を初期化
-    }
-  };
 
-  // gameObject.presentPlayerに対応するプレイヤーの名前を取得
-  const presentPlayer = gameObject.players[gameObject.presentPlayer];
-  const presentPlayerName = presentPlayer ? presentPlayer.name : null;
+  // //投票
+  // const handleVote = () => {
+  //   if (selectedPlayerIndex !== null) {
+  //     // votedの値の更新、新しいplayerの配列を定義
+  //     const updatedPlayers = players.map((player, index) => {
+  //       // 選択されたプレイヤーのvotedを更新
+  //       if (player.id === selectedPlayerIndex) {
+  //         return { ...player, voted: player.voted + 1 };
+  //       }
+  //       return player;
+  //     });
 
-  // playersの状態が更新された後に実行する処理
-  useEffect(() => {
-    if (isVoteUpdated) {
-      // presentPlayerの値を更新
-      gameObject.presentPlayer += 1;
-      if (players.length > gameObject.presentPlayer) {
-        // players.length > presentPlayerなら/vote
-        navigate("/vote", { state: gameObject }); // 更新が完了した後に遷移
-      } else {
-        // players.length < presentPlayerなら/voteResult
-        navigate("/voteResult", { state: gameObject }); // 更新が完了した後に遷移
-      }
-  }
-  }, [isVoteUpdated, players.length, gameObject.presentPlayer, navigate, gameObject]);
-  // console.log("gameObject.players", gameObject.players);
+  //     console.log("updatedPlayers", updatedPlayers)
+  //     // プレイヤーを新しいプレイヤーに更新
+  //     setPlayers(updatedPlayers);
+  //     setIsVoteUpdated(true);//更新フラグを立てる
+  //     setSelectedPlayerIndex(null); // 選択を初期化する
+  //   }
+  // };
+
+  // // playersの状態が更新された後に実行する処理
+  // useEffect(() => {
+  //   if (isVoteUpdated) {
+  //     //presentPlayerの値を更新
+  //     game.presentPlayer += 1;
+  //     if (players.length > presentPlayer) {
+  //       //players.length > presentPlayerなら/vote
+  //       navigate("/vote", { state: game }); // 更新が完了した後に遷移する
+
+  //     } else {
+  //       //players.length < presentPlayerなら/voteResult
+  //       navigate("/voteResult", { state: game }); // 更新が完了した後に遷移する
+
+  //     }
+
+  //     // 状態更新後のプレイヤーの状態
+  //     console.log("Players after setPlayers: ", players);
+
+  //   }
+  // }, [players, isVoteUpdated, navigate, game]);
+
+
+  // game.presentPlayer に対応する player.name を取得
+  // const presentPlayer = game.players[game.presentPlayer];
+  // const presentPlayerName = presentPlayer ? presentPlayer.name : null;
+
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
-    // 二回マウントされるのを防ぐための指定
-    let ignore = false;
     const showConfirmationDialog = async () => {
-      const confirmed = window.confirm(`${presentPlayerName}さんですか？`);
-      if (confirmed) {
-        setIsConfirmed(true);
-      } else {
+      const confirmed = window.confirm(`${gameObject.players[gameObject.presentPlayer].name}さんですか？`);
+      if (!confirmed) {
         showConfirmationDialog();
       }
     };
-
-    if (!ignore) {
-      showConfirmationDialog();
-    }
-    return () => {
-      ignore = true;
-    };
-  }, [presentPlayerName]);
+    showConfirmationDialog();
+  }, []);
 
   return (
     <div className="container">
       <GameHedder gameObject={gameObject} />
 
-      <div className="main-content">
+      {/*<div className="main-content">
         {isConfirmed ? (
           <div className="text-center-content">
             <h2>{presentPlayerName}さん、人狼だと思う人に投票してください</h2>
@@ -226,11 +250,77 @@ export const Vote = () => {
                 <>選択<br />してください</>) : ("投票")}
             </button>
           </div>
-        ) : (
+        ) : ( */}
+
+      {/* <div className="header">
+        <div className="day-indicator">
+          <h1>Day {game.presentDay}</h1>
+          <p>{game.gamePhase}</p>
+        </div>
+        <div className="players-container">
+          {game.players.map((player, index) => (
+            <div className="player" key={index} id={`player${index}`}>
+              {player.name}
+            </div>
+          ))}
+        </div>
+        <div className="timer">
+          <p id="timer">16秒</p>
+        </div>
+      </div> */}
+
+
+      <div className="main-content">
+        {/* {isConfirmed ? ( */}
+        <div className="text-center-content">
+          <h2>{gameObject.players[gameObject.presentPlayer].name}さん、人狼だと思う人に投票してください</h2>
+          <br />
+          <br />
+          <div css={playerVoteContainer}>
+            {gameObject.players.map(
+              (player, index) =>
+                player.id !== gameObject.players[gameObject.presentPlayer].id && ( //現在のプレイヤーを表示しない条件
+                  <div css={voteItem} key={index}>
+                    <div
+                      className="player"
+                      key={index}
+                      id={player.id}
+                    ></div>
+                    <p>{player.name}</p>
+                    <button
+                      className={`btn-group, vote-item-btn, ${player.id === selectedPlayerIndex ? "selected" : "select"
+                        }`}
+                      onClick={() => handleSelect(player)}
+                    >
+                      {player.id === selectedPlayerIndex ? "選択中" : "選択"}
+                    </button>
+                  </div>
+                )
+            )}
+          </div>
+          <br /><br />
+          <button
+            className="submit btn-group vote-btn"
+            onClick={handleVote}
+            disabled={selectedPlayerIndex === null}
+          >
+            {selectedPlayerIndex === null ? (
+              <>
+                選択
+                <br />
+                してください
+              </>
+            ) : (
+              "投票"
+            )}
+          </button>
+        </div>
+        {/*) : (
           <div>
             <h2 css={loadingMessage}>確認中...</h2>
           </div>
-        )}
+        )}*/}
+
       </div>
     </div>
   );

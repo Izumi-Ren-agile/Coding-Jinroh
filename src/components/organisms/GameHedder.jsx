@@ -17,11 +17,12 @@ export const GameHedder = (props) => {
         switch (gamePhase) {
             case 'night':
                 return {
-                    phaseText: "コーディングフェーズ",
+                    phaseText: `コーディングフェーズ${gameObject.presentCodingTurn}`,
                     backgroundColor: '#526D82',
                     textColor: '#ede4dd',
                     missions: gameObject.players[gameObject.presentPlayer].yourMission,
                     gameDescription: `${gameObject.players[gameObject.presentPlayer].name}さんのターン`,
+                    maxTime: gameObject.codingMaxTime,
                     isButton: true,
                     buttonText: "次の人へ"
                 };
@@ -32,6 +33,7 @@ export const GameHedder = (props) => {
                     textColor: "#526D82",
                     missions: [],
                     gameDescription: "人狼を見つけよう",
+                    maxTime: gameObject.meetingmaxTime,
                     isButton: true,
                     buttonText: "会議を終える"
                 };
@@ -42,6 +44,7 @@ export const GameHedder = (props) => {
                     textColor: '#ede4dd',
                     missions: [],
                     gameDescription: "役職を確認しよう",
+                    maxTime: 30,
                     isButton: false,
                     buttonText: "次の人へ"
                 };
@@ -90,7 +93,7 @@ export const GameHedder = (props) => {
 `
     const phaseIndicatorStyle = css`
     ${textStyle}
-    font-size: 23px;
+    font-size: 20px;
     font-weight: bold;
     margin-top: -20px;
 `
