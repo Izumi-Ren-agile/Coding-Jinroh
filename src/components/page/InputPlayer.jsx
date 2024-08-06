@@ -6,36 +6,11 @@ import { SelectData } from "../database/SelectData";
 import NonhookCountData from "../database/NonhookCountData";
 
 export const InputPlayer = () => {
-  const [isToConfirm, setIsToConfirm] = useState(false);
-  const [players, setPlayers] = useState([]);
   const [gameObject, setGameObject] = useState({ property: "default" });
-  const [flagOfCreateGameObject, setFlagOfGameObject] = useState(false);
-  const [initialGameObject, setInitialGameObject] = useState({});
-
   const navigate = useNavigate();
   const handleConfirmPlayer = () => {
-    navigate("/confirmPlayerPage", { state: players });
+    navigate("/confirmPlayerPage");
   };
-  //画面遷移のためのuseEffect
-  useEffect(() => {
-    if (isToConfirm) {
-      handleConfirmPlayer();
-    }
-    localStorage.setItem("gameObject", JSON.stringify({ test: "test" }));
-    console.log("どうも" + localStorage.getItem("gameObject"));
-  }, [players]);
-
-  //ゲームオブジェクト作成
-  useEffect(() => {
-    if (flagOfCreateGameObject === true) {
-      setInitialGameObject(createGameObject(players));
-      console.log(
-        "useEffectによるゲームオブジェクトの作成:",
-        initialGameObject
-      );
-      //setFlagOfGameObject(false);
-    }
-  }, [flagOfCreateGameObject]);
 
   const gameObjectfileRead = () => {
     fetch("/read-gameObject")
@@ -105,6 +80,7 @@ export const InputPlayer = () => {
                 const gameObject = await createGameObject(players);
                 console.log("ゲームオブジェクトは作れているよね？",gameObject);
                 await gameObjectfileWrite(gameObject);
+                console.log("終わってっか？？");
                 handleConfirmPlayer();
               }}
             >
@@ -233,8 +209,8 @@ export const returnRandomIndex = (min, max, howMany) => {
   return indexies.sort(compareFunc);
 };
 
-export const gameObjectfileWrite = (object) => {
-  fetch("/write-gameObject", {
+export const gameObjectfileWrite = async (object) => {
+  await fetch("/write-gameObject", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

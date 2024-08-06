@@ -35,28 +35,32 @@ app.use(
 );
 app.use(bodyParser.json());
 
-app.post("/write-gameObject", (req, res) => {
-  const data = JSON.stringify(req.body);
-  console.log("データの把握:", req.body);
-  fs.writeFile("gameObject.json", data, (err) => {
-    if (err) {
-      res.status(500).send("Error writing file");
-    } else {
-      res.send("File written successfully");
-    }
-  });
+app.post("/write-gameObject", async (req, res) => {
+  // const data = JSON.stringify(req.body);
+  // console.log("データの把握:", req.body);
+  // fs.writeFile("gameObject.json", data, (err) => {
+  //   if (err) {
+  //     res.status(500).send("Error writing file");
+  //   } else {
+  //     res.send("File written successfully");
+  //   }
+  // });
+  await setData("GAMEOBJECT", "gameObject", req.body);
+  res.send("File written successfully");
 });
 
-app.get("/read-gameObject", (req, res) => {
-  fs.readFile("gameObject.json", "utf8", (err, data) => {
-    if (err) {
-      return res
-        .status(500)
-        .send("ゲームオブジェクトの読み取りエラーが発生しました");
-    } else {
-      return res.status(200).json(JSON.parse(data));
-    }
-  });
+app.get("/read-gameObject", async (req, res) => {
+  // fs.readFile("gameObject.json", "utf8", (err, data) => {
+  //   if (err) {
+  //     return res
+  //       .status(500)
+  //       .send("ゲームオブジェクトの読み取りエラーが発生しました");
+  //   } else {
+  //     return res.status(200).json(JSON.parse(data));
+  //   }
+  // });
+  const data=await readData2("GAMEOBJECT", "gameObject");
+  return res.status(200).json(data);
 });
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -98,16 +102,25 @@ app.post("/read-data", async (req, res) => {
   return res.status(200).json(data);
 });
 
-//データの読み取り
+//データの読み取り,フィールド単位
 const readData = async (collectionId, documentId, field) => {
   const snapshot = await db.collection(collectionId).get();
   const data = snapshot.docs
     .filter((doc) => doc.id === documentId)
     .map((doc) => doc.data());
-  const f=data.map((col, index) => {
+  const f = data.map((col, index) => {
     return col[field];
   });
   return f[0];
+};
+
+//データの読み取り,ドキュメント単位
+const readData2 = async (collectionId, documentId) => {
+  const snapshot = await db.collection(collectionId).get();
+  const data = snapshot.docs
+    .filter((doc) => doc.id === documentId)
+    .map((doc) => doc.data());
+  return data[0];
 };
 
 //データのカウント
@@ -125,17 +138,17 @@ const createGameObject = async (Players) => {
 
   //クエスチョンIDの設定
   const qDbId = "QUESTION_CONTENT";
-  const questionIdArray=returnRandomIndex(1, await countData(qDbId), 1);
+  const questionIdArray = returnRandomIndex(1, await countData(qDbId), 1);
   const questionId = questionIdArray[0];
 
   //クエスチョンテキストの取得
-  const questionText = await readData(qDbId, questionId+"", "question");
+  const questionText = await readData(qDbId, questionId + "", "question");
 
   //初期に入力されているコードの取得
-  const initialCode = await readData(qDbId, questionId+"", "inicialCode"); //inicialはinitialのスペルミス。本当にこれでデータベースに保存されているので気にする必要なし
+  const initialCode = await readData(qDbId, questionId + "", "inicialCode"); //inicialはinitialのスペルミス。本当にこれでデータベースに保存されているので気にする必要なし
 
   //答えのコードの取得
-  const answerCode = await readData(qDbId, questionId+"", "answerCode");
+  const answerCode = await readData(qDbId, questionId + "", "answerCode");
 
   //最初のプレイヤーたち
   const initialPlayers = Players;
@@ -202,7 +215,7 @@ const createGameObject = async (Players) => {
   const codeLanguage = "java";
 
   //現在のターンが始まった時間
-  const startingTurn=0;
+  const startingTurn = 0;
 
   //ゲームオブジェクト
   const gameObject = {
@@ -235,13 +248,13 @@ const createGameObject = async (Players) => {
 };
 
 //ゲームオブジェクト作成API
-app.post("/create-gameObject",async(req,res)=>{
-  const players=req.body.players;
+app.post("/create-gameObject", async (req, res) => {
+  const players = req.body.players;
   //console.log("pureiya-zu watashi",players);
-  const gameObject=await createGameObject(players);
+  const gameObject = await createGameObject(players);
   //console.log("ゲームオブジェクト作れてる？",gameObject);
   return res.status(200).json(gameObject);
-})
+});
 
 //ランダムな整数を返す
 const returnRandomIndex = (min, max, howMany) => {
@@ -256,7 +269,7 @@ const returnRandomIndex = (min, max, howMany) => {
   const compareFunc = (a, b) => {
     return a - b;
   };
-  if(howMany===1){
+  if (howMany === 1) {
     return indexies[0];
   }
   return indexies.sort(compareFunc);
