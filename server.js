@@ -37,31 +37,31 @@ app.use(
 app.use(bodyParser.json());
 
 app.post("/write-gameObject", async (req, res) => {
-  // const data = JSON.stringify(req.body);
-  // console.log("データの把握:", req.body);
-  // fs.writeFile("gameObject.json", data, (err) => {
-  //   if (err) {
-  //     res.status(500).send("Error writing file");
-  //   } else {
-  //     res.send("File written successfully");
-  //   }
-  // });
-  await setData("GAMEOBJECT", "gameObject", req.body);
-  res.send("File written successfully");
+  const data = JSON.stringify(req.body);
+  console.log("データの把握:", req.body);
+  fs.writeFile("gameObject.json", data, (err) => {
+    if (err) {
+      res.status(500).send("Error writing file");
+    } else {
+      res.send("File written successfully");
+    }
+  });
+  // await setData("GAMEOBJECT", "gameObject", req.body);
+  // res.send("File written successfully");
 });
 
 app.get("/read-gameObject", async (req, res) => {
-  // fs.readFile("gameObject.json", "utf8", (err, data) => {
-  //   if (err) {
-  //     return res
-  //       .status(500)
-  //       .send("ゲームオブジェクトの読み取りエラーが発生しました");
-  //   } else {
-  //     return res.status(200).json(JSON.parse(data));
-  //   }
-  // });
-  const data = await readData2("GAMEOBJECT", "gameObject");
-  return res.status(200).json(data);
+  fs.readFile("gameObject.json", "utf8", (err, data) => {
+    if (err) {
+      return res
+        .status(500)
+        .send("ゲームオブジェクトの読み取りエラーが発生しました");
+    } else {
+      return res.status(200).json(JSON.parse(data));
+    }
+  });
+  // const data=await readData2("GAMEOBJECT", "gameObject");
+  // return res.status(200).json(data);
 });
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -194,7 +194,7 @@ const createGameObject = async (Players) => {
   const presentDay = 1;
 
   //マックスの日数
-  const maxDay = 4;
+  const maxDay = 5;
 
   //ゲームフェイズ
   const gamePhase = "confirmRole";
@@ -224,7 +224,7 @@ const createGameObject = async (Players) => {
   const codeLanguage = "java";
 
   //現在のターンが始まった時間
-  const startingTurn = 0;
+  const startingTurn = Math.floor(Date.now() / 1000);;
 
   //ゲームの結果
   const gameResult = "draw";

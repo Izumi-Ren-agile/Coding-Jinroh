@@ -39,7 +39,7 @@ export const Project = (props) => {
         <div css={projectStyle}>
             <Tag secondText={""}>プロジェクト</Tag>
             <div css={projectContainerStyle}>
-                <p css={projectTextStyle}>〇〇君<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{question}<br /><br />よろしく頼む。<br /><br />〇〇課長</p>
+                <p css={projectTextStyle}>各位<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{question}<br /><br />よろしく頼む。<br /><br />偉井上長</p>
             </div>
         </div>
     );

@@ -1,12 +1,38 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Button } from "antd";
+import { TimerMol } from "../molecules/TimerMol";
 
 export const GameHeader = (props) => {
-    let { gameObject, handleFinishTurn = () => {} } = props;
+    let { gameObject, handleFinishTurn = () => { } } = props;
 
     const thisPhaseCalc = (gamePhase) => {
         switch (gamePhase) {
+            case 'confirmRole':
+                return {
+                    phaseText: "役職確認フェーズ",
+                    backgroundColor: '#526D82',
+                    textColor: '#ede4dd',
+                    missions: [],
+                    gameDescription: "役職を確認しよう",
+                    isTimer: true,
+                    startTime: gameObject.startingTurn,
+                    maxTime: 30,
+                    isButton: true,
+                    buttonText: "次の人へ"
+                };
+            case 'question':
+                return {
+                    phaseText: "問題確認フェーズ",
+                    backgroundColor: '#526D82',
+                    textColor: '#ede4dd',
+                    missions: [],
+                    gameDescription: "問題を確認しよう",
+                    isTimer: true,
+                    startTime: gameObject.startingTurn,
+                    maxTime: 60,
+                    isButton: false,
+                    buttonText: "次の人へ"
+                };
             case 'night':
                 return {
                     phaseText: `コーディングフェーズ${gameObject.presentCodingTurn}`,
@@ -14,6 +40,8 @@ export const GameHeader = (props) => {
                     textColor: '#ede4dd',
                     missions: gameObject.players[gameObject.presentPlayer].yourMission,
                     gameDescription: `${gameObject.players[gameObject.presentPlayer].name}さんのターン`,
+                    isTimer: true,
+                    startTime: gameObject.startingTurn,
                     maxTime: gameObject.codingMaxTime,
                     isButton: true,
                     buttonText: "次の人へ"
@@ -25,28 +53,32 @@ export const GameHeader = (props) => {
                     textColor: "#526D82",
                     missions: [],
                     gameDescription: "人狼を見つけよう",
+                    isTimer: true,
+                    startTime: gameObject.startingTurn,
                     maxTime: gameObject.meetingmaxTime,
                     isButton: true,
                     buttonText: "会議を終える"
                 };
-            case 'confirmRole':
+            case 'vote':
                 return {
-                    phaseText: "役職確認フェーズ",
+                    phaseText: "投票フェーズ",
                     backgroundColor: '#526D82',
                     textColor: '#ede4dd',
                     missions: [],
-                    gameDescription: "役職を確認しよう",
+                    gameDescription: "怪しい人に投票しよう",
+                    isTimer: true,
+                    startTime: gameObject.startingTurn,
                     maxTime: 30,
                     isButton: false,
                     buttonText: "次の人へ"
                 };
             default:
-                return {missions: []};
+                return { missions: [] };
         }
     }
 
-    const thisPhase = thisPhaseCalc(gameObject.gamePhase);
-    console.log(thisPhase)
+    const headerInf = thisPhaseCalc(gameObject.gamePhase);
+    console.log(headerInf)
 
     const hedderContainerStyle = css`
     display: flex;
@@ -77,7 +109,7 @@ export const GameHeader = (props) => {
     flex-direction: column;
 `
     const textStyle = css`
-    color: ${thisPhase.textColor};
+    color: ${headerInf.textColor};
 `
     const dayIndicatorStyle = css`
     ${textStyle}
@@ -163,7 +195,7 @@ export const GameHeader = (props) => {
             <div css={hedderLeftStyle}>
                 <div css={dayIndicatorContainerStyle}>
                     <h1 css={dayIndicatorStyle}>Day{gameObject.presentDay}</h1>
-                    <p css={phaseIndicatorStyle}>{thisPhase.phaseText}</p>
+                    <p css={phaseIndicatorStyle}>{headerInf.phaseText}</p>
                 </div>
                 <div css={playersContainerStyle}>
                     {gameObject.players.map((player, index) => (
@@ -172,17 +204,18 @@ export const GameHeader = (props) => {
                 </div>
             </div>
             <div css={hedderRightStyle}>
-                {thisPhase.missions.map((missionObject) => (
+                {headerInf.missions.map((missionObject) => (
                     <div css={missionStyle}>
                         <p css={missionTextStyle}>MISSION</p>
-                        <p css={missionContentStyle}>{missionObject.mission.replace(/\\n/g,'\n')}</p>
+                        <p css={missionContentStyle}>{missionObject.mission.replace(/\\n/g, '\n')}</p>
                     </div>
                 ))}
-                <div css={timerStyle}>
+                <TimerMol startTime={headerInf.startTime} duration={headerInf.maxTime} handleFinishTurn={handleFinishTurn} gameDescription={headerInf.gameDescription} isButton={headerInf.isButton} isTimer={headerInf.isTimer} textStyle={textStyle} buttonText={headerInf.buttonText} />
+                {/* <div css={timerStyle} buttonText={buttonText}>
                     <p id="timer" css={timeStyle}>120秒</p>
                     <p css={playerIndicatorStyle}>{thisPhase.gameDescription}</p>
                     <Button type="primary" onClick={handleFinishTurn}>{thisPhase.buttonText}</Button>
-                </div>
+                </div> */}
             </div>
         </div>
     );

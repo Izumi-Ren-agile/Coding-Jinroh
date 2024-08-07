@@ -18,7 +18,7 @@ export const ConfirmPlayer = (props) => {
 
   return (
     <div className="container" style={{ backgroundColor: '#526D82' }}>
-      <GameHeader gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={[]} />
+      <GameHeader gameObject={gameObject} handleFinishTurn={handleFinishTurn} />
       <div style={{ flexGrow: 1, display: "flex", flexDirection: "column", justifyContent: "space-evenly", gap: "20px" }}>
         <h1>あなたの役職は...</h1>
         <Card nowPlayer={gameObject.players[gameObject.presentPlayer]} />
