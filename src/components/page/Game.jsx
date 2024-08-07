@@ -20,6 +20,9 @@ export const Game = (props) => {
   const language = gameObject.codeLanguage; // 使用するプログラミング言語を"java"に設定
   //   const [sourceCode, setSourceCode] = useState(code)
 
+  //勝敗判定
+  const [isComplete,setIsComplete]=useState(false);
+
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
     const showConfirmationDialog = async () => {
@@ -44,14 +47,15 @@ export const Game = (props) => {
   const handleRunCode = async () => {
     setLoading(true); // ローディング状態を開始
     setError(null); // エラー状態をクリア
-
+    const adjustedCode="public class Main{"+gameObject.main+code+'}';
+    console.log("調整されたコード",adjustedCode);
     try {
       const response = await fetch("/compile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ language, sourceCode: code }), // 言語とソースコードをリクエストボディに含める
+        body: JSON.stringify({ language, sourceCode: adjustedCode }), // 言語とソースコードをリクエストボディに含める
       });
 
       if (!response.ok) {
