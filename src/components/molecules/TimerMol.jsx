@@ -1,19 +1,37 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { Button } from "antd";
 import React from "react";
 import Timer from "../atom/TimerAtom"; // 相対パスを修正
 
-const TimerWrapperAtom = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background: #f4f4f4;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-`;
 
-const ButtonAtom = css`
+
+export const TimerMol = (props) => {
+  const {
+    startTime,
+    duration,
+    handleFinishTurn,
+    gameDescription,
+    isButton,
+    isTimer,
+    buttonText,
+    textStyle
+  } = props;
+
+  const timerStyle = css`
+align-items: center;
+padding: 20px;
+border: 5px solid #e0e0e0;
+border-radius: 5px;
+text-align: center;
+font-size: 18px;
+right: 0; /* 右端に配置 */
+top: 0; /* ヘッダー内で上に配置 */
+width: 200px;
+height: 100%;
+`
+
+  const ButtonAtom = css`
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
@@ -27,58 +45,51 @@ const ButtonAtom = css`
   }
 `;
 
-const gamePhaseStyle = css`
+  const gamePhaseStyle = css`
   font-size: 13px;
   font-weight: bold;
   color: #666;
   margin-bottom: 10px;
 `;
+  const playerIndicatorStyle = css`
+${textStyle}
+font-size: 13px;
+font-weight: bold;
+text-align: center;
+margin-bottom: 10px;
+`
 
-const TimerMol = ({
-  startTime,
-  duration,
-  handleFinishTurn,
-  gamePhase,
-  gameDescription,
-}) => {
-  const handleButtonClick = () => {
-    handleFinishTurn();
-  };
-
-  const showTimer = startTime && duration;
-  const showDescription = gameDescription;
-  const showButton = gamePhase => {
-    return (
-      //ゲームフェーズの分岐を行っていますStringで分岐させているので、事前に適切なStringを入力してください。
-      //ここではボタンを表示したい画面の値を入力させます。
-      gamePhase === "night" ||
-      gamePhase === "day" ||
-      gamePhase === "confirm" ||
-      gamePhase === "vote"
-    );
-  };
+  // const showTimer = startTime && duration;
+  // const showDescription = gameDescription;
+  // const showButton = gamePhase => {
+  //   return (
+  //     //ゲームフェーズの分岐を行っていますStringで分岐させているので、事前に適切なStringを入力してください。
+  //     //ここではボタンを表示したい画面の値を入力させます。
+  //     gamePhase === "night" ||
+  //     gamePhase === "day" ||
+  //     gamePhase === "confirm" ||
+  //     gamePhase === "vote"
+  //   );
+  // };
 
   return (
-    <div css={TimerWrapperAtom}>
-      {showTimer && (
+    <div css={timerStyle}>
+      {isTimer && (
         <Timer
           startTime={startTime}
           duration={duration}
           handleFinishTurn={handleFinishTurn}
+          textStyle={textStyle}
         />
       )}
-      {showDescription && (
-        <div css={gamePhaseStyle}>
-          {gamePhase}
-        </div>
-      )}
-      {showButton(gamePhase) && (
-        <button css={ButtonAtom} onClick={handleButtonClick}>
-          Finish Turn
-        </button>
+      <div css={playerIndicatorStyle}>
+        {gameDescription}
+      </div>
+      {isButton && (
+        <Button type="primary" onClick={handleFinishTurn}>
+          {buttonText}
+        </Button>
       )}
     </div>
   );
 };
-
-export default TimerMol;

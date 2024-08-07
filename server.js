@@ -191,7 +191,7 @@ const createGameObject = async (Players) => {
   const maxDay = 4;
 
   //ゲームフェイズ
-  const gamePhase = "night";
+  const gamePhase = "confirmRole";
 
   //現在のコーディングターン（コーディングはDay一つにつき複数回行われる）
   const presentCodingTurn = 1;
@@ -218,7 +218,7 @@ const createGameObject = async (Players) => {
   const codeLanguage = "java";
 
   //現在のターンが始まった時間
-  const startingTurn = 0;
+  const startingTurn = Math.floor(Date.now() / 1000);;
 
   //ゲームの結果
   const gameResult="draw";

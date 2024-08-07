@@ -104,19 +104,23 @@ export const GamePage = () => {
 
     if (gameObject.presentPlayer < gameObject.players.length - 1) {
       gameObject.presentPlayer++;
+      gameObject.startingTurn = Math.floor(Date.now() / 1000);
       await gameObjectfileWrite(gameObject); //書き込み
     } else {
       if (gameObject.presentCodingTurn < gameObject.maxCodingTurn) {
         gameObject.presentPlayer = 0;
         gameObject.presentCodingTurn++;
+        gameObject.startingTurn = Math.floor(Date.now() / 1000);
         await gameObjectfileWrite(gameObject); //書き込み
       } else {
         if (gameObject.gamePhase === "night") {
           gameObject.gamePhase = "daytime";
+          gameObject.startingTurn = Math.floor(Date.now() / 1000);
           await gameObjectfileWrite(gameObject); //書き込み
         } else {
           gameObject.presentPlayer = 0;
           gameObject.gamePhase = "vote";
+          gameObject.startingTurn = Math.floor(Date.now() / 1000);
           await gameObjectfileWrite(gameObject); //書き込み
           navigate("/votePage");
         }

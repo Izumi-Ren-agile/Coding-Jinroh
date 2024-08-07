@@ -17,12 +17,7 @@ const timerStyle = css`
     background-color: #fff; /* 背景色を追加 */
 `;
 
-const timeStyle = css`
-    font-size: 25px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px; /* 時間と他の要素との間隔を追加 */
-`;
+
 
 // Phase Style の追加
 const phaseStyle = css`
@@ -33,7 +28,15 @@ const phaseStyle = css`
 `;
 
 // Timer コンポーネント
-const TimerAtom = ({ startTime, duration, handleFinishTurn, gamePhase }) => {
+const TimerAtom = ({ startTime, duration, handleFinishTurn, textStyle }) => {
+
+    const timeStyle = css`
+    ${textStyle}
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+    `
+
     const [remainingTime, setRemainingTime] = useState(duration);
 
     useEffect(() => {
@@ -54,9 +57,9 @@ const TimerAtom = ({ startTime, duration, handleFinishTurn, gamePhase }) => {
     }, [startTime, duration, handleFinishTurn]);
 
     return (
-        <div css={timerStyle}>
+        <>
             <p css={timeStyle}>{remainingTime > 0 ? remainingTime : 0}秒</p>
-        </div>
+        </>
     );
 };
 
