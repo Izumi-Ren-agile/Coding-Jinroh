@@ -5,9 +5,11 @@ const fetch = require("node-fetch");
  * @param {language,sourceCode} props 言語とソースコードを入力
  * @returns Sysoutの結果と、コンパイルエラーがhtmlタグに包まれて返却
  */
-const compileCode = async (language, sourceCode) => {
+const compileCode = async (language, sourceCode, input) => {
   const sourceCodeForURL = encodeURIComponent(sourceCode);
-  const urlForPost = `http://api.paiza.io:80/runners/create?source_code=${sourceCodeForURL}&language=${language}&api_key=guest`;
+  const urlForPost = input?
+  `http://api.paiza.io:80/runners/create?source_code=${sourceCodeForURL}&language=${language}&input=${input}&api_key=guest`
+:`http://api.paiza.io:80/runners/create?source_code=${sourceCodeForURL}&language=${language}&input=${input}&api_key=guest`;
 
   try {
     // コンパイルIDを取得するためのPOSTリクエスト
@@ -18,7 +20,7 @@ const compileCode = async (language, sourceCode) => {
     // コンパイルIDを使い、getでコンパイル結果を取得する関数
     const getCompiledData = async () => {
       const urlForGet = `http://api.paiza.io/runners/get_details?id=${id}&api_key=guest`;
-      console.log(urlForGet);
+      // console.log(urlForGet);
       let jsonData;
 
       //コンパイルが終わるまでurlにアクセスして結果の取得することを繰り返す

@@ -436,29 +436,66 @@ const player6 = {
 const questionObject1 = {
   questionId: "",
   questionText:
-    `以下はHiと出力されるメソッドです。
-これを、Helloと出力するメソッドに直してください。
-ヒント１：メソッドとは
-メソッドとは、内容がまとまっている処理や反復する処理など、プログラムの処理をひとつにまとめたものです。
-ヒント２："System.out.println()" を利用して実行すると、出力に()内の文字が表示されます。これを、標準出力への出力といいます。
-ヒント３：文字列
-文字列とは、文字の連続した並びのことです。”Hi”,”Hello”は文字列です。
-文字列は””(ダブルクオート)か’’（シングルクオート）で囲んで表します。`,
+    `以下の仕様を満たす countWords メソッドの作成
+    仕様：
+    ・与えられた文字列に含まれる単語の数を数えるメソッド
+    ・単語はスペースで区切られているものとする"`,
   initialCode:
-    `public class Main {
-    public static void main(String[] args) {
-    //ここにコードを入力
-        System.out.println("Hi")
-    }
+    `public class Main { public static void main(String[] args) { 
+    // テストケース 
+    System.out.println(countWords("Hello world"));// 出力: 2 
+    System.out.println(countWords("Java is fun")); // 出力: 3 
+    System.out.println(countWords(" Count the words ")); // 出力: 3
+    System.out.println(countWords("This is a test")); // 出力: 4 
+    System.out.println(countWords("OneTwoThree")); // 出力: 1 } 
     
-}`,
-  answerCode: `public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello")
-    }
-    
-}`,
+    // 与えられた文字列に含まれる単語の数を数えるメソッド 
+    public static int countWords(String str) { 
+    //ここに実装 
+    return null; } }
+`,
+  answerCode: 
+  `public class Main {     public static void main(String[] args) {         
+    // テストケース         
+    System.out.println(countWords("Hello w3orld"));             
+    // 出力: 2         
+    System.out.println(countWords("Java is fun"));             
+    // 出力: 3         
+    System.out.println(countWords(" Count the words "));       
+    // 出力: 3         
+    System.out.println(countWords("This is a test"));          
+    // 出力: 4         
+    System.out.println(countWords("OneTwoThree"));             
+    // 出力: 1     }      
+    // 与えられた文字列に含まれる単語の数を数えるメソッド     
+    public static int countWords(String str) {         
+    // 文字列がnullまたは空の場合、単語数は0         
+    if (str == null || str.isEmpty()) {             
+    return 0; 
+            }                  
+    // 文字列をトリムして前後の空白を取り除く         
+    str = str.trim();          
+    // 文字列が再び空の場合（空白のみの文字列だった場合）、単語数は0
+    if (str.isEmpty()) {             
+    return 0;         }                  
+    // 文字列をスペースで分割して単語の配列を作成         
+    String[] words = str.split("\\s+");          
+    // 配列の長さを返す（これが単語数になる）         
+    return words.length;     } }`,
+    verificationInOut:{
+      input1:"Hello world",
+      input2:"Java is fun ",
+      input3:" Count the words ",
+      input4:"This is a test",
+      input5:"OneTwoThree",
+      output1:"2",
+      output2:"3",
+      output3:"3",
+      output4:"3",
+      output5:"1"
+  }
 };
+
 
 const players = [player1, player2, player3];
 
@@ -533,6 +570,7 @@ const dummyGameObject = {
   questionText: questionObject1.questionText,
   initialCode: questionObject1.initialCode,
   answerCode: questionObject1.answerCode,
+  verificationInOut:questionObject1.verificationInOut,
   initialPlayers: players,
   players: players,
   presentPlayer: 0,

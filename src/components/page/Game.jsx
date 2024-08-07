@@ -11,7 +11,7 @@ import { TabsOfCodeEditor } from "../molecules/TabsOfCodeEditor";
 
 export const Game = (props) => {
   const { gameObject, handleFinishTurn, code, handleChange } = props;
-  console.log("initialcode",code);
+
   const [compiledCode, setCompiledCode] = useState("");
   const [stdout, setStdout] = useState(null); // コンパイルの標準出力
   const [buildStderr, setBuildStderr] = useState(null); // コンパイルのエラーメッセージ
@@ -62,8 +62,7 @@ export const Game = (props) => {
       }
 
       const result = await response.json(); // レスポンスをJSONとして解析
-      console.log(result)
-      console.log(code)
+
       setStdout(result.stdout); // 標準出力を設定
       setBuildStderr(result.buildStderr); // エラーメッセージを設定
 
@@ -74,7 +73,7 @@ export const Game = (props) => {
     }
   };
 
-
+  console.log("I/O",gameObject.verificationInOut);
   return (
     // <div className="container" style={{ backgroundColor: gameObject.gamePhase === "night" ? '#526D82' : '#ede4dd' }}>
     //     <GameHeader gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={gameObject.players[gameObject.presentPlayer].yourMission} />
