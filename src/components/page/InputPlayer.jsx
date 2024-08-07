@@ -77,8 +77,9 @@ export const InputPlayer = () => {
               id="submit-button"
               onClick={async () => {
                 const players = playerCalc();
-                const gameObject = await createGameObject(players);
-                console.log("ゲームオブジェクトは作れているよね？", gameObject);
+                // const gameObject = await createGameObject(players);
+                // console.log("ゲームオブジェクトは作れているよね？", gameObject);
+                const gameObject = await createDummyGameObject(players);
                 await gameObjectfileWrite(gameObject);
                 console.log("終わってっか？？");
                 handleConfirmPlayer();
@@ -276,4 +277,145 @@ export const createGameObject = async (Players) => {
     .catch((error) => console.error("Error:", error));
 
   return JSON.parse(returnGameObject);
+};
+
+/*-------------------------------------------------------------------------------*/
+
+//ゲームオブジェクトの作成
+const createDummyGameObject = async (Players) => {
+  //gameId
+  const gameId = new Date().toString();
+
+  //クエスチョンIDの設定
+  const questionId = "1234";
+
+  //クエスチョンテキストの取得
+  const questionText = "文字列に含まれる単語数を数える countWords メソッドの作成\n 仕様\n引数1:String\n戻り値:int\nなお、ここでは単語を下記のように定義します。- \n・連続する文字の集まり- \n・他の連続する文字の集まりと半角空白で隔てられている- \n・構成要素として半角空白と全角空白を含まない\n例えば、”Hello World”という文字列に含まれる単語は「Hello」と「World」の二つです。”HelloWorld”の場合、含まれる単語は「HelloWorld」一つだけとなります。\n\nmainメソッドでcountWordsメソッドが呼びだされ正誤判定がされます。すべての正誤判定が○になるよう、countWordsメソッドを編集してください。なお、mainメソッドを編集することはできません。";
+
+  //初期に入力されているコードの取得
+  const main = "public static void main(String[] args){\n\t//正誤判定1\n\tSystem.out.println(”入力1:Hello World”);\n\tSystem.out.println(”期待出力1:2”);\n\tSystem.out.println(”実際の出力1:”+countWords(”Hello World”));\n\tSystem.out.println(”正誤1:”+countWords(”Hello World”)==2?○:×);\n\n\t//正誤判定2\n\tSystem.out.println(”入力2:Java is fan”);\n\tSystem.out.println(”期待出力2:3”);\n\tSystem.out.println(”実際の出力2:”+countWords(”Java is fan”));\n\tSystem.out.println(”正誤2:”+countWords(”Java is fan”)==3?○:×);\n\n\t//正誤判定3\n\tSystem.out.println(”入力3: Count the words”);\n\tSystem.out.println(”期待出力3:3”);\n\tSystem.out.println(”実際の出力3:”+countWords(” Count the words”));\n\tSystem.out.println(”正誤3:”+countWords(” Count the words”)==3?○:×);\n\n\t//正誤判定4\n\tSystem.out.println(”入力4:This   is a  test”);\n\tSystem.out.println(”期待出力4:4”);\n\tSystem.out.println(”実際の出力4:”+countWords(”This   is a  test”));\n\tSystem.out.println(”正誤4:”+countWords(”This   is a  test”)==4?○:×);\n\n\t//正誤判定5\n\tSystem.out.println(”入力5:OneTwoThree”);\n\tSystem.out.println(”期待出力5:1”);\n\tSystem.out.println(”実際の出力5:”+countWords(”OneTwoThree”));\n\tSystem.out.println(”正誤5:”+countWords(”OneTwoThree”)==1?○:×);\n}"
+
+  const initialCode = "public int countWords(String str){\n\t\n}";
+
+  //答えのコードの取得
+  const answerCode = 'public int countWords(String str){\n\t// 文字列がnullまたは空の場合、単語数は0 \n\tif (str == null || str.isEmpty()) { \n\t\treturn 0;\n\t} \n\t// 文字列をトリムして前後の空白を取り除く\n\tstr = str.trim(); \n\t// 文字列が再び空の場合（空白のみの文字列だった場合）、単語数は0 \n\tif (str.isEmpty()) { \n\t\treturn 0;\n\t} \n\t// 文字列をスペースで分割して単語の配列を作成\n\tString[] words = str.split("\\s+"); \n\t// 配列の長さを返す（これが単語数になる）\n\treturn words.length; \n}';
+
+  //最初のプレイヤーたち
+  const initialPlayers = Players;
+
+  //  プレイヤーたち
+  const players = Players;
+
+  //現在コーディング中のプレイヤー
+  const presentPlayer = 0;
+
+  //エディターに書かれたコード
+  const editor = initialCode;
+
+  //エディターヒストリー
+  const editorHistory = [{ name: "初期コード", code: initialCode }];
+
+  //ミッションの取得
+  const missionContent1 = {
+    mission: "文字列\n'int'\nを含めろ！",
+    arg: "int"
+  }
+  const missionContent2 = {
+    mission: "文字列\n'String'\nを含めろ！",
+    arg: "String"
+  }
+  const missionContent3 = {
+    mission: "文字列\n'aiueo'\nを含めろ！",
+    arg: "aiueo"
+  }
+  const missionContent4 = {
+    mission: "文字列\n'Array'\nを含めろ！",
+    arg: "Array"
+  }
+  const missionContent5 = {
+    mission: "文字列\n'soccer'\nを含めろ！",
+    arg: "soccer"
+  }
+
+  let missions = [missionContent1, missionContent2, missionContent3, missionContent4, missionContent5];
+  missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4, missionContent5];
+  missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4, missionContent5];
+  missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4, missionContent5];
+  missions = [...missions, missionContent1, missionContent2, missionContent3, missionContent4, missionContent5];
+
+  //次のミッション
+  const nextMissionIndex = 0;
+
+  //現在のゲーム内の日付（Day1,Day2,Day3...とつづくやつ）
+  const presentDay = 1;
+
+  //マックスの日数
+  const maxDay = 5;
+
+  //ゲームフェイズ
+  const gamePhase = "confirmRole";
+
+  //現在のコーディングターン（コーディングはDay一つにつき複数回行われる）
+  const presentCodingTurn = 1;
+
+  //最大のコーディングターン
+  const maxCodingTurn = 2;
+
+  //一回のコーディングで書ける最大文字数
+  const codingMaxStringNum = 2000; //実質無制限 //一回のコーディングに使える時間
+
+  //コーディングの時間制限
+  const codingMaxTime = 60; //秒
+
+  //会議に使える時間
+  const meetingmaxTime = 120; //秒
+
+  //コーディングの順番をランダムにするか
+  const isRandom = false;
+
+  //ミッションの最大数
+  const maxMissionNum = 3;
+
+  //言語
+  const codeLanguage = "java";
+
+  //現在のターンが始まった時間
+  const startingTurn = Math.floor(Date.now() / 1000);;
+
+  //ゲームの結果
+  const gameResult = "draw";
+
+  //InputとOutputのペア
+  // const verificationInOut = await readData(qDbId, questionId + "", "verificationInOut");
+
+  //ゲームオブジェクト
+  const gameObject = {
+    gameId,
+    questionId,
+    questionText,
+    initialCode,
+    answerCode,
+    initialPlayers,
+    players,
+    presentPlayer,
+    editor,
+    editorHistory,
+    missions,
+    nextMissionIndex,
+    presentDay,
+    maxDay,
+    gamePhase,
+    presentCodingTurn,
+    maxCodingTurn,
+    codingMaxStringNum,
+    codingMaxTime,
+    meetingmaxTime,
+    isRandom,
+    maxMissionNum,
+    codeLanguage,
+    startingTurn,
+    gameResult,
+    main,
+  };
+  return gameObject;
 };
