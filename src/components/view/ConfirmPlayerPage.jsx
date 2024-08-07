@@ -46,11 +46,13 @@ export const ConfirmPlayerPage = () => {
     const handleFinishTurn = async () => {
         if (gameObject.presentPlayer < gameObject.players.length - 1) {
             gameObject.presentPlayer++;
+            gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject); //書き込み
             setIsLoad(false);
         } else {
             gameObject.presentPlayer = 0;
-            gameObject.gamePhase = "night";
+            gameObject.gamePhase = "question";
+            gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject); //書き込み
             navigate('/question');
         }

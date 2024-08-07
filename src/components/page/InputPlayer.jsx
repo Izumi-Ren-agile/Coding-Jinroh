@@ -12,8 +12,8 @@ export const InputPlayer = () => {
     navigate("/confirmPlayerPage");
   };
 
-  const gameObjectfileRead = () => {
-    fetch("/read-gameObject")
+  const gameObjectfileRead = async () => {
+    await fetch("/read-gameObject")
       .then((response) => response.json())
       .then((data) => {
         if (gameObject.property === "default") {
@@ -78,7 +78,7 @@ export const InputPlayer = () => {
               onClick={async () => {
                 const players = playerCalc();
                 const gameObject = await createGameObject(players);
-                console.log("ゲームオブジェクトは作れているよね？",gameObject);
+                console.log("ゲームオブジェクトは作れているよね？", gameObject);
                 await gameObjectfileWrite(gameObject);
                 console.log("終わってっか？？");
                 handleConfirmPlayer();
@@ -108,7 +108,7 @@ export const playerCalc = () => {
       this.yourMission = [];
       this.voted = 0;
       this.imagePath = "/images/image";
-      this.solvedMission=[];
+      this.solvedMission = [];
     }
 
     setStatus(isAlive) {
@@ -272,7 +272,7 @@ export const createGameObject = async (Players) => {
     body: JSON.stringify(playersObject),
   })
     .then((response) => response.text())
-    .then((data) => returnGameObject=data)
+    .then((data) => returnGameObject = data)
     .catch((error) => console.error("Error:", error));
 
   return JSON.parse(returnGameObject);
