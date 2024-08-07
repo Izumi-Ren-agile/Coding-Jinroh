@@ -108,10 +108,11 @@ export const Game = (props) => {
       ) : (
         <Contents>
           <Content70>
+            {console.log("コードの中何入ってんの？",code)}
             <Tag secondText={"あと〇文字"}>エディター</Tag>
             {gameObject.gamePhase === "night" ? (
               <CodeEditor
-                code={code}
+                code={code/*&&code.replace(/\n/g,'\n')*/}
                 onChange={handleChange}
                 // onChange={(e) => setSourceCode(e.target.value)}
                 handleRunCode={handleRunCode}

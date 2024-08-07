@@ -4,7 +4,6 @@ const path = require("path");
 const fs = require("fs");
 const { compileCode } = require("./serverCompilerApi");
 
-
 const {
   initializeApp,
   applicationDefault,
@@ -61,7 +60,7 @@ app.get("/read-gameObject", async (req, res) => {
   //     return res.status(200).json(JSON.parse(data));
   //   }
   // });
-  const data=await readData2("GAMEOBJECT", "gameObject");
+  const data = await readData2("GAMEOBJECT", "gameObject");
   return res.status(200).json(data);
 });
 
@@ -87,12 +86,14 @@ app.post("/set-data", async (req, res) => {
     console.error("Error adding document: ", error);
     res.status(500).send("Error setting data");
   }
+  console.log("データの追加が行われました");
 });
 
 //データ追加・アップデートメソッド
 const setData = async (collectionId, documentId, object) => {
   const docRef = db.collection(collectionId).doc(documentId);
   await docRef.set(object);
+  console.log("データの追加が行われました");
 };
 
 //データの読み取り
@@ -101,6 +102,7 @@ app.post("/read-data", async (req, res) => {
   const data = snapshot.docs
     .filter((doc) => doc.id === req.body.documentId)
     .map((doc) => doc.data());
+  console.log("データの読み取りが行われました");
   return res.status(200).json(data);
 });
 
@@ -113,6 +115,7 @@ const readData = async (collectionId, documentId, field) => {
   const f = data.map((col, index) => {
     return col[field];
   });
+  console.log("データの読み取りが行われました");
   return f[0];
 };
 
@@ -122,6 +125,7 @@ const readData2 = async (collectionId, documentId) => {
   const data = snapshot.docs
     .filter((doc) => doc.id === documentId)
     .map((doc) => doc.data());
+  console.log("データの読み取りが行われました");
   return data[0];
 };
 
@@ -129,6 +133,7 @@ const readData2 = async (collectionId, documentId) => {
 const countData = async (collectionId) => {
   const snapshot = await db.collection(collectionId).get();
   const data = snapshot.docs.map((doc) => doc.data());
+  console.log("データの読み取りが行われました");
   return data.length;
 };
 /*-------------------------------------------------------------------------------*/
@@ -138,10 +143,11 @@ const createGameObject = async (Players) => {
   //gameId
   const gameId = new Date().toString();
 
-  //クエスチョンIDの設定
+  //クエスチョンIDの設定//一時的にID17の問題しか出題されないように
   const qDbId = "QUESTION_CONTENT";
   const questionIdArray = returnRandomIndex(1, await countData(qDbId), 1);
-  const questionId = questionIdArray[0];
+  //const questionId = questionIdArray[0];
+  const questionId = 17;
 
   //クエスチョンテキストの取得
   const questionText = await readData(qDbId, questionId + "", "question");
@@ -177,7 +183,7 @@ const createGameObject = async (Players) => {
   );
   const missions = [];
   for (let i = 0; i < missionIndex.length; i++) {
-    const missionObject=await readData2(mDbId,missionIndex[i]+"");
+    const missionObject = await readData2(mDbId, missionIndex[i] + "");
     missions.push(missionObject);
   }
 
@@ -191,7 +197,7 @@ const createGameObject = async (Players) => {
   const maxDay = 4;
 
   //ゲームフェイズ
-  const gamePhase = "night";
+  const gamePhase = "confirmRole";
 
   //現在のコーディングターン（コーディングはDay一つにつき複数回行われる）
   const presentCodingTurn = 1;
@@ -221,10 +227,10 @@ const createGameObject = async (Players) => {
   const startingTurn = 0;
 
   //ゲームの結果
-  const gameResult="draw";
+  const gameResult = "draw";
 
-  //InputとOutputのペア
-  const verificationInOut=await readData(qDbId, questionId + "", "verificationInOut");
+  //クエスチョンのmain
+  const main = await readData(qDbId, questionId + "", "main");
 
   //ゲームオブジェクト
   const gameObject = {
@@ -253,7 +259,7 @@ const createGameObject = async (Players) => {
     codeLanguage,
     startingTurn,
     gameResult,
-    verificationInOut
+    main,
   };
   return gameObject;
 };
