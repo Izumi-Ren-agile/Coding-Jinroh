@@ -30,8 +30,8 @@ export const GameHeader = (props) => {
                     isTimer: true,
                     startTime: gameObject.startingTurn,
                     maxTime: 60,
-                    isButton: false,
-                    buttonText: "次の人へ"
+                    isButton: true,
+                    buttonText: "ゲーム開始"
                 };
             case 'night':
                 return {
