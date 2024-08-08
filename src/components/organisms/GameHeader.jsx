@@ -205,7 +205,7 @@ export const GameHeader = (props) => {
                 </div>
                 <div css={playersContainerStyle}>
                     {gameObject.players.map((player, index) => (
-                        <div css={playerStyle} key={index} id={`player${index}`}>{player.name}</div>
+                        <div css={playerStyle} key={index} id={`player${index}`}>{player.isPM?<p>PM</p>:<></>}{player.name}</div>
                     ))}
                 </div>
             </div>

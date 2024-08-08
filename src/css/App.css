@@ -47,14 +47,14 @@ body .NightTimeBody{
     margin-bottom: 20px;
 }
 
-a{
+/* a{
     text-decoration: none;
-}
+} */
 
 .center-button{
-    width: 200px;
-    height: 80px;
-    font-size: xx-large;
+    width: 15vw;
+    height: calc(15vw*0.25);
+    font-size: x-large;
     position: absolute;
     transform: translateX(-50%);
     left: 50%;
@@ -85,10 +85,37 @@ a{
          url('../fonts/TrueType/瀞ノグリッチゴシックH3.ttf') format('truetype'),
          url('../fonts/TrueType/瀞ノグリッチゴシックH4.ttf') format('truetype');
     }
-h1{
-    text-align: center;
-     /* font-family: 'gritchfont'; */
-}
+/*!
+ * "fontname" is lisenced under the SIL Open Font License 1.1
+ * by https://flopdesign.booth.pm/items/2658538
+ */
+    
+    @font-face {
+        font-family: 'zerofont';
+        src: url('../fonts/OpenType/ZeroGothic.otf') format('opentype'),
+        }
+
+    /*!
+ *  by https://flopdesign.booth.pm/items/2658538
+ */
+    @font-face {
+        font-family: 'Kaisotai';
+        src: url('../fonts/woff2/Kaisotai-Next-UP-B.woff2') format('woff2'),
+        }
+
+
+    h1{
+        text-align: center;
+         
+    }
+    
+    .title{
+        /* font-family: 'gritchfont'; */
+        /* font-family: 'zerofont'; */
+        font-family: 'Kaisotai';
+
+        font-size:7vh;
+    }
 
 /*ゲーム画面以外のヘッダー*/
 .regular-header {
