@@ -1,35 +1,22 @@
 .text-center-content {
     width: 100%;
-    margin: auto;
+    margin:auto;
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 2.5vh;
     line-height: 120%;
     text-align: center;
     letter-spacing: -0.03em;
 }
-
-
-.message {
-    margin: 20px 0; /* 各メッセージに上下のスペースを追加 */
-}
-
-.message1 {
-    /* margin-bottom: 50px; メッセージ1とアイコンの間のスペース */
-    /* margin-top: 20px; */
-    font-size: 20px;
-}
-
-.message2 {
-    margin-top: 50px; /* アイコンとメッセージ2の間のスペース */
-    font-size: 20px;
+.message{
+    margin: 2vh auto;
 }
 
 .mail-icon {
-    width: 60%; /* サイズを調整 */
-    height: auto; /* 縦横比を保持 */
-    margin: 20px auto; /* 上下のスペースと中央揃え */
+    width: auto; /* サイズを調整 */
+    height: 50vh; /* 縦横比を保持 */
+    margin: 1vh auto; /* 上下のスペースと中央揃え */
     display: block; /* 中央揃え */
     cursor: pointer;
     transition: transform 0.2s ease;
