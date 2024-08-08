@@ -7,7 +7,7 @@ import { Buttons } from '../templates/Buttons';
 import { Button, Tabs } from "antd";
 
 export const TabsOfCodeEditor = (props) => {
-  const { editorHistory, onChange, handleRunCode } = props;
+  const { gameObject, editorHistory, onChange, handleRunCode } = props;
   const { TabPane } = Tabs;
 
   const editorBackgroundStyle = css`
@@ -30,16 +30,25 @@ export const TabsOfCodeEditor = (props) => {
   border: none; /* エディターのボーダーを取り除く */
   white-space: pre-wrap;
 `
-  console.log(editorHistory)
-
   editorHistory.map((oneOfHistory, index) => {
     console.log(oneOfHistory.name)
   })
   return (
 
-    <Tabs defaultActiveKey="1" size="small" style={{ color: "#FFF", backgroundColor: "#282c34", flexGrow: "5", padding: "0 10px", borderRadius: "5px", overflow: "auto", display: "flex", position: "relative" }}>
-      {editorHistory.map((oneOfHistory, index) => (
-        <TabPane tab={oneOfHistory.name} key={index + 3} style={{ color: "#FFF", backgroundColor: "#282c34" }}>
+    <Tabs defaultActiveKey="2" size="small" style={{ color: "#FFF", backgroundColor: "#282c34", flexGrow: "5", padding: "0 10px", borderRadius: "5px", overflow: "auto", display: "flex", position: "relative" }}>
+      <TabPane tab="メイン関数" key="1" style={{ color: "#FFF", backgroundColor: "#282c34" }}>
+        <div css={editorBackgroundStyle}>
+          <CodeMirror
+            value={gameObject.main} // 初期コード
+            extensions={[javascript()]}
+            theme={oneDark}
+            css={codeEditorStyle}
+            onChange={onChange}
+          />
+        </div>
+      </TabPane>
+      {editorHistory.reverse().map((oneOfHistory, index) => (
+        <TabPane tab={oneOfHistory.name} key={index + 2} style={{ color: "#FFF", backgroundColor: "#282c34" }}>
           <div css={editorBackgroundStyle}>
             <CodeMirror
               value={oneOfHistory.code} // 初期コード
@@ -48,16 +57,9 @@ export const TabsOfCodeEditor = (props) => {
               css={codeEditorStyle}
               onChange={onChange}
             />
-            <Buttons>
-        <Button type="primary" onClick={handleRunCode}>実行</Button>
-      </Buttons>
           </div>
         </TabPane>
       ))}
-
     </Tabs>
-
-
-
   );
 };
