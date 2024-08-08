@@ -11,33 +11,56 @@ export const GamePage = () => {
   const [code, setCode] = useState("");
   const navigate = useNavigate();
 
+  // Fetchをリトライする関数
+  const fetchWithRetry = async (url, options = {}, retries = 3, backoff = 300) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${response.statusText}`);
+        }
+        return response;
+      } catch (error) {
+        console.error(`Fetch attempt ${i + 1} failed: ${error.message}`);
+        if (i < retries - 1) {
+          await new Promise(res => setTimeout(res, backoff));
+          backoff *= 2; // Exponential backoff
+        } else {
+          throw error; // 最後のリトライで失敗した場合はエラーを投げる
+        }
+      }
+    }
+  };
+
   const gameObjectfileRead = async () => {
     console.log(gameObject);
-    await fetch("/read-gameObject")
-      .then((response) => response.json())
-      .then((data) => {
-        setGameObject(data);
-        setCode(gameObject.editor);
-        setIsLoad(true);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const response = await fetchWithRetry("/read-gameObject");
+      const data = await response.json();
+      setGameObject(data);
+      setCode(gameObject.editor);
+      setIsLoad(true);
+    } catch (error) {
+      console.error("gameObjectfileRead Error:", error);
+      // 必要に応じてここでリトライやエラーメッセージの表示を行う
+    }
   };
 
   const gameObjectfileWrite = async (object) => {
-    await fetch("/write-gameObject", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(object),
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => console.error("Error:", error));
+    try {
+      const response = await fetchWithRetry("/write-gameObject", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(object),
+      });
+      const data = await response.text();
+      console.log(data);
+    } catch (error) {
+      console.error("gameObjectfileWrite Error:", error);
+      // 必要に応じてここでリトライやエラーメッセージの表示を行う
+    }
   };
 
   /**------------------------------------------------------------------ */
@@ -69,6 +92,7 @@ export const GamePage = () => {
     }
     return returnPlayers;
   };
+
   //二つの文字列の差分（足された分）を取得する関数
   const difference = (oldString, newString) => {
     const Diff = require("diff");
@@ -122,15 +146,15 @@ export const GamePage = () => {
       gameObject.editorHistory[gameObject.editorHistory.length - 1].code;
     const newCode = code;
 
-    console.log("check OldCode:",oldCode);
-    console.log("check NewCode:",newCode);
+    console.log("check OldCode:", oldCode);
+    console.log("check NewCode:", newCode);
 
     const diff = difference(oldCode, newCode);
 
-    console.log("check 差異",diff)
-    const nowPlayer=gameObject.players[gameObject.presentPlayer];
-    console.log("ミッションに何入ってんの？",nowPlayer.yourMission[0]);
-    for (let i = 0; i<nowPlayer.yourMission.length; i++) {
+    console.log("check 差異", diff);
+    const nowPlayer = gameObject.players[gameObject.presentPlayer];
+    console.log("ミッションに何入ってんの？", nowPlayer.yourMission[0]);
+    for (let i = 0; i < nowPlayer.yourMission.length; i++) {
       if (diff.includes(nowPlayer.yourMission[i].arg)) {
         howmanyMission++;
         nowPlayer.yourMission.shift();
@@ -158,7 +182,7 @@ export const GamePage = () => {
         //プロジェクトが達成できているか、ミッション達成数を返す
         const codeCheck = async () => {
           try {
-            const response = await fetch("/compile", {
+            const response = await fetchWithRetry("/compile", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
