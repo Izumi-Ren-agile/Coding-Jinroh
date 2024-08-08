@@ -36,11 +36,6 @@ export const VoteResultPage = () => {
 
     const checkGameResult = (players) => {
         // もしコンパイル結果がアンサー通りなら
-        if (false) {
-            return "citizen";
-        } else if (gameObject.presentDay = gameObject.maxDay) {
-            return "jinroh";
-        }
 
         let jinrohCount = 0;
         let citizenCount = 0;
@@ -60,6 +55,9 @@ export const VoteResultPage = () => {
         } else if (jinrohCount === citizenCount) {
             return "jinroh";
         } else {
+            if (gameObject.presentDay === gameObject.maxDay) {
+                return "jinroh";
+            }
             return "draw";
         }
     };
@@ -75,22 +73,29 @@ export const VoteResultPage = () => {
             console.log("ゲームオブジェクト:", gameObject);
             if (!gameObject.property && !isLoad) {
 
-                // 投票数が最も多いプレイヤーを見つける
-                setExpelledPlayer(gameObject.players.reduce((max, player) => {
-                    return player.voted > max.voted ? player : max;
-                }, { voted: -1 }));
+                // voted が最も多い値を見つける
+                const maxVoted = gameObject.players.reduce((max, player) => {
+                    return player.voted > max ? player.voted : max;
+                }, -1);
 
-                console.log("navinavinavi",gameObject)
+                // voted が最も多いプレイヤーをすべて見つける
+                const mostVotedPlayers = gameObject.players.filter(player => player.voted === maxVoted);
 
-                // 見つけたプレイヤーを排除する
-                await gameObject.players.splice(gameObject.players.indexOf(expelledPlayer), 1);
+                // ランダムに1人選ぶ
+                const randomIndex = Math.floor(Math.random() * mostVotedPlayers.length);
+                const expelledPlayer = mostVotedPlayers[randomIndex];
+
+                // 見つけたプレイヤーを配列から削除する
+                const index = gameObject.players.indexOf(expelledPlayer);
+                if (index > -1) {
+                    gameObject.players.splice(index, 1);
+                }
 
                 // 勝敗判定
                 gameObject.gameResult = checkGameResult(gameObject.players);
 
-                console.log("navinavinavi",gameObject)
-
                 await gameObjectfileWrite(gameObject); // 書き込み
+                setExpelledPlayer(expelledPlayer);
                 setIsLoad(true);
             }
         })()
@@ -103,9 +108,12 @@ export const VoteResultPage = () => {
             })
             gameObject.gamePhase = "night";
             gameObject.presentDay++;
+            gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject); //書き込み
             navigate('/gamePage');
         } else {
+            gameObject.gamePhase = "result";
+            await gameObjectfileWrite(gameObject); //書き込み
             navigate('/resultPage');
         }
     };

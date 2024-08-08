@@ -7,6 +7,7 @@ import { CountData } from "../database/CountData";
 import CompileTest from "../compile/CompilerAsComponent";
 import { Compiler } from "../compile/CompilerAsMethod";
 import { SimpleCompiler } from "../compile/SimpleCompiler";
+import { Button } from "antd";
 
 export const Concept = () => {
   const navigate = useNavigate();
@@ -15,20 +16,7 @@ export const Concept = () => {
         navigate('/rule');
     }
 
-    const handleInputPlayer=()=>{
-        navigate('/inputPlayer');
-    }
 
-    const g={
-      h:"nkjn",
-      k:"hdsj"
-    }
-
-    const testObject={
-      d:"hgshjd",
-      e:"dhsja",
-      f:g
-    }
   return (
       <div className="container">
         
@@ -49,15 +37,12 @@ export const Concept = () => {
               コードを邪魔する人狼に気を付けながら、楽しいエンジニアライフを！
             </p>
           </div>
-          {/* <a href="ゲーム開始のリンク" className="btn-group start-game">
+          {/* <button onClick={handleInputPlayer} className="btn-group concept-start-game">
             ゲーム開始
-          </a> */}
-          <button onClick={handleInputPlayer} className="btn-group concept-start-game">
-            ゲーム開始
-          </button>
-          <button onClick={handleRule} className="btn-group concept-explain-rules">
+          </button> */}
+          <Button onClick={handleRule} className="btn-group center-button">
             ルール説明
-          </button>
+          </Button>
         </div>
       </div>
     

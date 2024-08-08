@@ -6,6 +6,7 @@ import { ConfirmPlayer } from "../page/ConfirmPlayer";
 export const ConfirmPlayerPage = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });
     const [isLoad, setIsLoad] = useState(false); //useLoad
+    const [flipped, setFlipped] = useState(false);
     const navigate = useNavigate();
 
     const gameObjectfileRead = async () => {
@@ -48,6 +49,7 @@ export const ConfirmPlayerPage = () => {
             gameObject.presentPlayer++;
             gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject); //書き込み
+            setFlipped(false);
             setIsLoad(false);
         } else {
             gameObject.presentPlayer = 0;
@@ -58,9 +60,13 @@ export const ConfirmPlayerPage = () => {
         }
     };
 
+    const handleClick = () => {
+        setFlipped(!flipped);
+    };
+
     return (
         <>{isLoad ? (
-            <ConfirmPlayer gameObject={gameObject} handleFinishTurn={handleFinishTurn} />
+            <ConfirmPlayer gameObject={gameObject} handleFinishTurn={handleFinishTurn} flipped={flipped} handleClick={handleClick}/>
         ) : <Load backgroundColor='#526D82' />}
         </>
     );

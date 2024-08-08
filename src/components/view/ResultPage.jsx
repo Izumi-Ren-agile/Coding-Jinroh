@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Load } from '../page/Load';
-import { ConfirmPlayer } from "../page/ConfirmPlayer";
+import { Result } from '../page/Result';
 
 export const ResultPage = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });
@@ -44,21 +44,12 @@ export const ResultPage = () => {
     }, [gameObject]); //確認
 
     const handleFinishTurn = async () => {
-        if (gameObject.presentPlayer < gameObject.players.length - 1) {
-            gameObject.presentPlayer++;
-            await gameObjectfileWrite(gameObject); //書き込み
-            setIsLoad(false);
-        } else {
-            gameObject.presentPlayer = 0;
-            gameObject.gamePhase = "night";
-            await gameObjectfileWrite(gameObject); //書き込み
-            navigate('/question');
-        }
+        navigate('/');
     };
 
     return (
         <>{isLoad ? (
-            <ConfirmPlayer gameObject={gameObject} handleFinishTurn={handleFinishTurn} />
+            <Result gameObject={gameObject} handleFinishTurn={handleFinishTurn} />
         ) : <Load backgroundColor='#526D82' />}
         </>
     );
