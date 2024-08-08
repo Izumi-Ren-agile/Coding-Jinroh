@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import swal from 'sweetalert2';
+import swal from "sweetalert2";
 import { Load } from "../page/Load";
 import { Game } from "../page/Game";
+import { returnRandomIndex } from "../page/InputPlayer";
 
 export const GamePage = () => {
   const [gameObject, setGameObject] = useState({ property: "default" });
@@ -39,6 +40,60 @@ export const GamePage = () => {
       .catch((error) => console.error("Error:", error));
   };
 
+  /**------------------------------------------------------------------ */
+  //プレイヤーの中からPMを選出する関数
+  const selectPM = (players) => {
+    const alivePlayers = players.filter((p) => p.isAlive);
+    const howmanySolveMission = [];
+    alivePlayers.map((a) => howmanySolveMission.push(a.solvedMission.length));
+    let max = 0;
+    let maxIndex = 0;
+    for (let i = 0; i < howmanySolveMission.length; i++) {
+      if (max < howmanySolveMission[i]) {
+        max = howmanySolveMission[i];
+        maxIndex = i;
+      } else if (max === howmanySolveMission[i]) {
+        if (returnRandomIndex(1, 2, 1) == 1) {
+          maxIndex = i;
+        }
+      }
+    }
+    const PMid = alivePlayers[maxIndex].id;
+    const returnPlayers = players;
+    for (let i = 0; i < returnPlayers.length; i++) {
+      if (returnPlayers[i].id === PMid) {
+        returnPlayers[i].isPM = true;
+      } else if (returnPlayers[i].isPM) {
+        returnPlayers[i].isPM = false;
+      }
+    }
+    return returnPlayers;
+  };
+  //二つの文字列の差分（足された分）を取得する関数
+  const difference = (oldString, newString) => {
+    const Diff = require("diff");
+
+    // 文字単位での差分を取得
+    const diff = Diff.diffChars(oldString, newString);
+    console.log("ディフ確認", diff);
+    // 加えられた文字と除外された文字を初期化
+    let addedChars = "";
+    let removedChars = "";
+
+    // 差分を解析
+    diff.forEach((part) => {
+      if (part.added) {
+        // 加えられた文字を記録
+        addedChars += part.value;
+      } else if (part.removed) {
+        // 除外された文字を記録
+        removedChars += part.value;
+      }
+    });
+    return addedChars;
+  };
+  /**------------------------------------------------------------------ */
+
   useEffect(() => {
     (async () => {
       await gameObjectfileRead();
@@ -56,149 +111,126 @@ export const GamePage = () => {
   }, [isLoad]);
 
   const handleFinishTurn = async () => {
-
     //次に行く際にコンパイルを強制し、遷移先をResultへ
-    const adjustedCode = "public class Main{" + gameObject.main + code + '}';
+    const adjustedCode = "public class Main{" + gameObject.main + code + "}";
     let isComplete = false;
 
     //確認ダイアログ
-    swal.fire({
-      title: 'コーディングお疲れ様です！',
-      confirmButtonText: 'コードチェックを開始'
-    }).then(function () {
-
-      //処理中ダイアログ
-      swal.fire({
-        title: 'コーディングチェック中'
-        , html: '処理終了まで画面はそのままにしてください。'
-        , allowOutsideClick: false     //枠外をクリックしても画面を閉じない
-        , showConfirmButton: false
-        , didOpen: () => {
-          swal.showLoading();
-        }
-      });
-
-      //プロジェクトが達成できているか、ミッション達成数を返す
-      const codeCheck = async () => {
-        try {
-          const response = await fetch("/compile", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ language: gameObject.codeLanguage, sourceCode: adjustedCode }), // 言語とソースコードをリクエストボディに含める
-          });
-
-          if (!response.ok) {
-            // レスポンスが成功していない場合はエラーメッセージを取得
-            const errorResponse = await response.json();
-            throw new Error(
-              errorResponse.message || "コンパイル中にエラーが発生しました"
-            );
-          }
-
-          const result = await response.json(); // レスポンスをJSONとして解析
-          isComplete = !result.stdout.includes('×');
-        } catch (error) {
-          console.log("次の人へでのコンパイルと勝利判定でエラー", error);
-        }
-      }
-
-      codeCheck().then(function () {
-
-        //完了ダイアログ
+    swal
+      .fire({
+        title: "コーディングお疲れ様です！",
+        confirmButtonText: "コードチェックを開始",
+      })
+      .then(function () {
+        //処理中ダイアログ
         swal.fire({
-          title: 'コードチェック完了',
-          text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}`, confirmButtonText: '次のターンへ'
-        }).then(function () {
-          console.log('処理終了後に画面更新');
+          title: "コーディングチェック中",
+          html: "処理終了まで画面はそのままにしてください。",
+          allowOutsideClick: false, //枠外をクリックしても画面を閉じない
+          showConfirmButton: false,
+          didOpen: () => {
+            swal.showLoading();
+          },
+        });
 
-          const changeTurn = async () => {
-            if (isComplete) {
-              gameObject.gameResult = "citizen";
-              gameObject.gamePhase = "result";
-              await gameObjectfileWrite(gameObject); //書き込み
-              navigate("/resultPage");
-            }
-            /**--------------------------- */
+        //プロジェクトが達成できているか、ミッション達成数を返す
+        const codeCheck = async () => {
+          try {
+            const response = await fetch("/compile", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                language: gameObject.codeLanguage,
+                sourceCode: adjustedCode,
+              }), // 言語とソースコードをリクエストボディに含める
+            });
 
-
-            if (gameObject.gamePhase === "night") {
-              gameObject.editor = code;
-              gameObject.editorHistory = [
-                ...gameObject.editorHistory,
-                {
-                  name: `day${gameObject.presentDay}-${gameObject.presentCodingTurn} ${gameObject.players[gameObject.presentPlayer].name
-                    }`,
-                  code: code,
-                },
-              ];
-
-              for (let i = 0; i < gameObject.players.length; i++) {
-                const str1 =
-                  gameObject.editorHistory[
-                    gameObject.editorHistory.length - 2 < 0
-                      ? 0
-                      : gameObject.editorHistory.length - 2
-                  ].code;
-                const str2 =
-                  gameObject.editorHistory[
-                    gameObject.editorHistory.length - 1 < 0
-                      ? 0
-                      : gameObject.editorHistory.length - 1
-                  ].code;
-                console.log("ストリング1", str1);
-                console.log("ストリング2", str2);
-                console.log(
-                  "差分確認",
-                  getDifferences("yasyasyas", "yasteryasteryaster").added
-                );
-                const player = gameObject.players[i];
-                console.log("プレイヤーオブジェクト中身確認", player);
-                const missionObject = missionConverter(player.yourMission, str1, str2);
-                gameObject.players[i].yourMission = missionObject.newYourMission;
-                gameObject.players[i].solvedMission = missionObject.solvedMission;
-                console.log(
-                  "プレイヤーのユアミッション",
-                  gameObject.players[i].yourMission
-                );
-                console.log(
-                  "プレイヤーのsolvedミッション",
-                  gameObject.players[i].solvedMission
-                );
-              }
+            if (!response.ok) {
+              // レスポンスが成功していない場合はエラーメッセージを取得
+              const errorResponse = await response.json();
+              throw new Error(
+                errorResponse.message || "コンパイル中にエラーが発生しました"
+              );
             }
 
-            if (gameObject.presentPlayer < gameObject.players.length - 1) {
-              gameObject.presentPlayer++;
-              gameObject.startingTurn = Math.floor(Date.now() / 1000);
-              await gameObjectfileWrite(gameObject); //書き込み
-            } else {
-              if (gameObject.presentCodingTurn < gameObject.maxCodingTurn) {
-                gameObject.presentPlayer = 0;
-                gameObject.presentCodingTurn++;
-                gameObject.startingTurn = Math.floor(Date.now() / 1000);
-                await gameObjectfileWrite(gameObject); //書き込み
-              } else {
+            const result = await response.json(); // レスポンスをJSONとして解析
+            isComplete = !result.stdout.includes("×");
+          } catch (error) {
+            console.log("次の人へでのコンパイルと勝利判定でエラー", error);
+          }
+        };
+
+        codeCheck().then(function () {
+          //完了ダイアログ
+          swal
+            .fire({
+              title: "コードチェック完了",
+              text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}`,
+              confirmButtonText: "次のターンへ",
+            })
+            .then(function () {
+              console.log("処理終了後に画面更新");
+
+              const changeTurn = async () => {
+                if (isComplete) {
+                  gameObject.gameResult = "citizen";
+                  gameObject.gamePhase = "result";
+                  await gameObjectfileWrite(gameObject); //書き込み
+                  navigate("/resultPage");
+                }
+                /**--------------------------- */
+                //PM判定
+                console.log("ちゃんと", gameObject.players);
+                console.log(
+                  "ちゃんとPM判定を終えたプレイヤーオブジェクトたちが帰ってきてるか",
+                  selectPM(gameObject.players)
+                );
+
                 if (gameObject.gamePhase === "night") {
-                  gameObject.gamePhase = "daytime";
+                  gameObject.editor = code;
+                  gameObject.editorHistory = [
+                    ...gameObject.editorHistory,
+                    {
+                      name: `day${gameObject.presentDay}-${
+                        gameObject.presentCodingTurn
+                      } ${gameObject.players[gameObject.presentPlayer].name}`,
+                      code: code,
+                    },
+                  ];
+                }
+
+                if (gameObject.presentPlayer < gameObject.players.length - 1) {
+                  gameObject.presentPlayer++;
                   gameObject.startingTurn = Math.floor(Date.now() / 1000);
                   await gameObjectfileWrite(gameObject); //書き込み
                 } else {
-                  gameObject.presentPlayer = 0;
-                  gameObject.gamePhase = "vote";
-                  gameObject.startingTurn = Math.floor(Date.now() / 1000);
-                  await gameObjectfileWrite(gameObject); //書き込み
-                  navigate("/votePage");
+                  if (gameObject.presentCodingTurn < gameObject.maxCodingTurn) {
+                    gameObject.presentPlayer = 0;
+                    gameObject.presentCodingTurn++;
+                    gameObject.startingTurn = Math.floor(Date.now() / 1000);
+                    await gameObjectfileWrite(gameObject); //書き込み
+                  } else {
+                    if (gameObject.gamePhase === "night") {
+                      gameObject.gamePhase = "daytime";
+                      gameObject.startingTurn = Math.floor(Date.now() / 1000);
+                      await gameObjectfileWrite(gameObject); //書き込み
+                    } else {
+                      gameObject.presentPlayer = 0;
+                      gameObject.gamePhase = "vote";
+                      gameObject.startingTurn = Math.floor(Date.now() / 1000);
+                      await gameObjectfileWrite(gameObject); //書き込み
+                      navigate("/votePage");
+                    }
+                  }
                 }
-              }
-            }
-            setIsLoad(false);
-          }
-          changeTurn();
-        })
+                setIsLoad(false);
+              };
+              changeTurn();
+            });
+        });
       });
-    });
   };
 
   const handleChange = (value) => {
@@ -219,76 +251,4 @@ export const GamePage = () => {
       )}
     </>
   );
-};
-
-/**
- * 二つの文字列の差分を返す
- * @param {*} str1
- * @param {*} str2
- * @returns diff str1とstr2の差分
- */
-const getDifferences = (str1, str2) => {
-  let diff = {
-    added: "",
-    removed: "",
-  };
-
-  // 前方一致部分を特定
-  let i = 0;
-  while (i < str1.length && i < str2.length && str1[i] === str2[i]) {
-    i++;
-  }
-
-  // 後方一致部分を特定
-  let j = 0;
-  while (
-    j < str1.length - i &&
-    j < str2.length - i &&
-    str1[str1.length - 1 - j] === str2[str2.length - 1 - j]
-  ) {
-    j++;
-  }
-
-  // 削除された部分
-  diff.removed = str1.slice(i, str1.length - j);
-
-  // 追加された部分
-  diff.added = str2.slice(i, str2.length - j);
-
-  return diff;
-};
-
-// 使用例
-const str1 = "yasyasyas";
-const str2 = "yasteryasteryaster";
-const differences = getDifferences(str1, str2);
-console.log("Added:", differences.added); // "terterter"
-console.log("Removed:", differences.removed); // "yasyasyas"
-
-/**
- * ミッションのargが二つの文字列の
- * @param {*} mission
- * @param {*} str1
- * @param {*} str2
- * @returns 差分にミッションのargが含まれていればtrueを返す
- */
-const judgeMissionClear = (mission, str1, str2) => {
-  const diff = getDifferences(str1, str2);
-  return diff.added.indexOf(mission.arg) !== -1;
-};
-
-const missionConverter = (yourMission, str1, str2) => {
-  const solvedMission = yourMission.filter((m) => {
-    return judgeMissionClear(m, str1, str2);
-  });
-  const newYourMission = yourMission.filter((m) => {
-    return !judgeMissionClear(m, str1, str2);
-  });
-
-  const missions = {
-    solvedMission,
-    newYourMission,
-  };
-
-  return missions;
 };
