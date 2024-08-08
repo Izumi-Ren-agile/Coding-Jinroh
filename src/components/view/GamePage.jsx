@@ -115,6 +115,28 @@ export const GamePage = () => {
     const adjustedCode = "public class Main{" + gameObject.main + code + "}";
     let isComplete = false;
 
+    //ミッション達成処理
+    let howmanyMission = 0;
+
+    const oldCode =
+      gameObject.editorHistory[gameObject.editorHistory.length - 1].code;
+    const newCode = code;
+
+    console.log("check OldCode:",oldCode);
+    console.log("check NewCode:",newCode);
+
+    const diff = difference(oldCode, newCode);
+
+    console.log("check 差異",diff)
+    const nowPlayer=gameObject.players[gameObject.presentPlayer];
+    console.log("ミッションに何入ってんの？",nowPlayer.yourMission[0]);
+    for (let i = 0; i<nowPlayer.yourMission.length; i++) {
+      if (diff.includes(nowPlayer.yourMission[i].arg)) {
+        howmanyMission++;
+        nowPlayer.yourMission.shift();
+      }
+    }
+
     //確認ダイアログ
     swal
       .fire({
@@ -167,7 +189,11 @@ export const GamePage = () => {
           swal
             .fire({
               title: "コードチェック完了",
-              text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}`,
+              text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}
+              このターンのミッション達成数：${howmanyMission}`,
+              // text:`このターンのミッション達成数：${howmanyMission}`,
+              // text:`累計ミッション達成数:${gameObject.presentPlayer.solvedMission.length}`,
+              // text:`現在のPM${gameObject.players.filter((p)=>p.isPM)[0]}`,
               confirmButtonText: "次のターンへ",
             })
             .then(function () {
