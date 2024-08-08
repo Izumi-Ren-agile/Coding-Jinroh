@@ -1,0 +1,33 @@
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .selected {
+    background-color: #990200;
+    color: white;
+  }
+  
+ 
+  .submit:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .vote-item-btn{
+    font-size: larger;
+    font-weight: bold;
+    width: 100px;
+
+
+  }
+
+  .vote-btn{
+    font-size: larger;
+    font-weight: bold;
+    width: 200px;
+    height: 80px;
+    position: absolute;
+    transform: translateX(-50%);
+    left:50%;
+  }

@@ -1,0 +1,21 @@
+
+.rule-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.rule-text {
+    width: 50%;
+}
+
+.rule-image {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
