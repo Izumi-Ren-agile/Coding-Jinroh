@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import swal from 'sweetalert2';
 import { Button } from "antd";
 import { Content50 } from "../templates/Content50";
 import { PlayerAtom } from "../atom/Playeratom";
@@ -8,6 +9,16 @@ import "./VoteResult.css";
 
 export const VoteResult = (props) => {
   const { gameObject, expelledPlayer, handleFinishTurn } = props;
+
+  // コンポーネントがマウントされたときに確認ダイアログを表示する
+  useEffect(() => {
+    swal.fire({
+      title: `投票の結果追放されたのは．．．`,
+      icon: 'question',
+      confirmButtonText: '結果を確認する',
+      showCancelButton: true,
+    });
+  }, []);
 
   return (
     <div className="container">
@@ -33,10 +44,10 @@ export const VoteResult = (props) => {
           </div>
           <div className="content_right">
             <Content50>
-                <img
-                  src="/images/voteresult_rope(Sample).png"
-                  alt="Vote Result Rope"
-                />
+              <img
+                src="/images/voteresult_rope(Sample).png"
+                alt="Vote Result Rope"
+              />
             </Content50>
           </div>
         </div>
