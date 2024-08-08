@@ -55,6 +55,39 @@ export const GamePage = () => {
   }, [isLoad]);
 
   const handleFinishTurn = async () => {
+    //次に行く際にコンパイルを強制し、遷移先をResultへ
+    const adjustedCode="public class Main{"+gameObject.main+code+'}';
+    let isComplete=false;
+    try {
+      const response = await fetch("/compile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ language:gameObject.codeLanguage, sourceCode: adjustedCode }), // 言語とソースコードをリクエストボディに含める
+      });
+
+      if (!response.ok) {
+        // レスポンスが成功していない場合はエラーメッセージを取得
+        const errorResponse = await response.json();
+        throw new Error(
+          errorResponse.message || "コンパイル中にエラーが発生しました"
+        );
+      }
+
+      const result = await response.json(); // レスポンスをJSONとして解析
+      isComplete=!result.stdout.includes('×');
+    } catch (error) {
+      console.log("次の人へでのコンパイルと勝利判定でエラー",error);
+    } 
+    if(isComplete){
+      gameObject.gameResult="code-complete-win";
+      await gameObjectfileWrite(gameObject); //書き込み
+      navigate("/resultPage");
+    }
+    /**--------------------------- */
+
+
     if (gameObject.gamePhase === "night") {
       gameObject.editor = code;
       gameObject.editorHistory = [
