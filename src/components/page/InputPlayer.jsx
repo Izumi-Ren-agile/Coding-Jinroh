@@ -417,11 +417,11 @@ const createDummyGameObject = async (Players) => {
     gameResult,
     main,
   };
-  gameObject.players[0].solvedMission=[0,1,2,3];
-  gameObject.players[1].solvedMission=[0,3,2,2];
-  gameObject.players[2].solvedMission=[0];
-  gameObject.players[3].solvedMission=[0,1,2,3,4,5];
-  gameObject.players[2].isPM=true;
+  // gameObject.players[0].solvedMission=[0,1,2,3];
+  // gameObject.players[1].solvedMission=[0,3,2,2];
+  // gameObject.players[2].solvedMission=[0];
+  // gameObject.players[3].solvedMission=[0,1,2,3,4,5];
+  // gameObject.players[2].isPM=true;
   console.log("作られた時点でのゲームオブジェクト",gameObject);
   return gameObject;
 };
