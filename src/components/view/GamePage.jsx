@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Load } from "../page/Load";
 import { Game } from "../page/Game";
+import { returnRandomIndex } from "../page/InputPlayer";
 
 export const GamePage = () => {
   const [gameObject, setGameObject] = useState({ property: "default" });
@@ -37,6 +38,37 @@ export const GamePage = () => {
       })
       .catch((error) => console.error("Error:", error));
   };
+
+  /**------------------------------------------------------------------ */
+  //プレイヤーの中からPMを選出する関数
+  const selectPM=(players)=>{
+    const alivePlayers=players.filter((p)=>p.isAlive);
+   const howmanySolveMission=[];
+    alivePlayers.map((a)=>howmanySolveMission.push(a.solvedMission.length));
+    let max=0;
+    let maxIndex=0;
+    for(let i=0;i<howmanySolveMission.length;i++){
+      if(max<howmanySolveMission[i]){
+        max=howmanySolveMission[i];
+        maxIndex=i;
+      }else if(max===howmanySolveMission[i]){
+        if(returnRandomIndex(1,2,1)==1){
+          maxIndex=i;
+        }
+      }
+    }
+    const PMid=alivePlayers[maxIndex].id;
+    const returnPlayers=players;
+    for(let i=0;i<returnPlayers.length;i++){
+      if(returnPlayers[i].id===PMid){
+        returnPlayers[i].isPM=true;
+      }else if(returnPlayers[i].isPM){
+        returnPlayers[i].isPM=false;
+      }
+    }
+    return returnPlayers;
+  }
+  /**------------------------------------------------- */
 
   useEffect(() => {
     (async () => {
@@ -81,12 +113,15 @@ export const GamePage = () => {
       console.log("次の人へでのコンパイルと勝利判定でエラー",error);
     } 
     if(isComplete){
-      gameObject.gameResult="code-complete-win";
+      gameObject.gameResult="citizen";
       await gameObjectfileWrite(gameObject); //書き込み
       navigate("/resultPage");
     }
     /**--------------------------- */
 
+    //PM判定
+    console.log("ちゃんと",gameObject.players);
+    console.log("ちゃんとPM判定を終えたプレイヤーオブジェクトたちが帰ってきてるか",selectPM(gameObject.players));
 
     if (gameObject.gamePhase === "night") {
       gameObject.editor = code;
@@ -100,39 +135,6 @@ export const GamePage = () => {
         },
       ];
 
-      for (let i = 0; i < gameObject.players.length; i++) {
-        const str1 =
-          gameObject.editorHistory[
-            gameObject.editorHistory.length - 2 < 0
-              ? 0
-              : gameObject.editorHistory.length - 2
-          ].code;
-        const str2 =
-          gameObject.editorHistory[
-            gameObject.editorHistory.length - 1 < 0
-              ? 0
-              : gameObject.editorHistory.length - 1
-          ].code;
-        console.log("ストリング1", str1);
-        console.log("ストリング2", str2);
-        console.log(
-          "差分確認",
-          getDifferences("yasyasyas", "yasteryasteryaster").added
-        );
-        const player = gameObject.players[i];
-        console.log("プレイヤーオブジェクト中身確認", player);
-        const missionObject = missionConverter(player.yourMission, str1, str2);
-        gameObject.players[i].yourMission = missionObject.newYourMission;
-        gameObject.players[i].solvedMission = missionObject.solvedMission;
-        console.log(
-          "プレイヤーのユアミッション",
-          gameObject.players[i].yourMission
-        );
-        console.log(
-          "プレイヤーのsolvedミッション",
-          gameObject.players[i].solvedMission
-        );
-      }
     }
 
     if (gameObject.presentPlayer < gameObject.players.length - 1) {
@@ -180,76 +182,4 @@ export const GamePage = () => {
       )}
     </>
   );
-};
-
-/**
- * 二つの文字列の差分を返す
- * @param {*} str1
- * @param {*} str2
- * @returns diff str1とstr2の差分
- */
-const getDifferences = (str1, str2) => {
-  let diff = {
-    added: "",
-    removed: "",
-  };
-
-  // 前方一致部分を特定
-  let i = 0;
-  while (i < str1.length && i < str2.length && str1[i] === str2[i]) {
-    i++;
-  }
-
-  // 後方一致部分を特定
-  let j = 0;
-  while (
-    j < str1.length - i &&
-    j < str2.length - i &&
-    str1[str1.length - 1 - j] === str2[str2.length - 1 - j]
-  ) {
-    j++;
-  }
-
-  // 削除された部分
-  diff.removed = str1.slice(i, str1.length - j);
-
-  // 追加された部分
-  diff.added = str2.slice(i, str2.length - j);
-
-  return diff;
-};
-
-// 使用例
-const str1 = "yasyasyas";
-const str2 = "yasteryasteryaster";
-const differences = getDifferences(str1, str2);
-console.log("Added:", differences.added); // "terterter"
-console.log("Removed:", differences.removed); // "yasyasyas"
-
-/**
- * ミッションのargが二つの文字列の
- * @param {*} mission
- * @param {*} str1
- * @param {*} str2
- * @returns 差分にミッションのargが含まれていればtrueを返す
- */
-const judgeMissionClear = (mission, str1, str2) => {
-  const diff = getDifferences(str1, str2);
-  return diff.added.indexOf(mission.arg) !== -1;
-};
-
-const missionConverter = (yourMission, str1, str2) => {
-  const solvedMission = yourMission.filter((m) => {
-    return judgeMissionClear(m, str1, str2);
-  });
-  const newYourMission = yourMission.filter((m) => {
-    return !judgeMissionClear(m, str1, str2);
-  });
-
-  const missions = {
-    solvedMission,
-    newYourMission,
-  };
-
-  return missions;
 };
