@@ -1,5 +1,6 @@
 import "./rule.css";
 import { useNavigate } from "react-router-dom";
+import { Button } from "antd";
 
 export const Rule = () => {
     const navigate = useNavigate();
@@ -76,9 +77,9 @@ export const Rule = () => {
             </h2>
             </div>
             <div class="text-container center-conteiner">
-            <button onClick={handleInputPlayer} className="btn-group rule-start-game">
+            <Button onClick={handleInputPlayer} className="btn-group center-button">
             ゲーム開始
-          </button>
+          </Button>
           </div>
         </div>
       </div>
