@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import swal from 'sweetalert2';
 import { CodeEditor } from "../molecules/CodeEditor";
 import { Console } from "../molecules/Console";
 import { Project } from "../molecules/Project";
@@ -25,17 +26,19 @@ export const Game = (props) => {
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
-    const showConfirmationDialog = async () => {
-      const confirmed = window.confirm(
-        gameObject.gamePhase === "night"
-          ? `${gameObject.players[gameObject.presentPlayer].name}さんですか？`
-          : "会議を始めますか？"
-      );
-      if (!confirmed) {
-        showConfirmationDialog();
+    swal.fire({
+      title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
+      text: '「はい」を押すとコーディングフェーズに進みます',
+      icon: 'warning',
+      confirmButtonText: 'はい',
+      cancelButtonText: 'いいえ',
+      showCancelButton:true,
+    }).then((result) => {
+      if (!result.isConfirmed) {
+        // ユーザーが「いいえ」をクリックした場合の処理
+        window.location.reload();
       }
-    };
-    showConfirmationDialog();
+    });
   }, []);
 
   //const compileResult = Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output; //なんかようわからんけどこの一文あったらPythonでの実行がうまくいく（変数自体は使ってない）
@@ -105,7 +108,6 @@ export const Game = (props) => {
       <GameHeader
         gameObject={gameObject}
         handleFinishTurn={handleFinishTurn}
-        yourMission={gameObject.players[gameObject.presentPlayer].yourMission}
       />
       {gameObject.property ? (
         <></>
