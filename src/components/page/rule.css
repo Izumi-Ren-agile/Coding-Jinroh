@@ -17,16 +17,5 @@
     align-items: center;
 }
 
-.rule-container {
-    padding-left: 20px; 
-}
 
-.rule-start-game{
-    position: absolute;
-    transform: translateX(-50%);
-}
-
-.rule-start-game {
-    left: 50%;
-}
 
