@@ -12,35 +12,35 @@ export const Rule = () => {
   return (
       <div class="container">
         <header class="regular-header">
-          <h1>コーディング人狼 - ルール説明</h1>
+        <h1 className="title">コーディング人狼 - ルール説明</h1>
         </header>
         <div class="main-content">
           <div class="text-container">
-            <h2>
-              ようこそ「コーディング人狼」へ！ <br />
-              このゲームは、プレイヤーが市民と人狼に分かれ、プログラミングの課題を解決するゲームです！
+          
+            <h2 className="rule-h2 text-center-content">
+              ようこそ「コーディング人狼」へ！ <br />このゲームは、プレイヤーが市民と人狼に分かれ、プログラミングの課題を解決するゲームです！
             </h2>
           </div>
           <div className="rule-container">
             <div className="rule-text">
-              <h2>勝利条件</h2>
+              <h2>【勝利条件】</h2>
               <ul>
                 <li>市民: 人狼を全員追放する or コードが正しく完成する</li>
                 <li>人狼: コードが正しく動かない</li>
               </ul>
               <br />
-              <h2>ゲームの流れ</h2>
+              <h2>【ゲームの流れ】</h2>
               <p>
                 ゲームはコーディングフェーズ2回と会議フェーズを繰り返して進みます。
               </p>
               <br />
-              <h3>ーコーディングフェーズ</h3>
+              <h3>[コーディングフェーズ]</h3>
               <ul>
                 <li>各プレイヤーが順番にコードを書きます。</li>
                 <li>各プレイヤーのコーディング時間は60秒の制限があります。</li>
               </ul>
               <br />
-              <h3>ー会議フェーズ</h3>
+              <h3>[会議フェーズ]</h3>
               <ul>
                 <li>
                   プレイヤー全員で、完成したコードを見ながら120秒話し合います。
@@ -53,7 +53,7 @@ export const Rule = () => {
                 </li>
               </ul>
               <br />
-              <h3>ミッション</h3>
+              <h3>[ミッション]</h3>
               <ul>
                 <li>
                   各プレイヤーにはランダムに「ミッション」が配布されます。
@@ -70,7 +70,7 @@ export const Rule = () => {
             </div>
           </div>
           <div class="text-container">
-            <h2>
+            <h2 className="rule-h2 text-center-content">
               「コーディング人狼」ではプログラミングスキルを磨きながら、推理力やコミュニケーション能力も試されます。
               <br />
               市民としてコードを完成させるか、人狼としてうまくバグを仕込むか、あなたのスキルを試してみましょう！

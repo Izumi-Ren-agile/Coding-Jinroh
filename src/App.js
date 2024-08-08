@@ -11,6 +11,7 @@ import { GamePage } from './components/view/GamePage';
 import { VotePage } from './components/view/VotePage';
 import { VoteResultPage } from './components/view/VoteResultPage';
 import { ResultPage } from './components/view/ResultPage';
+import {TestPage} from './components/page/testpage';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/votePage" element={<VotePage />} />
         <Route path="/voteResultPage" element={<VoteResultPage />} />
         <Route path="/resultPage" element={<ResultPage />} />
+        <Route path="/testpage" element={<TestPage />} />
       </Routes>
     </Router>
   );

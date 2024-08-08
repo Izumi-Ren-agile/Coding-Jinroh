@@ -1,17 +1,22 @@
 
 .rule-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     margin-bottom: 20px;
 }
 
 .rule-text {
-    width: 50%;
+    margin-left: 1vh;
+    /* width: 45%; */
+    font-size: 1.7vh;
 }
 
+.rule-h2{
+font-size: 2.2vh;
+}
 .rule-image {
-    width: 40%;
+    /* width: 45%; */
     display: flex;
     justify-content: center;
     align-items: center;
