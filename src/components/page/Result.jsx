@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import swal from 'sweetalert2';
-import { CodeEditor } from "../molecules/CodeEditor";
 import { Console } from "../molecules/Console";
 import { Project } from "../molecules/Project";
 import { GameHeader } from "../organisms/GameHeader";

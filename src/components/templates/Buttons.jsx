@@ -5,7 +5,6 @@ export const Buttons = (props) => {
     const { children } = props;
 
     const buttonsStyle = css`
-    position: absolute;
     right: 10px;
     bottom: 10px;
 `

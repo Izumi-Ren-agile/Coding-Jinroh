@@ -22,7 +22,7 @@ export const Game = (props) => {
   //   const [sourceCode, setSourceCode] = useState(code)
 
   //勝敗判定
-  const [isComplete,setIsComplete]=useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
@@ -32,7 +32,7 @@ export const Game = (props) => {
       icon: 'warning',
       confirmButtonText: 'はい',
       cancelButtonText: 'いいえ',
-      showCancelButton:true,
+      showCancelButton: true,
     }).then((result) => {
       if (!result.isConfirmed) {
         // ユーザーが「いいえ」をクリックした場合の処理
@@ -50,8 +50,8 @@ export const Game = (props) => {
   const handleRunCode = async () => {
     setLoading(true); // ローディング状態を開始
     setError(null); // エラー状態をクリア
-    const adjustedCode="public class Main{"+gameObject.main+code+'}';
-    console.log("調整されたコード",adjustedCode);
+    const adjustedCode = "public class Main{" + gameObject.main + code + '}';
+    console.log("調整されたコード", adjustedCode);
     try {
       const response = await fetch("/compile", {
         method: "POST",
@@ -114,10 +114,11 @@ export const Game = (props) => {
       ) : (
         <Contents>
           <Content70>
-            {console.log("コードの中何入ってんの？",code)}
+            {console.log("コードの中何入ってんの？", code)}
             <Tag secondText={"あと〇文字"}>エディター</Tag>
             {gameObject.gamePhase === "night" ? (
               <CodeEditor
+                gameObject={gameObject}
                 code={code/*&&code.replace(/\n/g,'\n')*/}
                 onChange={handleChange}
                 // onChange={(e) => setSourceCode(e.target.value)}
@@ -126,11 +127,16 @@ export const Game = (props) => {
               />
             ) : (
               <TabsOfCodeEditor
+                gameObject={gameObject}
                 editorHistory={gameObject.editorHistory}
                 onChange={handleChange}
                 handleRunCode={handleRunCode}
+                loading={loading}
               />
             )}
+            {/* <Buttons>
+              <Button type="primary" onClick={handleRunCode} disabled={loading}>{loading ? "実行中..." : "実行"}</Button>
+            </Buttons> */}
             <Tag secondText={""}>実行結果</Tag>
             {/* 通信エラー */}
             {error && <div>Error: {error.message}</div>}
@@ -141,7 +147,7 @@ export const Game = (props) => {
               }
             />
           </Content70>
-          <Project question={gameObject.questionText.replace(/\\n/g,'\n')} secondText={""} />
+          <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} />
         </Contents>
       )}
     </div>
