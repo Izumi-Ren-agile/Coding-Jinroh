@@ -25,10 +25,11 @@ export const Result = (props) => {
             text: '勝ったのは．．．',
             icon: 'success',
             confirmButtonText: '結果を見る',
-        });
-        swal.fire({
-            title: `${gameObject.gameResult === "citizen" ? "市民" : "人狼"}の勝利！`,
-            confirmButtonText: 'ゲームを振り返る',
+        }).then((result) => {
+            swal.fire({
+                title: `${gameObject.gameResult === "citizen" ? "市民" : "人狼"}の勝利！`,
+                confirmButtonText: 'ゲームを振り返る',
+            });
         });
     }, []);
 
@@ -72,15 +73,15 @@ export const Result = (props) => {
             />
             <Contents>
                 <Content70>
-                <Tag secondText={"あと〇文字"}>エディター</Tag>
+                    <Tag secondText={"あと〇文字"}>エディター</Tag>
                     <TabsOfCodeEditor
-                gameObject={gameObject}
-                editorHistory={gameObject.editorHistory}
-                onChange={handleChange}
-                handleRunCode={handleRunCode}
-                loading={loading}
-                setTabCode={setTabCode}
-                activeTab={activeTab}
+                        gameObject={gameObject}
+                        editorHistory={gameObject.editorHistory}
+                        onChange={handleChange}
+                        handleRunCode={handleRunCode}
+                        loading={loading}
+                        setTabCode={setTabCode}
+                        activeTab={activeTab}
                     />
                     <Tag secondText={""}>実行結果</Tag>
                     {/* 通信エラー */}
@@ -92,7 +93,7 @@ export const Result = (props) => {
                         }
                     />
                 </Content70>
-                <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} gameObject={gameObject}/>
+                <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} gameObject={gameObject} />
             </Contents>
         </div >
     );

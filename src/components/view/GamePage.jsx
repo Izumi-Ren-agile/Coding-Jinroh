@@ -163,6 +163,9 @@ export const GamePage = () => {
   }, [isLoad]);
 
   const handleFinishTurn = async () => {
+
+    if(gameObject.gamePhase !== "daytime"){
+
     //次に行く際にコンパイルを強制し、遷移先をResultへ
     const adjustedCode = "public class Main{" + gameObject.main + code + "}";
     let isComplete = false;
@@ -191,7 +194,7 @@ export const GamePage = () => {
     }
     targetIndex.forEach((i)=>{nowPlayer.solvedMission.push(nowPlayer[i])});
     nowPlayer.yourMission=removeIndexes(nowPlayer.yourMission,targetIndex);
-    
+
     //確認ダイアログ
     swal
       .fire({
@@ -314,6 +317,13 @@ export const GamePage = () => {
             });
         });
       });
+    }else {
+      gameObject.presentPlayer = 0;
+      gameObject.gamePhase = "vote";
+      gameObject.startingTurn = Math.floor(Date.now() / 1000);
+      await gameObjectfileWrite(gameObject); //書き込み
+      navigate("/votePage");
+    }
   };
 
   const handleChange = (value) => {

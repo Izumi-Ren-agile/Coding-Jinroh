@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { css } from "@emotion/react";
 import { GameHeader } from '../organisms/GameHeader';
-import { PlayerAtom } from '../atom/Playeratom'
+import { PlayerAtom } from '../atom/PlayerAtom'
 import { Button } from "antd";
 import swal from 'sweetalert2';
 import "./vote.css";
@@ -16,17 +16,15 @@ import "./vote.css";
       title: `投票の結果追放されたのは．．．`,
       icon: 'question',
       confirmButtonText: '結果を確認する',
-      showCancelButton: true,
     }).then((result) => {
       swal.fire({
         title: `${expelledPlayer.name}さんでした！`,
         icon: 'warning',
         confirmButtonText: '投票数を確認する',
-        showCancelButton: true,
       });
     });
   }, []);
-    
+
   const playerVoteContainer = css`
     width: 80%;
     margin:5px 10% 5px 10%;
