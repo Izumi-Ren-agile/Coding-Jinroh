@@ -12,7 +12,12 @@ export const GamePage = () => {
   const navigate = useNavigate();
 
   // Fetchをリトライする関数
-  const fetchWithRetry = async (url, options = {}, retries = 3, backoff = 300) => {
+  const fetchWithRetry = async (
+    url,
+    options = {},
+    retries = 3,
+    backoff = 300
+  ) => {
     for (let i = 0; i < retries; i++) {
       try {
         const response = await fetch(url, options);
@@ -23,7 +28,7 @@ export const GamePage = () => {
       } catch (error) {
         console.error(`Fetch attempt ${i + 1} failed: ${error.message}`);
         if (i < retries - 1) {
-          await new Promise(res => setTimeout(res, backoff));
+          await new Promise((res) => setTimeout(res, backoff));
           backoff *= 2; // Exponential backoff
         } else {
           throw error; // 最後のリトライで失敗した場合はエラーを投げる
@@ -94,27 +99,49 @@ export const GamePage = () => {
   };
 
   //二つの文字列の差分（足された分）を取得する関数
+  const Diff = require("diff");
   const difference = (oldString, newString) => {
-    const Diff = require("diff");
-
     // 文字単位での差分を取得
     const diff = Diff.diffChars(oldString, newString);
-    console.log("ディフ確認", diff);
+    console.log("check ディフ確認", diff);
     // 加えられた文字と除外された文字を初期化
     let addedChars = "";
     let removedChars = "";
 
     // 差分を解析
     diff.forEach((part) => {
-      if (part.added) {
-        // 加えられた文字を記録
+      // if (part.added) {
+      //   // 加えられた文字を記録
+      //   addedChars += part.value;
+      // } else if (part.removed) {
+      //   // 除外された文字を記録
+      //   removedChars += part.value;
+      // }
+      if (!oldString.includes(part.value)) {
         addedChars += part.value;
-      } else if (part.removed) {
-        // 除外された文字を記録
-        removedChars += part.value;
+      } else if (part.value.length <= 3) {
+        addedChars += part.value;
+      } else if (part.added) {
+        addedChars += part.value;
       }
     });
     return addedChars;
+  };
+
+  //特定の文字列が含まれる個数
+  const countWords = (str, counter) => {
+    const count = str.split(counter).length - 1;
+    return count;
+  };
+
+  //古コードと新コードを比べ、特定の文字列が含まれている個数が新コードの方が多い場合、trueを返す
+  const compare = (oldCode, newCode, counter) => {
+    console.log("check 調査対象文字列：", counter);
+    const oldCount = countWords(oldCode, counter);
+    console.log("check 古いコードに含まれる", oldCount);
+    const newCount = countWords(newCode, counter);
+    console.log("check 新しいコードに含まれる", newCount);
+    return newCount > oldCount ? true : false;
   };
   /**------------------------------------------------------------------ */
 
@@ -149,17 +176,19 @@ export const GamePage = () => {
     console.log("check OldCode:", oldCode);
     console.log("check NewCode:", newCode);
 
-    const diff = difference(oldCode, newCode);
-
-    console.log("check 差異", diff);
     const nowPlayer = gameObject.players[gameObject.presentPlayer];
-    console.log("ミッションに何入ってんの？", nowPlayer.yourMission[0]);
+    console.log("check yourMission:", nowPlayer.yourMission);
+    const targetIndex = [];
     for (let i = 0; i < nowPlayer.yourMission.length; i++) {
-      if (diff.includes(nowPlayer.yourMission[i].arg)) {
+      if (compare(oldCode, newCode, nowPlayer.yourMission[i].arg)) {
         howmanyMission++;
-        nowPlayer.yourMission.shift();
+        targetIndex.push(i);
       }
     }
+    function removeIndexes(arr, indexesToRemove) {
+      return arr.filter((_, index) => !indexesToRemove.includes(index));
+    }
+    nowPlayer.yourMission=removeIndexes(nowPlayer.yourMission,targetIndex);
 
     //確認ダイアログ
     swal
