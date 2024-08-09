@@ -17,6 +17,13 @@ export const VoteResult = (props) => {
       icon: 'question',
       confirmButtonText: '結果を確認する',
       showCancelButton: true,
+    }).then((result) => {
+      swal.fire({
+        title: `${expelledPlayer.name}さんでした！`,
+        icon: 'warning',
+        confirmButtonText: '投票数を確認する',
+        showCancelButton: true,
+      });
     });
   }, []);
 

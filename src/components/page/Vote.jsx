@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { css } from "@emotion/react";
 import { GameHeader } from '../organisms/GameHeader';
-import { PlayerAtom } from '../atom/Playeratom'
+import { PlayerAtom } from '../atom/PlayerAtom'
 import "./vote.css";
 
 export const Vote = (props) => {
@@ -44,7 +44,9 @@ export const Vote = (props) => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="container" style={{
+      backgroundColor: "#ede4dd"
+    }}>
       <GameHeader gameObject={gameObject} />
       <div className="main-content">
         <div className="text-center-content">
@@ -56,7 +58,14 @@ export const Vote = (props) => {
               (player, index) =>
                 player.id !== gameObject.players[gameObject.presentPlayer].id && ( //現在のプレイヤーを表示しない条件
                   <div css={voteItem} key={index}>
-                    <PlayerAtom name={player.name} index={index} />
+                    <PlayerAtom
+                      name={player.name}
+                      imagePath={player.imagePath}
+                      color={player.color}
+                      isPM={player.isPM}
+                      isAlive={true}
+                      isPresent={false}
+                      key={index} />
                     <p>{player.name}</p>
                     <button
                       className={`btn-group, vote-item-btn, ${player.id === selectedPlayerIndex ? "selected" : "select"

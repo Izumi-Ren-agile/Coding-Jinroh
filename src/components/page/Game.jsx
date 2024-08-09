@@ -11,7 +11,7 @@ import { Tag } from "../molecules/Tag";
 import { TabsOfCodeEditor } from "../molecules/TabsOfCodeEditor";
 
 export const Game = (props) => {
-  const { gameObject, handleFinishTurn, code, handleChange } = props;
+  const { gameObject, handleFinishTurn, code, handleChange, setTabCode, activeTab } = props;
   console.log("initialcode", code);
   const [compiledCode, setCompiledCode] = useState("");
   const [stdout, setStdout] = useState(null); // コンパイルの標準出力
@@ -26,26 +26,38 @@ export const Game = (props) => {
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
-    swal.fire({
-      title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
-      text: '「はい」を押すとコーディングフェーズに進みます',
-      icon: 'warning',
-      confirmButtonText: 'はい',
-      cancelButtonText: 'いいえ',
-      showCancelButton: true,
-    }).then((result) => {
-      if (!result.isConfirmed) {
-        // ユーザーが「いいえ」をクリックした場合の処理
-        window.location.reload();
-      }
-    });
+    if(gameObject.gamePhase === "night"){
+      swal.fire({
+        title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
+        text: '「はい」を押すとコーディングフェーズに進みます',
+        icon: 'warning',
+        confirmButtonText: 'はい',
+        cancelButtonText: 'いいえ',
+        showCancelButton: true,
+      }).then((result) => {
+        if (!result.isConfirmed) {
+          // ユーザーが「いいえ」をクリックした場合の処理
+          window.location.reload();
+        }
+      });
+    } else {
+      swal.fire({
+        title: `会議を始めますか？`,
+        text: '「はい」を押すと会議フェーズに進みます',
+        icon: 'warning',
+        confirmButtonText: 'はい',
+        cancelButtonText: 'いいえ',
+        showCancelButton: true,
+      }).then((result) => {
+        if (!result.isConfirmed) {
+          // ユーザーが「いいえ」をクリックした場合の処理
+          window.location.reload();
+        }
+      });
+    }
   }, []);
 
   //const compileResult = Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output; //なんかようわからんけどこの一文あったらPythonでの実行がうまくいく（変数自体は使ってない）
-
-  //   const handleRunCode = () => {
-  //     setCompiledCode(code);
-  //   };
 
   const handleRunCode = async () => {
     setLoading(true); // ローディング状態を開始
@@ -82,22 +94,6 @@ export const Game = (props) => {
   };
 
   return (
-    // <div className="container" style={{ backgroundColor: gameObject.gamePhase === "night" ? '#526D82' : '#ede4dd' }}>
-    //     <GameHeader gameObject={gameObject} handleFinishTurn={handleFinishTurn} yourMission={gameObject.players[gameObject.presentPlayer].yourMission} />
-    //     {gameObject.property ? (<></>) : (
-    //         <Contents>
-    //             <Content70>
-    //                 <Tag secondText={"あと〇文字"}>エディター</Tag>
-    //                 {gameObject.gamePhase === "night" ? (
-    //                     <CodeEditor code={code} onChange={handleChange} handleRunCode={handleRunCode} />) : (<TabsOfCodeEditor editorHistory={gameObject.editorHistory} onChange={handleChange} handleRunCode={handleRunCode} />)}
-    //                 <Tag secondText={""}>実行結果</Tag>
-    //                 <Console consoleCode={Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output ? Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output : Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).buildErrors ? Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).buildErrors : ''} />
-    //             </Content70>
-    //             <Project question={gameObject.questionText} secondText={""} />
-    //         </Contents>
-    //     )}
-    // </div>
-
     <div
       className="container"
       style={{
@@ -115,13 +111,12 @@ export const Game = (props) => {
         <Contents>
           <Content70>
             {console.log("コードの中何入ってんの？", code)}
-            <Tag secondText={"あと〇文字"}>エディター</Tag>
+            <Tag secondText={"あと〇文字"} colorMode={gameObject.gamePhase}>エディター</Tag>
             {gameObject.gamePhase === "night" ? (
               <CodeEditor
                 gameObject={gameObject}
                 code={code/*&&code.replace(/\n/g,'\n')*/}
                 onChange={handleChange}
-                // onChange={(e) => setSourceCode(e.target.value)}
                 handleRunCode={handleRunCode}
                 loading={loading}
               />
@@ -132,12 +127,11 @@ export const Game = (props) => {
                 onChange={handleChange}
                 handleRunCode={handleRunCode}
                 loading={loading}
+                setTabCode={setTabCode}
+                activeTab={activeTab}
               />
             )}
-            {/* <Buttons>
-              <Button type="primary" onClick={handleRunCode} disabled={loading}>{loading ? "実行中..." : "実行"}</Button>
-            </Buttons> */}
-            <Tag secondText={""}>実行結果</Tag>
+            <Tag secondText={""} colorMode={gameObject.gamePhase}>実行結果</Tag>
             {/* 通信エラー */}
             {error && <div>Error: {error.message}</div>}
 
@@ -147,7 +141,7 @@ export const Game = (props) => {
               }
             />
           </Content70>
-          <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} />
+          <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} gameObject={gameObject}/>
         </Contents>
       )}
     </div>

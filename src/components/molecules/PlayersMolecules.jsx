@@ -2,8 +2,10 @@
 import { css } from "@emotion/react";
 import { PlayerAtom } from "../atom/PlayerAtom";
 
-export const PlayersMol = ( props ) => {
+export const PlayersMolecules = ( props ) => {
   const { headerPlayers } = props;
+
+  console.log(headerPlayers);
 
   const containerStyle = css`
     display: flex;
@@ -22,10 +24,11 @@ export const PlayersMol = ( props ) => {
     gap: 20px; /* 行内のアバター間のギャップ */
     position: absolute;
     width: 100%;
+    top: 15px;
   `;
 
   const rowOffsetStyle = css`
-    top: 70px; /* 75px (アバターの高さ)*/
+    top: 70px; /* 75px (アバターの高さ) + 15px (上の余白) */
   `;
 
   return (
