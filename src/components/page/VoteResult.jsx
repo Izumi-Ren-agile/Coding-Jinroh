@@ -1,58 +1,74 @@
-import React, { useState, useEffect } from "react";
-import swal from 'sweetalert2';
+/** @jsxImportSource @emotion/react */
+import { useEffect } from 'react';
+import { css } from "@emotion/react";
+import { GameHeader } from '../organisms/GameHeader';
+import { PlayerAtom } from '../atom/Playeratom'
 import { Button } from "antd";
-import { Content50 } from "../templates/Content50";
-import { PlayerAtom } from "../atom/Playeratom";
-import { GameHeader } from '../organisms/GameHeader'; // ../organisms/GameHeader に修正
+import swal from 'sweetalert2';
+import "./vote.css";
 
-import "./VoteResult.css";
+  export const VoteResult = (props) => {
+    const { gameObject, expelledPlayer, handleFinishTurn } = props;
+  
+    // コンポーネントがマウントされたときに確認ダイアログを表示する
+    useEffect(() => {
+      swal.fire({
+        title: `投票の結果追放されたのは．．．`,
+        icon: 'question',
+        confirmButtonText: '結果を確認する',
+        showCancelButton: true,
+      });
+    }, []);
 
-export const VoteResult = (props) => {
-  const { gameObject, expelledPlayer, handleFinishTurn } = props;
-
-  // コンポーネントがマウントされたときに確認ダイアログを表示する
-  useEffect(() => {
-    swal.fire({
-      title: `投票の結果追放されたのは．．．`,
-      icon: 'question',
-      confirmButtonText: '結果を確認する',
-      showCancelButton: true,
-    });
-  }, []);
+  const playerVoteContainer = css`
+    width: 80%;
+    margin:5px 10% 5px 10%;
+    min-height: 60%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    background-color: #d3d3d3;
+    padding: 20px;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+  `;
+  const voteItem = css`
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 10px;
+    color: #27374D;
+    border-radius: 10px;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 5px;
+  `;
 
   return (
-    <div className="container">
+       <div className="container" style={{ backgroundColor: "#ede4dd" }}>
       <GameHeader gameObject={gameObject} />
-      <div className="content">
-        <div className="content_top">
-          <h2>投票の結果...</h2>
-        </div>
-        <div className="content_main">
-          <div className="content_left">
-            <Content50>
-              <div>
-                <h1>追放されたのは</h1>
-              </div>
-              <div>
-                {expelledPlayer ? (
-                  <PlayerAtom name={expelledPlayer.name} index={0} />
-                ) : (
-                  <h2>追放されたプレイヤーはいません</h2>
-                )}
-              </div>
-            </Content50>
+      <div className="main-content">
+        <div className="text-center-content">
+          <h2 style={{ color: "#27374D" }}>投票結果</h2>
+          <br />
+          <br />
+          <div css={playerVoteContainer}>
+                    <div css={voteItem} >
+                    <PlayerAtom name={expelledPlayer.name} />
+                    <p>{expelledPlayer.name}</p>
+                    <p>{expelledPlayer.voted}票</p>
+                  </div>
+            {gameObject.players.map(
+              (player, index) =>
+                  <div css={voteItem} key={index}>
+                    <PlayerAtom name={player.name} index={index} />
+                    <p>{player.name}</p>
+                    <p>{player.voted}票</p>
+                  </div>
+            )}
           </div>
-          <div className="content_right">
-            <Content50>
-              <img
-                src="/images/voteresult_rope(Sample).png"
-                alt="Vote Result Rope"
-              />
-            </Content50>
-          </div>
-        </div>
-        <div className="cordingphase_re">
-          <Button id="toCordingpage" onClick={handleFinishTurn}>
+          <br /><br />
+          <Button className="btn-group center-button" onClick={handleFinishTurn}>
             {gameObject.gameResult === "draw" ? "コーディングフェーズへ" : "結果画面へ"}
           </Button>
         </div>
