@@ -61,19 +61,6 @@ export const CodeEditor = (props) => {
         <Button type="primary" onClick={handleRunCode} disabled={loading}>{loading ? "実行中..." : "実行"}</Button>
       </Buttons>
     </div>
-
-    // <div css={editorBackgroundStyle}>
-    //   <CodeMirror
-    //     value={code} // 初期コード
-    //     extensions={[javascript()]}
-    //     theme={oneDark}
-    //     css={codeEditorStyle}
-    //     onChange={onChange}
-    //   />
-    //   <Buttons>
-    //     <Button type="primary" onClick={handleRunCode} disabled={loading}>{loading?"実行中...":"実行"}</Button>
-    //   </Buttons>
-    // </div>
   );
 };
 

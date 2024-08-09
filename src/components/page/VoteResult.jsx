@@ -9,17 +9,24 @@ import "./vote.css";
 
   export const VoteResult = (props) => {
     const { gameObject, expelledPlayer, handleFinishTurn } = props;
-  
-    // コンポーネントがマウントされたときに確認ダイアログを表示する
-    useEffect(() => {
+
+  // コンポーネントがマウントされたときに確認ダイアログを表示する
+  useEffect(() => {
+    swal.fire({
+      title: `投票の結果追放されたのは．．．`,
+      icon: 'question',
+      confirmButtonText: '結果を確認する',
+      showCancelButton: true,
+    }).then((result) => {
       swal.fire({
-        title: `投票の結果追放されたのは．．．`,
-        icon: 'question',
-        confirmButtonText: '結果を確認する',
+        title: `${expelledPlayer.name}さんでした！`,
+        icon: 'warning',
+        confirmButtonText: '投票数を確認する',
         showCancelButton: true,
       });
-    }, []);
-
+    });
+  }, []);
+    
   const playerVoteContainer = css`
     width: 80%;
     margin:5px 10% 5px 10%;

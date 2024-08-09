@@ -5,8 +5,9 @@ export const Buttons = (props) => {
     const { children } = props;
 
     const buttonsStyle = css`
-    right: 10px;
-    bottom: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    text-align: right;
 `
     return (
         <div css={buttonsStyle}>

@@ -110,7 +110,7 @@ export const playerCalc = () => {
       this.isPM = isPM;
       this.yourMission = [];
       this.voted = 0;
-      this.imagePath = "/images/image";
+      this.imagePath = "";
       this.solvedMission = [];
     }
 

@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { Tag } from '../molecules/Tag';
 
 export const Project = (props) => {
-    const { question } = props;
+    const { gameObject, question } = props;
 
     const projectStyle = css`
     flex-grow: 1;
@@ -37,7 +37,7 @@ export const Project = (props) => {
 `
     return (
         <div css={projectStyle}>
-            <Tag secondText={""}>プロジェクト</Tag>
+            <Tag secondText={""} colorMode={gameObject.gamePhase}>プロジェクト</Tag>
             <div css={projectContainerStyle}>
                 <p css={projectTextStyle}>各位<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{question}<br /><br />よろしく頼む。<br /><br />偉井上長</p>
             </div>

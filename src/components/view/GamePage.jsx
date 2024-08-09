@@ -9,6 +9,7 @@ export const GamePage = () => {
   const [gameObject, setGameObject] = useState({ property: "default" });
   const [isLoad, setIsLoad] = useState(false); //useLoad
   const [code, setCode] = useState("");
+  const [activeTab, setActiveTab] = useState("2");
   const navigate = useNavigate();
 
   // Fetchをリトライする関数
@@ -319,6 +320,15 @@ export const GamePage = () => {
     setCode(value);
   };
 
+  const setTabCode = (tabIndex) => {
+    console.log("hikisuu",tabIndex)
+    console.log("editorHistory",gameObject.editorHistory)
+    console.log("siteisitayatu",gameObject.editorHistory.length - tabIndex + 1)
+    setCode(gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1].code);
+    setActiveTab(tabIndex);
+    console.log(gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1].code)
+  }
+
   return (
     <>
       {isLoad ? (
@@ -327,6 +337,8 @@ export const GamePage = () => {
           handleFinishTurn={handleFinishTurn}
           code={code}
           handleChange={handleChange}
+          setTabCode={setTabCode}
+          activeTab={activeTab}
         />
       ) : (
         <Load backgroundColor="#526D82" />

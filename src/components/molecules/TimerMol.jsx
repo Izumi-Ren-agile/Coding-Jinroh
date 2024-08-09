@@ -15,13 +15,14 @@ export const TimerMol = (props) => {
     isButton,
     isTimer,
     buttonText,
-    textStyle
+    textStyle,
+    textColor
   } = props;
 
   const timerStyle = css`
 align-items: center;
 padding: 20px;
-border: 5px solid #e0e0e0;
+border: 5px solid ${textColor};
 border-radius: 5px;
 text-align: center;
 font-size: 18px;

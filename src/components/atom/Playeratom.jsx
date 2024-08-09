@@ -1,26 +1,95 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
+import { Tooltip, Avatar } from "antd";
+import { CloseCircleOutlined } from "@ant-design/icons";
 
-// 色の配列
-const colors = ["#FE2727", "#FF5733", "#FFC300", "#DAF7A6", "#33FF57", "#33FFCC", "#3375FF", "#8C33FF"];
+// 点滅するアニメーション
+const blinkAnimation = keyframes`
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+`;
 
-const playerStyle = (index) => css`
-    width: 50px;
-    height: 50px;
-    background-color: #D9D9D9;
-    border: 3px solid ${colors[index % colors.length]};
+export const PlayerAtom = ({
+  name,
+  imagePath,
+  color,
+  isPM,
+  isAlive,
+  isPresent
+}) => {
+  const playerStyle = css`
+    border: 3px solid ${color};
+    background-color: ${imagePath ? "transparent" : color};
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: black;
-    font-size: 12px;
-`;
+    font-size: 30px; // さらに大きく太字
+    font-weight: bold;
+    width: 50px;
+    height: 50px;
+    filter: ${isAlive ? "none" : "grayscale(100%)"};
+    opacity: ${isAlive ? 1 : 0.5};
+    box-shadow: ${isPresent ? `0 0 8px ${color}` : "none"};
+    animation: ${isPresent ? `${blinkAnimation} 1s infinite` : "none"};
+  `;
 
-export const PlayerAtom = ({ name, index }) => {
-    return (
-        <div css={playerStyle(index)} id={`player${index}`}>
-            {name}
-        </div>
-    );
+  const overlayStyle = css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: ${isAlive ? "none" : "flex"};
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 0, 0, 0.7); /* 赤いオーバーレイ */
+    border-radius: 50%;
+  `;
+
+  const xMarkStyle = css`
+    font-size: 24px;
+    color: rgba(255, 255, 255, 1); /* ×マーク */
+  `;
+
+  const pmPlateStyle = css`
+    position: absolute;
+    top: -12px; /* アバターの上部中央に少し重なるように調整 */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #8b0000; /* 特別感のある色 */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 1;
+  `;
+
+  const tooltipTitle = () => {
+    let title = name;
+    if (isPM && isAlive) title += " (PM)";
+    if (!isAlive) title += " - 追放されています";
+    return title;
+  };
+
+  return (
+    <Tooltip title={tooltipTitle()} placement="top">
+      <div css={{ position: "relative", display: "inline-block" }}>
+        {!isAlive && (
+          <div css={overlayStyle}>
+            <CloseCircleOutlined css={xMarkStyle} />
+          </div>
+        )}
+        {isPM && isAlive && <div css={pmPlateStyle}>PM</div>}
+        <Avatar src={imagePath} css={playerStyle}>
+          {!imagePath && name[0]}
+        </Avatar>
+      </div>
+    </Tooltip>
+  );
 };

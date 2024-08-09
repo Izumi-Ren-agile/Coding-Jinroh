@@ -8,10 +8,9 @@ import { Content70 } from "../templates/Content70";
 import { Contents } from "../templates/Contents";
 import { Tag } from "../molecules/Tag";
 import { TabsOfCodeEditor } from "../molecules/TabsOfCodeEditor";
-import { useLocation, useNavigate } from "react-router-dom";
 
 export const Result = (props) => {
-    const { gameObject, handleFinishTurn, code, handleChange } = props;
+    const { gameObject, handleFinishTurn, code, handleChange, setTabCode, activeTab } = props;
     const [compiledCode, setCompiledCode] = useState("");
     const [stdout, setStdout] = useState(null); // コンパイルの標準出力
     const [buildStderr, setBuildStderr] = useState(null); // コンパイルのエラーメッセージ
@@ -73,10 +72,15 @@ export const Result = (props) => {
             />
             <Contents>
                 <Content70>
+                <Tag secondText={"あと〇文字"}>エディター</Tag>
                     <TabsOfCodeEditor
-                        editorHistory={gameObject.editorHistory}
-                        onChange={handleChange}
-                        handleRunCode={handleRunCode}
+                gameObject={gameObject}
+                editorHistory={gameObject.editorHistory}
+                onChange={handleChange}
+                handleRunCode={handleRunCode}
+                loading={loading}
+                setTabCode={setTabCode}
+                activeTab={activeTab}
                     />
                     <Tag secondText={""}>実行結果</Tag>
                     {/* 通信エラー */}
@@ -88,7 +92,7 @@ export const Result = (props) => {
                         }
                     />
                 </Content70>
-                <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} />
+                <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} gameObject={gameObject}/>
             </Contents>
         </div >
     );
