@@ -188,8 +188,9 @@ export const GamePage = () => {
     function removeIndexes(arr, indexesToRemove) {
       return arr.filter((_, index) => !indexesToRemove.includes(index));
     }
+    targetIndex.forEach((i)=>{nowPlayer.solvedMission.push(nowPlayer[i])});
     nowPlayer.yourMission=removeIndexes(nowPlayer.yourMission,targetIndex);
-
+    
     //確認ダイアログ
     swal
       .fire({
@@ -238,12 +239,14 @@ export const GamePage = () => {
         };
 
         codeCheck().then(function () {
+          var PMPlayer=gameObject.players;
           //完了ダイアログ
           swal
             .fire({
               title: "コードチェック完了",
               text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}
-              このターンのミッション達成数：${howmanyMission}`,
+              \nこのターンのミッション達成数：${howmanyMission}
+              `,
               // text:`このターンのミッション達成数：${howmanyMission}`,
               // text:`累計ミッション達成数:${gameObject.presentPlayer.solvedMission.length}`,
               // text:`現在のPM${gameObject.players.filter((p)=>p.isPM)[0]}`,
