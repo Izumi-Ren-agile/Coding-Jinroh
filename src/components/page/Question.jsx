@@ -64,7 +64,7 @@ export const Question = () => {
     const projectContainerStyle = css`
     flex-grow: 1; // 余白に合わせて伸張する
     background: white;
-    height: 100%;
+    height: 75%;
     padding: 10px;
     border: 5px solid #e0e0e0;
     border-radius: 5px;
@@ -73,7 +73,7 @@ export const Question = () => {
     overflow: auto;
 `
     const projectTextStyle = css`
-    width: 100%;
+    width: 80%;
     height: 100%;
     flex-grow: 1;
     color: black;
@@ -82,9 +82,17 @@ export const Question = () => {
     white-space: pre-wrap;
 `
 const messageStyle = css`
-font-size: 20px;
+font-size: 2.2vh;
 font-weight: bold;
 `;
+
+const questionButtonStyle=css`
+    width: 15vw;
+    height: calc(15vw*0.25);
+    font-size: x-large;
+    transform: translateX(-50%);
+    left: 50%;
+`
 
     return (
         <>{isLoad ? (
@@ -100,10 +108,15 @@ font-weight: bold;
                     <p css={messageStyle}>
                         コードを邪魔する人狼に気を付けながら、楽しいエンジニアライフを！
                     </p>
-                    <Button size="large" type="primary" onClick={handleGame}>
+                    
+                    <Button css={questionButtonStyle} onClick={handleGame} className="btn-group">
+                                    {/* <Button onClick={handleGame}> */}
+                    {/* <Button size="large" type="primary" onClick={handleGame}> */}
                         ゲーム開始
                     </Button>
+
                 </div>
+                                    
             </div >
         ) : <Load backgroundColor='#526D82' />}
         </>
