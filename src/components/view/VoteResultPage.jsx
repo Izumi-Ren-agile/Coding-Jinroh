@@ -5,8 +5,9 @@ import { VoteResult } from '../page/VoteResult';
 
 export const VoteResultPage = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });
-    const [isLoad, setIsLoad] = useState(false); //useLoad
+    const [isLoad, setIsLoad] = useState(false); //useLoad    
     const [expelledPlayer, setExpelledPlayer] = useState(null);
+    
     const navigate = useNavigate();
 
     const gameObjectfileRead = async () => {
