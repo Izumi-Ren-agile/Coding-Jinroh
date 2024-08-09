@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { css } from "@emotion/react";
 import { GameHeader } from '../organisms/GameHeader';
 import { PlayerAtom } from '../atom/PlayerAtom'
+import { Button } from "antd";
+import swal from 'sweetalert2';
 import "./vote.css";
 
 export const Vote = (props) => {
@@ -31,22 +33,36 @@ export const Vote = (props) => {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 5px;
   `;
+  const voteButtonStyle = css`
+  background: #27374D;
+    color:#ede4dd;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: -0.03em;
+    display: flex;
+    align-items: center;
+    
+  `;
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
-  useEffect(() => {
-    const showConfirmationDialog = async () => {
-      const confirmed = window.confirm(`${gameObject.players[gameObject.presentPlayer].name}さんですか？`);
-      if (!confirmed) {
-        showConfirmationDialog();
-      }
-    };
-    showConfirmationDialog();
-  }, []);
+    useEffect(() => {
+      swal.fire({
+        title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
+        text: '「はい」を押すと投票確認に進みます',
+        icon: 'warning',
+        confirmButtonText: 'はい',
+        cancelButtonText: 'いいえ',
+        showCancelButton:true,
+      }).then((result) => {
+        if (!result.isConfirmed) {
+          // ユーザーが「いいえ」をクリックした場合の処理
+          window.location.reload();
+        }
+      });
+    }, []);
 
   return (
-    <div className="container" style={{
-      backgroundColor: "#ede4dd"
-    }}>
+       <div className="container" style={{ backgroundColor: "#ede4dd" }}>
       <GameHeader gameObject={gameObject} />
       <div className="main-content">
         <div className="text-center-content">
@@ -67,19 +83,19 @@ export const Vote = (props) => {
                       isPresent={false}
                       key={index} />
                     <p>{player.name}</p>
-                    <button
-                      className={`btn-group, vote-item-btn, ${player.id === selectedPlayerIndex ? "selected" : "select"
+                    <Button css={voteButtonStyle}
+                      className={`vote-item-btn, ${player.id === selectedPlayerIndex ? "selected" : "select"
                         }`}
                       onClick={() => handleSelect(player)}
                     >
                       {player.id === selectedPlayerIndex ? "選択中" : "選択"}
-                    </button>
+                    </Button>
                   </div>
                 )
             )}
           </div>
           <br /><br />
-          <button
+          <Button
             className="submit btn-group vote-btn"
             onClick={handleVote}
             disabled={selectedPlayerIndex === null}
@@ -93,7 +109,7 @@ export const Vote = (props) => {
             ) : (
               "投票"
             )}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

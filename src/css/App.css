@@ -60,9 +60,9 @@ body .NightTimeBody{
     left: 50%;
 }
 
-.btn-group {
-    background: #27374D;
-    color:#ede4dd;
+.btn-group, select {
+    background: #27374D !important;
+    color:#ede4dd !important;
     border-radius: 10px;
     font-family: 'Inter', sans-serif;
     letter-spacing: -0.03em;
@@ -70,9 +70,19 @@ body .NightTimeBody{
     align-items: center;
     justify-content: center;
 }
-.btn-group:hover {
-    background: #990200;
+.btn-group:hover, .select:hover {
+    background:#ede4dd !important;
+    color:#27374D !important;
+    border-color: #27374D !important;
 }
+.btn-group:disabled {
+    background-color: #ccc !important;
+    cursor: not-allowed !important;
+  }
+  .btn-group:disabled:hover {
+    background-color: #ccc !important;
+    cursor: not-allowed !important;
+  }
 
 /*!
  * "fontname" is lisenced under the SIL Open Font License 1.1
@@ -90,10 +100,10 @@ body .NightTimeBody{
  * by https://flopdesign.booth.pm/items/2658538
  */
     
-    @font-face {
+    /* @font-face {
         font-family: 'zerofont';
         src: url('../fonts/OpenType/ZeroGothic.otf') format('opentype'),
-        }
+        } */
 
     /*!
  *  by https://flopdesign.booth.pm/items/2658538

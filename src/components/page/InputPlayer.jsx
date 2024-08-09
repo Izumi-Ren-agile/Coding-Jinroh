@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import InsertData from "../database/UpdateData";
-import { CountData } from "../database/CountData";
-import { SelectData } from "../database/SelectData";
-import NonhookCountData from "../database/NonhookCountData";
+// import InsertData from "../database/UpdateData";
+// import { CountData } from "../database/CountData";
+// import { SelectData } from "../database/SelectData";
+// import NonhookCountData from "../database/NonhookCountData";
+import { Button } from "antd";
 
 export const InputPlayer = () => {
   const [gameObject, setGameObject] = useState({ property: "default" });
@@ -73,8 +74,9 @@ export const InputPlayer = () => {
             <input type="text" id="player8" name="player8" />
           </div>
           <div class="button-container">
-            <button
+            <Button
               id="submit-button"
+              className="btn-group"
               onClick={async () => {
                 const players = playerCalc();
                 // const gameObject = await createGameObject(players);
@@ -86,7 +88,7 @@ export const InputPlayer = () => {
               }}
             >
               決定
-            </button>
+            </Button>
           </div>
         </div>
       </body>
