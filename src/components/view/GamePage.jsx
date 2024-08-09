@@ -163,161 +163,173 @@ export const GamePage = () => {
   }, [isLoad]);
 
   const handleFinishTurn = async () => {
+    if (gameObject.gamePhase !== "daytime") {
+      //次に行く際にコンパイルを強制し、遷移先をResultへ
+      const adjustedCode = "public class Main{" + gameObject.main + code + "}";
+      let isComplete = false;
 
-    if(gameObject.gamePhase !== "daytime"){
+      //ミッション達成処理
+      let howmanyMission = 0;
 
-    //次に行く際にコンパイルを強制し、遷移先をResultへ
-    const adjustedCode = "public class Main{" + gameObject.main + code + "}";
-    let isComplete = false;
+      //PMのプレイヤー
+      let PMPlayer;
 
-    //ミッション達成処理
-    let howmanyMission = 0;
+      const oldCode =
+        gameObject.editorHistory[gameObject.editorHistory.length - 1].code;
+      const newCode = code;
 
-    const oldCode =
-      gameObject.editorHistory[gameObject.editorHistory.length - 1].code;
-    const newCode = code;
+      console.log("check OldCode:", oldCode);
+      console.log("check NewCode:", newCode);
 
-    console.log("check OldCode:", oldCode);
-    console.log("check NewCode:", newCode);
-
-    const nowPlayer = gameObject.players[gameObject.presentPlayer];
-    console.log("check yourMission:", nowPlayer.yourMission);
-    const targetIndex = [];
-    for (let i = 0; i < nowPlayer.yourMission.length; i++) {
-      if (compare(oldCode, newCode, nowPlayer.yourMission[i].arg)) {
-        howmanyMission++;
-        targetIndex.push(i);
+      const nowPlayer = gameObject.players[gameObject.presentPlayer];
+      console.log("check yourMission:", nowPlayer.yourMission);
+      const targetIndex = [];
+      for (let i = 0; i < nowPlayer.yourMission.length; i++) {
+        if (compare(oldCode, newCode, nowPlayer.yourMission[i].arg)) {
+          howmanyMission++;
+          targetIndex.push(i);
+        }
       }
-    }
-    function removeIndexes(arr, indexesToRemove) {
-      return arr.filter((_, index) => !indexesToRemove.includes(index));
-    }
-    targetIndex.forEach((i)=>{nowPlayer.solvedMission.push(nowPlayer[i])});
-    nowPlayer.yourMission=removeIndexes(nowPlayer.yourMission,targetIndex);
+      function removeIndexes(arr, indexesToRemove) {
+        return arr.filter((_, index) => !indexesToRemove.includes(index));
+      }
+      targetIndex.forEach((i) => {
+        nowPlayer.solvedMission.push(nowPlayer[i]);
+      });
+      nowPlayer.yourMission = removeIndexes(nowPlayer.yourMission, targetIndex);
 
-    //確認ダイアログ
-    swal
-      .fire({
-        title: "コーディングお疲れ様です！",
-        confirmButtonText: "コードチェックを開始",
-      })
-      .then(function () {
-        //処理中ダイアログ
-        swal.fire({
-          title: "コーディングチェック中",
-          html: "処理終了まで画面はそのままにしてください。",
-          allowOutsideClick: false, //枠外をクリックしても画面を閉じない
-          showConfirmButton: false,
-          didOpen: () => {
-            swal.showLoading();
-          },
-        });
+      //PM判定
+      console.log("ちゃんと", gameObject.players);
+      console.log(
+        "ちゃんとPM判定を終えたプレイヤーオブジェクトたちが帰ってきてるか",
+        selectPM(gameObject.players)
+      );
 
-        //プロジェクトが達成できているか、ミッション達成数を返す
-        const codeCheck = async () => {
-          try {
-            const response = await fetchWithRetry("/compile", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                language: gameObject.codeLanguage,
-                sourceCode: adjustedCode,
-              }), // 言語とソースコードをリクエストボディに含める
-            });
+      PMPlayer=gameObject.players.filter((p)=>p.isPM);
 
-            if (!response.ok) {
-              // レスポンスが成功していない場合はエラーメッセージを取得
-              const errorResponse = await response.json();
-              throw new Error(
-                errorResponse.message || "コンパイル中にエラーが発生しました"
-              );
-            }
+      //確認ダイアログ
+      swal
+        .fire({
+          title: "コーディングお疲れ様です！",
+          confirmButtonText: "コードチェックを開始",
+        })
+        .then(function () {
+          //処理中ダイアログ
+          swal.fire({
+            title: "コーディングチェック中",
+            html: "処理終了まで画面はそのままにしてください。",
+            allowOutsideClick: false, //枠外をクリックしても画面を閉じない
+            showConfirmButton: false,
+            didOpen: () => {
+              swal.showLoading();
+            },
+          });
 
-            const result = await response.json(); // レスポンスをJSONとして解析
-            isComplete = !result.stdout.includes("×");
-          } catch (error) {
-            console.log("次の人へでのコンパイルと勝利判定でエラー", error);
-          }
-        };
+          //プロジェクトが達成できているか、ミッション達成数を返す
+          const codeCheck = async () => {
+            try {
+              const response = await fetchWithRetry("/compile", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  language: gameObject.codeLanguage,
+                  sourceCode: adjustedCode,
+                }), // 言語とソースコードをリクエストボディに含める
+              });
 
-        codeCheck().then(function () {
-          var PMPlayer=gameObject.players;
-          //完了ダイアログ
-          swal
-            .fire({
-              title: "コードチェック完了",
-              text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}
-              \nこのターンのミッション達成数：${howmanyMission}
-              `,
-              // text:`このターンのミッション達成数：${howmanyMission}`,
-              // text:`累計ミッション達成数:${gameObject.presentPlayer.solvedMission.length}`,
-              // text:`現在のPM${gameObject.players.filter((p)=>p.isPM)[0]}`,
-              confirmButtonText: "次のターンへ",
-            })
-            .then(function () {
-              console.log("処理終了後に画面更新");
-
-              const changeTurn = async () => {
-                if (isComplete) {
-                  gameObject.gameResult = "citizen";
-                  gameObject.gamePhase = "result";
-                  await gameObjectfileWrite(gameObject); //書き込み
-                  navigate("/resultPage");
-                }
-                /**--------------------------- */
-                //PM判定
-                console.log("ちゃんと", gameObject.players);
-                console.log(
-                  "ちゃんとPM判定を終えたプレイヤーオブジェクトたちが帰ってきてるか",
-                  selectPM(gameObject.players)
+              if (!response.ok) {
+                // レスポンスが成功していない場合はエラーメッセージを取得
+                const errorResponse = await response.json();
+                throw new Error(
+                  errorResponse.message || "コンパイル中にエラーが発生しました"
                 );
+              }
 
-                if (gameObject.gamePhase === "night") {
-                  gameObject.editor = code;
-                  gameObject.editorHistory = [
-                    ...gameObject.editorHistory,
-                    {
-                      name: `day${gameObject.presentDay}-${
-                        gameObject.presentCodingTurn
-                      } ${gameObject.players[gameObject.presentPlayer].name}`,
-                      code: code,
-                    },
-                  ];
-                }
+              const result = await response.json(); // レスポンスをJSONとして解析
+              isComplete = !result.stdout.includes("×");
+            } catch (error) {
+              console.log("次の人へでのコンパイルと勝利判定でエラー", error);
+            }
+          };
 
-                if (gameObject.presentPlayer < gameObject.players.length - 1) {
-                  gameObject.presentPlayer++;
-                  gameObject.startingTurn = Math.floor(Date.now() / 1000);
-                  await gameObjectfileWrite(gameObject); //書き込み
-                } else {
-                  if (gameObject.presentCodingTurn < gameObject.maxCodingTurn) {
-                    gameObject.presentPlayer = 0;
-                    gameObject.presentCodingTurn++;
+          codeCheck().then(function () {
+            //完了ダイアログ
+            swal
+              .fire({
+                title: "コードチェック完了",
+                text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}
+              \nこのターンのミッション達成数：${howmanyMission}
+              \n現在のPM：${PMPlayer[0].name}
+              `,
+                // text:`このターンのミッション達成数：${howmanyMission}`,
+                // text:`累計ミッション達成数:${gameObject.presentPlayer.solvedMission.length}`,
+                // text:`現在のPM${gameObject.players.filter((p)=>p.isPM)[0]}`,
+                confirmButtonText: "次のターンへ",
+              })
+              .then(function () {
+                console.log("処理終了後に画面更新");
+
+                const changeTurn = async () => {
+                  if (isComplete) {
+                    gameObject.gameResult = "citizen";
+                    gameObject.gamePhase = "result";
+                    await gameObjectfileWrite(gameObject); //書き込み
+                    navigate("/resultPage");
+                  }
+                  /**--------------------------- */
+                  
+
+                  if (gameObject.gamePhase === "night") {
+                    gameObject.editor = code;
+                    gameObject.editorHistory = [
+                      ...gameObject.editorHistory,
+                      {
+                        name: `day${gameObject.presentDay}-${
+                          gameObject.presentCodingTurn
+                        } ${gameObject.players[gameObject.presentPlayer].name}`,
+                        code: code,
+                      },
+                    ];
+                  }
+
+                  if (
+                    gameObject.presentPlayer <
+                    gameObject.players.length - 1
+                  ) {
+                    gameObject.presentPlayer++;
                     gameObject.startingTurn = Math.floor(Date.now() / 1000);
                     await gameObjectfileWrite(gameObject); //書き込み
                   } else {
-                    if (gameObject.gamePhase === "night") {
-                      gameObject.gamePhase = "daytime";
+                    if (
+                      gameObject.presentCodingTurn < gameObject.maxCodingTurn
+                    ) {
+                      gameObject.presentPlayer = 0;
+                      gameObject.presentCodingTurn++;
                       gameObject.startingTurn = Math.floor(Date.now() / 1000);
                       await gameObjectfileWrite(gameObject); //書き込み
                     } else {
-                      gameObject.presentPlayer = 0;
-                      gameObject.gamePhase = "vote";
-                      gameObject.startingTurn = Math.floor(Date.now() / 1000);
-                      await gameObjectfileWrite(gameObject); //書き込み
-                      navigate("/votePage");
+                      if (gameObject.gamePhase === "night") {
+                        gameObject.gamePhase = "daytime";
+                        gameObject.startingTurn = Math.floor(Date.now() / 1000);
+                        await gameObjectfileWrite(gameObject); //書き込み
+                      } else {
+                        gameObject.presentPlayer = 0;
+                        gameObject.gamePhase = "vote";
+                        gameObject.startingTurn = Math.floor(Date.now() / 1000);
+                        await gameObjectfileWrite(gameObject); //書き込み
+                        navigate("/votePage");
+                      }
                     }
                   }
-                }
-                setIsLoad(false);
-              };
-              changeTurn();
-            });
+                  setIsLoad(false);
+                };
+                changeTurn();
+              });
+          });
         });
-      });
-    }else {
+    } else {
       gameObject.presentPlayer = 0;
       gameObject.gamePhase = "vote";
       gameObject.startingTurn = Math.floor(Date.now() / 1000);
@@ -331,13 +343,22 @@ export const GamePage = () => {
   };
 
   const setTabCode = (tabIndex) => {
-    console.log("hikisuu",tabIndex)
-    console.log("editorHistory",gameObject.editorHistory)
-    console.log("siteisitayatu",gameObject.editorHistory.length - tabIndex + 1)
-    setCode(gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1].code);
+    console.log("hikisuu", tabIndex);
+    console.log("editorHistory", gameObject.editorHistory);
+    console.log(
+      "siteisitayatu",
+      gameObject.editorHistory.length - tabIndex + 1
+    );
+    setCode(
+      gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1]
+        .code
+    );
     setActiveTab(tabIndex);
-    console.log(gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1].code)
-  }
+    console.log(
+      gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1]
+        .code
+    );
+  };
 
   return (
     <>
