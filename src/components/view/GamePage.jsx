@@ -204,7 +204,7 @@ export const GamePage = () => {
       .then(function () {
         //処理中ダイアログ
         swal.fire({
-          title: "コーディングチェック中",
+          title: "コードチェック中",
           html: "処理終了まで画面はそのままにしてください。",
           allowOutsideClick: false, //枠外をクリックしても画面を閉じない
           showConfirmButton: false,
