@@ -11,33 +11,61 @@ export const GamePage = () => {
   const [code, setCode] = useState("");
   const navigate = useNavigate();
 
+  // Fetchをリトライする関数
+  const fetchWithRetry = async (
+    url,
+    options = {},
+    retries = 3,
+    backoff = 300
+  ) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${response.statusText}`);
+        }
+        return response;
+      } catch (error) {
+        console.error(`Fetch attempt ${i + 1} failed: ${error.message}`);
+        if (i < retries - 1) {
+          await new Promise((res) => setTimeout(res, backoff));
+          backoff *= 2; // Exponential backoff
+        } else {
+          throw error; // 最後のリトライで失敗した場合はエラーを投げる
+        }
+      }
+    }
+  };
+
   const gameObjectfileRead = async () => {
     console.log(gameObject);
-    await fetch("/read-gameObject")
-      .then((response) => response.json())
-      .then((data) => {
-        setGameObject(data);
-        setCode(gameObject.editor);
-        setIsLoad(true);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    try {
+      const response = await fetchWithRetry("/read-gameObject");
+      const data = await response.json();
+      setGameObject(data);
+      setCode(gameObject.editor);
+      setIsLoad(true);
+    } catch (error) {
+      console.error("gameObjectfileRead Error:", error);
+      // 必要に応じてここでリトライやエラーメッセージの表示を行う
+    }
   };
 
   const gameObjectfileWrite = async (object) => {
-    await fetch("/write-gameObject", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(object),
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => console.error("Error:", error));
+    try {
+      const response = await fetchWithRetry("/write-gameObject", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(object),
+      });
+      const data = await response.text();
+      console.log(data);
+    } catch (error) {
+      console.error("gameObjectfileWrite Error:", error);
+      // 必要に応じてここでリトライやエラーメッセージの表示を行う
+    }
   };
 
   /**------------------------------------------------------------------ */
@@ -69,28 +97,51 @@ export const GamePage = () => {
     }
     return returnPlayers;
   };
-  //二つの文字列の差分（足された分）を取得する関数
-  const difference = (oldString, newString) => {
-    const Diff = require("diff");
 
+  //二つの文字列の差分（足された分）を取得する関数
+  const Diff = require("diff");
+  const difference = (oldString, newString) => {
     // 文字単位での差分を取得
     const diff = Diff.diffChars(oldString, newString);
-    console.log("ディフ確認", diff);
+    console.log("check ディフ確認", diff);
     // 加えられた文字と除外された文字を初期化
     let addedChars = "";
     let removedChars = "";
 
     // 差分を解析
     diff.forEach((part) => {
-      if (part.added) {
-        // 加えられた文字を記録
+      // if (part.added) {
+      //   // 加えられた文字を記録
+      //   addedChars += part.value;
+      // } else if (part.removed) {
+      //   // 除外された文字を記録
+      //   removedChars += part.value;
+      // }
+      if (!oldString.includes(part.value)) {
         addedChars += part.value;
-      } else if (part.removed) {
-        // 除外された文字を記録
-        removedChars += part.value;
+      } else if (part.value.length <= 3) {
+        addedChars += part.value;
+      } else if (part.added) {
+        addedChars += part.value;
       }
     });
     return addedChars;
+  };
+
+  //特定の文字列が含まれる個数
+  const countWords = (str, counter) => {
+    const count = str.split(counter).length - 1;
+    return count;
+  };
+
+  //古コードと新コードを比べ、特定の文字列が含まれている個数が新コードの方が多い場合、trueを返す
+  const compare = (oldCode, newCode, counter) => {
+    console.log("check 調査対象文字列：", counter);
+    const oldCount = countWords(oldCode, counter);
+    console.log("check 古いコードに含まれる", oldCount);
+    const newCount = countWords(newCode, counter);
+    console.log("check 新しいコードに含まれる", newCount);
+    return newCount > oldCount ? true : false;
   };
   /**------------------------------------------------------------------ */
 
@@ -115,6 +166,31 @@ export const GamePage = () => {
     const adjustedCode = "public class Main{" + gameObject.main + code + "}";
     let isComplete = false;
 
+    //ミッション達成処理
+    let howmanyMission = 0;
+
+    const oldCode =
+      gameObject.editorHistory[gameObject.editorHistory.length - 1].code;
+    const newCode = code;
+
+    console.log("check OldCode:", oldCode);
+    console.log("check NewCode:", newCode);
+
+    const nowPlayer = gameObject.players[gameObject.presentPlayer];
+    console.log("check yourMission:", nowPlayer.yourMission);
+    const targetIndex = [];
+    for (let i = 0; i < nowPlayer.yourMission.length; i++) {
+      if (compare(oldCode, newCode, nowPlayer.yourMission[i].arg)) {
+        howmanyMission++;
+        targetIndex.push(i);
+      }
+    }
+    function removeIndexes(arr, indexesToRemove) {
+      return arr.filter((_, index) => !indexesToRemove.includes(index));
+    }
+    targetIndex.forEach((i)=>{nowPlayer.solvedMission.push(nowPlayer[i])});
+    nowPlayer.yourMission=removeIndexes(nowPlayer.yourMission,targetIndex);
+    
     //確認ダイアログ
     swal
       .fire({
@@ -136,7 +212,7 @@ export const GamePage = () => {
         //プロジェクトが達成できているか、ミッション達成数を返す
         const codeCheck = async () => {
           try {
-            const response = await fetch("/compile", {
+            const response = await fetchWithRetry("/compile", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -163,11 +239,17 @@ export const GamePage = () => {
         };
 
         codeCheck().then(function () {
+          var PMPlayer=gameObject.players;
           //完了ダイアログ
           swal
             .fire({
               title: "コードチェック完了",
-              text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}`,
+              text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}
+              \nこのターンのミッション達成数：${howmanyMission}
+              `,
+              // text:`このターンのミッション達成数：${howmanyMission}`,
+              // text:`累計ミッション達成数:${gameObject.presentPlayer.solvedMission.length}`,
+              // text:`現在のPM${gameObject.players.filter((p)=>p.isPM)[0]}`,
               confirmButtonText: "次のターンへ",
             })
             .then(function () {

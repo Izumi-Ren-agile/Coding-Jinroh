@@ -1,19 +1,15 @@
 const http = require("http");
 const express = require("express");
 const path = require("path");
-const fs = require("fs");
+const fs = require("fs").promises; // `fs.promises` を使用して非同期APIを使用
 const { compileCode } = require("./serverCompilerApi");
 
 const {
   initializeApp,
-  applicationDefault,
   cert,
 } = require("firebase-admin/app");
 const {
   getFirestore,
-  Timestamp,
-  FieldValue,
-  Filter,
 } = require("firebase-admin/firestore");
 
 // expressオブジェクトの生成
@@ -28,40 +24,28 @@ app.get("/", (req, res) => {
 app.use(express.static(path.join(__dirname, "build")));
 
 const bodyParser = require("body-parser");
-// urlencodedとjsonは別々に初期化する
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// ゲームオブジェクトを書き込むエンドポイント
 app.post("/write-gameObject", async (req, res) => {
-  const data = JSON.stringify(req.body);
-  console.log("データの把握:", req.body);
-  fs.writeFile("gameObject.json", data, (err) => {
-    if (err) {
-      res.status(500).send("Error writing file");
-    } else {
-      res.send("File written successfully");
-    }
-  });
-  // await setData("GAMEOBJECT", "gameObject", req.body);
-  // res.send("File written successfully");
+  const data = JSON.stringify(req.body, null, 2); // インデントを追加して整形
+  try {
+    await fs.writeFile("gameObject.json", data);
+    res.send("File written successfully");
+  } catch (err) {
+    res.status(500).send("Error writing file");
+  }
 });
 
+// ゲームオブジェクトを読み込むエンドポイント
 app.get("/read-gameObject", async (req, res) => {
-  fs.readFile("gameObject.json", "utf8", (err, data) => {
-    if (err) {
-      return res
-        .status(500)
-        .send("ゲームオブジェクトの読み取りエラーが発生しました");
-    } else {
-      return res.status(200).json(JSON.parse(data));
-    }
-  });
-  // const data=await readData2("GAMEOBJECT", "gameObject");
-  // return res.status(200).json(data);
+  try {
+    const data = await fs.readFile("gameObject.json", "utf8");
+    res.status(200).json(JSON.parse(data));
+  } catch (err) {
+    res.status(500).send("ゲームオブジェクトの読み取りエラーが発生しました");
+  }
 });
 
 /*-------------------------------------------------------------------------------------------------------*/
