@@ -27,7 +27,7 @@ export const Result = (props) => {
             confirmButtonText: '結果を見る',
         }).then((result) => {
             swal.fire({
-                title: `${gameObject.gameResult === "citizen" ? "市民" : "人狼"}の勝利！`,
+                title: `${gameObject.gameResult === "citizen" ? "市民" : "人狼"}！`,
                 confirmButtonText: 'ゲームを振り返る',
             });
         });

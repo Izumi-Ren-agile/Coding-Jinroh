@@ -26,8 +26,6 @@ export const Game = (props) => {
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
-    let finishTime = gameObject.startingTurn + gameObject.codingMaxTime;
-    let currentTime = Math.floor(Date.now() / 1000);
     if(gameObject.gamePhase === "night" && gameObject.startingTurn + gameObject.codingMaxTime > Math.floor(Date.now() / 1000)){
       swal.fire({
         title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,

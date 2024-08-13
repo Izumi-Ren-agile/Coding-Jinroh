@@ -1,16 +1,63 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // import InsertData from "../database/UpdateData";
 // import { CountData } from "../database/CountData";
 // import { SelectData } from "../database/SelectData";
 // import NonhookCountData from "../database/NonhookCountData";
-import { Button } from "antd";
+import { UserOutlined } from '@ant-design/icons';
+import { Input, Button, Radio } from "antd";
 
 export const InputPlayer = () => {
   const [gameObject, setGameObject] = useState({ property: "default" });
   const navigate = useNavigate();
   const handleConfirmPlayer = () => {
     navigate("/confirmPlayerPage");
+  };
+
+  const contentsStyle = css`
+  display: flex;
+  `
+  const contentLeftStyle = css`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+  width: 50%;
+  `
+  const contentRightStyle = css`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+  width: 50%;
+  `
+  const playerInputStyle = css`
+  padding: 0 20px:
+  `
+  const buttonContainerStyle = css`
+  padding: 0 20px:
+  `
+  const optionsWithDisabled = [
+    {
+      label: '初級',
+      value: '初級',
+    },
+    {
+      label: '中級',
+      value: '中級',
+    },
+    {
+      label: '上級',
+      value: '上級',
+      disabled: true,
+    },
+  ];
+  const [difficulty, setDifficulty] = useState('初級');
+
+  const onChangeDiifficulty = ({ target: { value } }) => {
+    setDifficulty(value);
   };
 
   const gameObjectfileRead = async () => {
@@ -37,61 +84,98 @@ export const InputPlayer = () => {
   return (
     <>
       <body>
-        <div>
-          <header>
-            <h1>プレイヤーを入力してください</h1>
-          </header>
-          <div class="player-input">
-            <label for="player1">Player 1:</label>
-            <input type="text" id="player1" name="player1" />
-          </div>
-          <div class="player-input">
-            <label for="player2">Player 2:</label>
-            <input type="text" id="player2" name="player2" />
-          </div>
-          <div class="player-input">
-            <label for="player3">Player 3:</label>
-            <input type="text" id="player3" name="player3" />
-          </div>
-          <div class="player-input">
-            <label for="player4">Player 4:</label>
-            <input type="text" id="player4" name="player4" />
-          </div>
-          <div class="player-input">
-            <label for="player5">Player 5:</label>
-            <input type="text" id="player5" name="player5" />
-          </div>
-          <div class="player-input">
-            <label for="player6">Player 6:</label>
-            <input type="text" id="player6" name="player6" />
-          </div>
-          <div class="player-input">
-            <label for="player7">Player 7:</label>
-            <input type="text" id="player7" name="player7" />
-          </div>
-          <div class="player-input">
-            <label for="player8">Player 8:</label>
-            <input type="text" id="player8" name="player8" />
-          </div>
-          <div class="button-container">
-            <Button
-              id="submit-button"
-              className="btn-group"
-              onClick={async () => {
-                const players = playerCalc();
-                // const gameObject = await createGameObject(players);
-                // console.log("ゲームオブジェクトは作れているよね？", gameObject);
-                const gameObject = await createDummyGameObject(players);
-                await gameObjectfileWrite(gameObject);
-                console.log("終わってっか？？");
-                handleConfirmPlayer();
-              }}
-            >
-              決定
-            </Button>
+        <div class="container">
+          <div css={contentsStyle}>
+            <div css={contentLeftStyle}>
+              <header>
+                <h1>プレイヤーを入力してください</h1>
+              </header>
+              <div css={playerInputStyle}>
+                <label for="player1">Player 1:</label>
+                <Input size="small size" id="player1" placeholder="名前を入力してください" prefix={<UserOutlined />} />
+              </div>
+              <div css={playerInputStyle}>
+                <label for="player2">Player 2:</label>
+                <Input size="small size" id="player2" placeholder="名前を入力してください" prefix={<UserOutlined />} />
+              </div>
+              <div css={playerInputStyle}>
+                <label for="player3">Player 3:</label>
+                <Input size="small size" id="player3" placeholder="名前を入力してください" prefix={<UserOutlined />} />
+              </div>
+              <div css={playerInputStyle}>
+                <label for="player4">Player 4:</label>
+                <Input size="small size" id="player4" placeholder="名前を入力してください" prefix={<UserOutlined />} />
+              </div>
+              <div css={playerInputStyle}>
+                <label for="player5">Player 5:</label>
+                <Input size="small size" id="player5" placeholder="名前を入力してください" prefix={<UserOutlined />} />
+              </div>
+              <div css={playerInputStyle}>
+                <label for="player6">Player 6:</label>
+                <Input size="small size" id="player6" placeholder="名前を入力してください" prefix={<UserOutlined />} />
+              </div>
+              <div css={playerInputStyle}>
+                <label for="player7">Player 7:</label>
+                <Input size="small size" id="player7" placeholder="名前を入力してください" prefix={<UserOutlined />} />
+              </div>
+              <div css={playerInputStyle}>
+                <label for="player8">Player 8:</label>
+                <Input size="small size" id="player8" placeholder="名前を入力してください" prefix={<UserOutlined />} />
+              </div>
+              <div class="button-container">
+                <Button
+                  id="submit-button"
+                  className="btn-group"
+                  onClick={async () => {
+                    const players = playerCalc();
+                    // const gameObject = await createGameObject(players);
+                    // console.log("ゲームオブジェクトは作れているよね？", gameObject);
+                    const gameObject = await createDummyGameObject(players);
+                    await gameObjectfileWrite(gameObject);
+                    console.log("終わってっか？？");
+                    handleConfirmPlayer();
+                  }}
+                >
+                  決定
+                </Button>
+              </div>
+            </div>
+            <div css={contentRightStyle}>
+              <header>
+                <h1>ゲーム設定を選択してください</h1>
+              </header>
+              <div css={playerInputStyle}>
+                <label for="difficulty">課題難易度:</label>
+                <Radio.Group
+                  options={optionsWithDisabled}
+                  onChange={onChangeDiifficulty}
+                  value={difficulty}
+                  optionType="button"
+                  buttonStyle="solid"
+                  size="large"
+                />
+              </div>
+              <div css={buttonContainerStyle}>
+                <Button
+                  id="submit-button"
+                  className="btn-group"
+                  onClick={async () => {
+                    const players = playerCalc();
+                    // const gameObject = await createGameObject(players);
+                    // console.log("ゲームオブジェクトは作れているよね？", gameObject);
+                    const gameObject = await createDummyGameObject(players);
+                    await gameObjectfileWrite(gameObject);
+                    console.log("終わってっか？？");
+                    handleConfirmPlayer();
+                  }}
+                >
+                  決定
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
-      </body>
+      </body >
     </>
   );
 };
