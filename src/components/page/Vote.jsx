@@ -57,6 +57,8 @@ export const Vote = (props) => {
         if (!result.isConfirmed) {
           // ユーザーが「いいえ」をクリックした場合の処理
           window.location.reload();
+        }else{
+          handleSelect(gameObject.players[gameObject.presentPlayer])
         }
       });
     }, []);
@@ -66,13 +68,13 @@ export const Vote = (props) => {
       <GameHeader gameObject={gameObject} />
       <div className="main-content">
         <div className="text-center-content">
-          <h2>{gameObject.players[gameObject.presentPlayer].name}さん、人狼だと思う人に投票してください</h2>
+          <h2 style={{color:"#ede4dd"}}>{gameObject.players[gameObject.presentPlayer].name}さん、人狼だと思う人に投票してください</h2>
           <br />
           <br />
           <div css={playerVoteContainer}>
             {gameObject.players.map(
               (player, index) =>
-                player.id !== gameObject.players[gameObject.presentPlayer].id && ( //現在のプレイヤーを表示しない条件
+                ( 
                   <div css={voteItem} key={index}>
                     <PlayerAtom
                       name={player.name}
@@ -90,6 +92,7 @@ export const Vote = (props) => {
                     >
                       {player.id === selectedPlayerIndex ? "選択中" : "選択"}
                     </Button>
+                    
                   </div>
                 )
             )}
@@ -99,17 +102,7 @@ export const Vote = (props) => {
             className="submit btn-group vote-btn"
             onClick={handleVote}
             disabled={selectedPlayerIndex === null}
-          >
-            {selectedPlayerIndex === null ? (
-              <>
-                選択
-                <br />
-                してください
-              </>
-            ) : (
-              "投票"
-            )}
-          </Button>
+          >投票</Button>
         </div>
       </div>
     </div>
