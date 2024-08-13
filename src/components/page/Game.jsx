@@ -26,7 +26,7 @@ export const Game = (props) => {
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
-    if(gameObject.gamePhase === "night"){
+    if(gameObject.gamePhase === "night" && gameObject.startingTurn + gameObject.codingMaxTime > Math.floor(Date.now() / 1000)){
       swal.fire({
         title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
         text: '「はい」を押すとコーディングフェーズに進みます',
@@ -40,7 +40,7 @@ export const Game = (props) => {
           window.location.reload();
         }
       });
-    } else {
+    } else if(gameObject.gamePhase === "daytime" && gameObject.startingTurn + gameObject.meetingmaxTime > Math.floor(Date.now() / 1000)) {
       swal.fire({
         title: `会議を始めますか？`,
         text: '「はい」を押すと会議フェーズに進みます',

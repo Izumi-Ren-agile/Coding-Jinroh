@@ -44,6 +44,13 @@ export const TabsOfCodeEditor = (props) => {
   })
   return (
     <div css={editorContainerStyle}>
+      <style>
+      {
+        `:where(.css-1pg9a38).ant-tabs .ant-tabs-tab {
+          color: #ffffff;
+        }`
+      }
+      </style>
       <Tabs defaultActiveKey="2" size="small" style={{ color: "#FFF", backgroundColor: "#282c34", flexGrow: "5", padding: "0 10px", borderRadius: "5px", overflow: "auto", display: "flex", position: "relative" }} onChange={(e) => {console.log(e); setTabCode(e === "1" ? 2 : e)}} activeKey={activeTab}>
         <TabPane tab="メイン関数" key="1" style={{ color: "#FFF", backgroundColor: "#282c34" }}>
           <div css={editorBackgroundStyle}>
