@@ -212,10 +212,10 @@ export const playerCalc = () => {
     "pink",
     "aqua",
     "purple",
-    "yellow",
-    "orange",
+    "olive",
+    "navy",
     "red",
-    "gray",
+    "teal",
   ];
 
   const player1Name = document.getElementById("player1").value;
