@@ -12,11 +12,12 @@ export const PlayersMolecules = ( props ) => {
     flex-wrap: wrap;
     gap: 20px; /* 一行目と二行目のアバター間のギャップ */
     max-width: 300px; /* コンテナの最大幅 */
-    height: 140px;
+    min-width:260px;
+    height: 100px;
     align-items: center;
     position: relative;
-    justify-content: flex-start;
-    overflow: hidden; /* コンテナを超えた部分を隠す */
+    justify-content: flex-end;
+     /* コンテナを超えた部分を隠す */
   `;
 
   const rowStyle = css`
@@ -25,10 +26,12 @@ export const PlayersMolecules = ( props ) => {
     position: absolute;
     width: 100%;
     top: 15px;
+    justify-content: flex-end;
   `;
 
   const rowOffsetStyle = css`
-    top: 70px; /* 75px (アバターの高さ) + 15px (上の余白) */
+    top: 80px; /* 75px (アバターの高さ) + 15px (上の余白) */
+    justify-content: flex-end;
   `;
 
   return (
