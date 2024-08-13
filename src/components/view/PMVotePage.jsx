@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Load } from '../page/Load';
-import { Vote } from "../page/Vote";
+import { PmVote } from "../page/PmVote";
 
-export const PMVoteResultPage = () => {
+export const PMVotePage = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });
     const [isLoad, setIsLoad] = useState(false);
     const navigate = useNavigate();
@@ -51,26 +51,21 @@ export const PMVoteResultPage = () => {
 
         setSelectedPlayerId(null);
 
-        if (gameObject.presentPlayer < gameObject.players.length - 1) {
-            gameObject.presentPlayer++;
-            await gameObjectfileWrite(gameObject);
-            setIsLoad(false);
-        } else {
             gameObject.presentPlayer = 0;
             await gameObjectfileWrite(gameObject);
-            navigate("/voteResultPage");
-        }
+            navigate("/voteResultPage") 
     };
 
     return (
         <>
             {isLoad ? (
-                <Vote
+                <PmVote
                     gameObject={gameObject}
                     handleVote={handleVote}
                     selectedPlayerIndex={selectedPlayerId}
                     handleSelect={handleSelect}
                 />
+                
             ) : (
                 <Load backgroundColor='#526D82' />
             )}
