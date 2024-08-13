@@ -128,9 +128,7 @@ export const InputPlayer = () => {
                   className="btn-group"
                   onClick={async () => {
                     const players = playerCalc();
-                    // const gameObject = await createGameObject(players);
-                    // console.log("ゲームオブジェクトは作れているよね？", gameObject);
-                    const gameObject = await createDummyGameObject(players);
+                    const gameObject = await createGameObject(players);
                     await gameObjectfileWrite(gameObject);
                     console.log("終わってっか？？");
                     handleConfirmPlayer();

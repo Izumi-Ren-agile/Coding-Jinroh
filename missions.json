@@ -1,0 +1,1482 @@
+[
+    {
+        "mission": "以下の文字を\n追加せよ！\n'int'",
+        "arg": "int"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'bytecode'",
+        "arg": "bytecode"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'overload'",
+        "arg": "overload"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'garbage'",
+        "arg": "garbage"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'syntax'",
+        "arg": "syntax"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'nullpointer'",
+        "arg": "nullpointer"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crash'",
+        "arg": "crash"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'buffer'",
+        "arg": "buffer"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'compile'",
+        "arg": "compile"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'framework'",
+        "arg": "framework"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'logging'",
+        "arg": "logging"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'endpoint'",
+        "arg": "endpoint"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'API'",
+        "arg": "API"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'handler'",
+        "arg": "handler"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'object'",
+        "arg": "object"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'debug'",
+        "arg": "debug"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'refactor'",
+        "arg": "refactor"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'deploy'",
+        "arg": "deploy"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'release'",
+        "arg": "release"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'test'",
+        "arg": "test"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'lint'",
+        "arg": "lint"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'secure'",
+        "arg": "secure"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'login'",
+        "arg": "login"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'logout'",
+        "arg": "logout"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'cache'",
+        "arg": "cache"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'database'",
+        "arg": "database"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'migration'",
+        "arg": "migration"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'query'",
+        "arg": "query"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'schema'",
+        "arg": "schema"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'session'",
+        "arg": "session"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'token'",
+        "arg": "token"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'cachebuster'",
+        "arg": "cachebuster"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'pipeline'",
+        "arg": "pipeline"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'async'",
+        "arg": "async"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'await'",
+        "arg": "await"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'callback'",
+        "arg": "callback"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'lambda'",
+        "arg": "lambda"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'promise'",
+        "arg": "promise"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'event'",
+        "arg": "event"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'socket'",
+        "arg": "socket"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'protocol'",
+        "arg": "protocol"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'HTTP'",
+        "arg": "HTTP"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'SQL'",
+        "arg": "SQL"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'XML'",
+        "arg": "XML"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'JSON'",
+        "arg": "JSON"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'API'",
+        "arg": "API"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'URL'",
+        "arg": "URL"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'URI'",
+        "arg": "URI"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'localhost'",
+        "arg": "localhost"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'domain'",
+        "arg": "domain"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'port'",
+        "arg": "port"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'host'",
+        "arg": "host"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'certificate'",
+        "arg": "certificate"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'encryption'",
+        "arg": "encryption"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'decryption'",
+        "arg": "decryption"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'key'",
+        "arg": "key"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'signature'",
+        "arg": "signature"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'token'",
+        "arg": "token"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'String'",
+        "arg": "String"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'long'",
+        "arg": "long"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'short'",
+        "arg": "short"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'double'",
+        "arg": "double"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'float'",
+        "arg": "float"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'boolean'",
+        "arg": "boolean"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'char'",
+        "arg": "char"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'void'",
+        "arg": "void"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'class'",
+        "arg": "class"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'interface'",
+        "arg": "interface"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'extends'",
+        "arg": "extends"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'implements'",
+        "arg": "implements"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'public'",
+        "arg": "public"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'private'",
+        "arg": "private"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'protected'",
+        "arg": "protected"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'static'",
+        "arg": "static"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'final'",
+        "arg": "final"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'new'",
+        "arg": "new"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'try'",
+        "arg": "try"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'catch'",
+        "arg": "catch"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'throw'",
+        "arg": "throw"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'throws'",
+        "arg": "throws"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'finally'",
+        "arg": "finally"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'null'",
+        "arg": "null"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'this'",
+        "arg": "this"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'super'",
+        "arg": "super"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'return'",
+        "arg": "return"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'break'",
+        "arg": "break"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'continue'",
+        "arg": "continue"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'default'",
+        "arg": "default"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'import'",
+        "arg": "import"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'package'",
+        "arg": "package"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'switch'",
+        "arg": "switch"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'case'",
+        "arg": "case"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'synchronized'",
+        "arg": "synchronized"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'volatile'",
+        "arg": "volatile"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'transient'",
+        "arg": "transient"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'instanceof'",
+        "arg": "instanceof"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'enum'",
+        "arg": "enum"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'abstract'",
+        "arg": "abstract"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'foo'",
+        "arg": "foo"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'bar'",
+        "arg": "bar"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'baz'",
+        "arg": "baz"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'qux'",
+        "arg": "qux"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'hello'",
+        "arg": "hello"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'world'",
+        "arg": "world"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'foobar'",
+        "arg": "foobar"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'example'",
+        "arg": "example"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'code'",
+        "arg": "code"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'input'",
+        "arg": "input"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'werewolf'",
+        "arg": "werewolf"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'alpha'",
+        "arg": "alpha"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'beta'",
+        "arg": "beta"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'pack'",
+        "arg": "pack"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'moon'",
+        "arg": "moon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'howl'",
+        "arg": "howl"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'human'",
+        "arg": "human"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fang'",
+        "arg": "fang"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'claw'",
+        "arg": "claw"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'cube'",
+        "arg": "cube"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'size'",
+        "arg": "size"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'run'",
+        "arg": "run"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'hide'",
+        "arg": "hide"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'code'",
+        "arg": "code"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'bug'",
+        "arg": "bug"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fix'",
+        "arg": "fix"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'itwolf'",
+        "arg": "itwolf"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sitjob'",
+        "arg": "sitjob"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'pcwolf'",
+        "arg": "pcwolf"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'benesse'",
+        "arg": "benesse"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'kodomo'",
+        "arg": "kodomo"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'edu'",
+        "arg": "edu"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'teacher'",
+        "arg": "teacher"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'juku'",
+        "arg": "juku"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'study'",
+        "arg": "study"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'gakko'",
+        "arg": "gakko"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'shiken'",
+        "arg": "shiken"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'pass'",
+        "arg": "pass"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'exam'",
+        "arg": "exam"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'coach'",
+        "arg": "coach"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'class'",
+        "arg": "class"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'quiz'",
+        "arg": "quiz"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'senpai'",
+        "arg": "senpai"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'kouhai'",
+        "arg": "kouhai"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'benri'",
+        "arg": "benri"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'text'",
+        "arg": "text"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'jyukugo'",
+        "arg": "jyukugo"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'renshu'",
+        "arg": "renshu"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'kyoshi'",
+        "arg": "kyoshi"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'overtime'",
+        "arg": "overtime"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crunch'",
+        "arg": "crunch"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'survive'",
+        "arg": "survive"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crisis'",
+        "arg": "crisis"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'struggle'",
+        "arg": "struggle"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'exhaust'",
+        "arg": "exhaust"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'collapse'",
+        "arg": "collapse"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fatigue'",
+        "arg": "fatigue"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'urgent'",
+        "arg": "urgent"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'panick'",
+        "arg": "panick"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'ghost'",
+        "arg": "ghost"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'grave'",
+        "arg": "grave"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'zombie'",
+        "arg": "zombie"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'witch'",
+        "arg": "witch"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'spooky'",
+        "arg": "spooky"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'horror'",
+        "arg": "horror"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'creepy'",
+        "arg": "creepy"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'scare'",
+        "arg": "scare"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'phantom'",
+        "arg": "phantom"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'demon'",
+        "arg": "demon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'shiver'",
+        "arg": "shiver"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crypt'",
+        "arg": "crypt"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fright'",
+        "arg": "fright"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'shadow'",
+        "arg": "shadow"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'cursed'",
+        "arg": "cursed"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'vampire'",
+        "arg": "vampire"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'howl'",
+        "arg": "howl"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'seance'",
+        "arg": "seance"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'monster'",
+        "arg": "monster"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'gore'",
+        "arg": "gore"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'gruesome'",
+        "arg": "gruesome"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'poltergeist'",
+        "arg": "poltergeist"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'evil'",
+        "arg": "evil"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'banshee'",
+        "arg": "banshee"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'morgue'",
+        "arg": "morgue"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'phantom'",
+        "arg": "phantom"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'undead'",
+        "arg": "undead"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'witches'",
+        "arg": "witches"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'spirit'",
+        "arg": "spirit"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'possess'",
+        "arg": "possess"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'grim'",
+        "arg": "grim"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'bleed'",
+        "arg": "bleed"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'raven'",
+        "arg": "raven"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'dread'",
+        "arg": "dread"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'madness'",
+        "arg": "madness"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'curse'",
+        "arg": "curse"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fur'",
+        "arg": "fur"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fangs'",
+        "arg": "fangs"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'claws'",
+        "arg": "claws"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'howl'",
+        "arg": "howl"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'skin'",
+        "arg": "skin"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'tusks'",
+        "arg": "tusks"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'grit'",
+        "arg": "grit"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'coat'",
+        "arg": "coat"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'beard'",
+        "arg": "beard"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'growl'",
+        "arg": "growl"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fang'",
+        "arg": "fang"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'bite'",
+        "arg": "bite"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'bristle'",
+        "arg": "bristle"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'spikes'",
+        "arg": "spikes"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'thair'",
+        "arg": "thair"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'snarls'",
+        "arg": "snarls"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'grizz'",
+        "arg": "grizz"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'prick'",
+        "arg": "prick"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sheath'",
+        "arg": "sheath"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'growls'",
+        "arg": "growls"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'moon'",
+        "arg": "moon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'lunar'",
+        "arg": "lunar"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crater'",
+        "arg": "crater"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'satellite'",
+        "arg": "satellite"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'eclipse'",
+        "arg": "eclipse"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'phases'",
+        "arg": "phases"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crescent'",
+        "arg": "crescent"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'supermoon'",
+        "arg": "supermoon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fullmoon'",
+        "arg": "fullmoon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'waxing'",
+        "arg": "waxing"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'waning'",
+        "arg": "waning"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'orbital'",
+        "arg": "orbital"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'lunation'",
+        "arg": "lunation"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'newmoon'",
+        "arg": "newmoon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'halfmoon'",
+        "arg": "halfmoon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'lightyear'",
+        "arg": "lightyear"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'earthshine'",
+        "arg": "earthshine"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fullmoon'",
+        "arg": "fullmoon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'moonlight'",
+        "arg": "moonlight"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'galaxy'",
+        "arg": "galaxy"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'astronaut'",
+        "arg": "astronaut"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'astro'",
+        "arg": "astro"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'mare'",
+        "arg": "mare"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crater'",
+        "arg": "crater"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'solar'",
+        "arg": "solar"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'neptune'",
+        "arg": "neptune"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'venus'",
+        "arg": "venus"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sheep'",
+        "arg": "sheep"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'wool'",
+        "arg": "wool"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'lamb'",
+        "arg": "lamb"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'ram'",
+        "arg": "ram"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'ewe'",
+        "arg": "ewe"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'flock'",
+        "arg": "flock"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'bleat'",
+        "arg": "bleat"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'shear'",
+        "arg": "shear"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'mutton'",
+        "arg": "mutton"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'pasture'",
+        "arg": "pasture"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'herder'",
+        "arg": "herder"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'ewes'",
+        "arg": "ewes"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'ramming'",
+        "arg": "ramming"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fleece'",
+        "arg": "fleece"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'goat'",
+        "arg": "goat"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'pen'",
+        "arg": "pen"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'shepherd'",
+        "arg": "shepherd"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'flock'",
+        "arg": "flock"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sun'",
+        "arg": "sun"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'moon'",
+        "arg": "moon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'eclipse'",
+        "arg": "eclipse"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'day'",
+        "arg": "day"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'night'",
+        "arg": "night"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'solstice'",
+        "arg": "solstice"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'equinox'",
+        "arg": "equinox"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'conference'",
+        "arg": "conference"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sunrise'",
+        "arg": "sunrise"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sunset'",
+        "arg": "sunset"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'dusk'",
+        "arg": "dusk"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'dawn'",
+        "arg": "dawn"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'noon'",
+        "arg": "noon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'newmoon'",
+        "arg": "newmoon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'fullmoon'",
+        "arg": "fullmoon"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crossing'",
+        "arg": "crossing"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'phases'",
+        "arg": "phases"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'solar'",
+        "arg": "solar"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'lunar'",
+        "arg": "lunar"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crisis'",
+        "arg": "crisis"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'trials'",
+        "arg": "trials"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'ordeal'",
+        "arg": "ordeal"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'cataclysm'",
+        "arg": "cataclysm"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'circadian'",
+        "arg": "circadian"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'daynight'",
+        "arg": "daynight"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'harshness'",
+        "arg": "harshness"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'exhaust'",
+        "arg": "exhaust"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'corp'",
+        "arg": "corp"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'biz'",
+        "arg": "biz"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'firm'",
+        "arg": "firm"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'co'",
+        "arg": "co"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'enterprise'",
+        "arg": "enterprise"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'startup'",
+        "arg": "startup"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'LLC'",
+        "arg": "LLC"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'Ltd'",
+        "arg": "Ltd"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'Inc'",
+        "arg": "Inc"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'group'",
+        "arg": "group"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'subsid'",
+        "arg": "subsidi"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'joint'",
+        "arg": "joint"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'assoc'",
+        "arg": "assoc"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'org'",
+        "arg": "org"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'PLC'",
+        "arg": "PLC"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'share'",
+        "arg": "share"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'partn'",
+        "arg": "partn"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'venture'",
+        "arg": "venture"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'board'",
+        "arg": "board"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'office'",
+        "arg": "office"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'dept'",
+        "arg": "dept"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'manage'",
+        "arg": "manage"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'agency'",
+        "arg": "agency"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'lab'",
+        "arg": "lab"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'office'",
+        "arg": "office"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'factory'",
+        "arg": "factory"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'corp'",
+        "arg": "corp"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'brand'",
+        "arg": "brand"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'chief'",
+        "arg": "chief"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'leader'",
+        "arg": "leader"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'manage'",
+        "arg": "manage"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'hr'",
+        "arg": "hr"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sales'",
+        "arg": "sales"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'legal'",
+        "arg": "legal"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'finance'",
+        "arg": "finance"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'corp'",
+        "arg": "corp"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'biz'",
+        "arg": "biz"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'firm'",
+        "arg": "firm"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'co'",
+        "arg": "co"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'enterprise'",
+        "arg": "enterprise"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'startup'",
+        "arg": "startup"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'LLC'",
+        "arg": "LLC"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'Ltd'",
+        "arg": "Ltd"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'Inc'",
+        "arg": "Inc"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'group'",
+        "arg": "group"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'subsid'",
+        "arg": "subsidi"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'joint'",
+        "arg": "joint"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'assoc'",
+        "arg": "assoc"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'org'",
+        "arg": "org"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'PLC'",
+        "arg": "PLC"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'share'",
+        "arg": "share"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'partn'",
+        "arg": "partn"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'venture'",
+        "arg": "venture"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'board'",
+        "arg": "board"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'office'",
+        "arg": "office"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'dept'",
+        "arg": "dept"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'manage'",
+        "arg": "manage"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'agency'",
+        "arg": "agency"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'lab'",
+        "arg": "lab"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'office'",
+        "arg": "office"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'factory'",
+        "arg": "factory"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'corp'",
+        "arg": "corp"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'brand'",
+        "arg": "brand"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'chief'",
+        "arg": "chief"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'leader'",
+        "arg": "leader"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'manage'",
+        "arg": "manage"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'hr'",
+        "arg": "hr"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sales'",
+        "arg": "sales"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'legal'",
+        "arg": "legal"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'finance'",
+        "arg": "finance"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'karinto'",
+        "arg": "karinto"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sweet'",
+        "arg": "sweet"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crispy'",
+        "arg": "crispy"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'snack'",
+        "arg": "snack"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sugar'",
+        "arg": "sugar"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'bite'",
+        "arg": "bite"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'cookie'",
+        "arg": "cookie"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'treat'",
+        "arg": "treat"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crunch'",
+        "arg": "crunch"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'dessert'",
+        "arg": "dessert"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crisps'",
+        "arg": "crisps"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crisp'",
+        "arg": "crisp"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'sweetie'",
+        "arg": "sweetie"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'chewy'",
+        "arg": "chewy"
+    },
+    {
+        "mission": "以下の文字を\n追加せよ！\n'crunchy'",
+        "arg": "crunchy"
+    }
+]

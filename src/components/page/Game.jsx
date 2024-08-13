@@ -115,7 +115,7 @@ export const Game = (props) => {
             {gameObject.gamePhase === "night" ? (
               <CodeEditor
                 gameObject={gameObject}
-                code={code/*&&code.replace(/\n/g,'\n')*/}
+                code={code}
                 onChange={handleChange}
                 handleRunCode={handleRunCode}
                 loading={loading}
