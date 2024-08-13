@@ -174,6 +174,9 @@ export const GamePage = () => {
       //PMのプレイヤー
       let PMPlayer;
 
+      //累計のミッション達成数
+      let howmanyMissionSolved;
+
       const oldCode =
         gameObject.editorHistory[gameObject.editorHistory.length - 1].code;
       const newCode = code;
@@ -206,6 +209,8 @@ export const GamePage = () => {
       );
 
       PMPlayer=gameObject.players.filter((p)=>p.isPM);
+
+      howmanyMissionSolved=nowPlayer.solvedMission.length;
 
       //確認ダイアログ
       swal
@@ -260,12 +265,10 @@ export const GamePage = () => {
               .fire({
                 title: "コードチェック完了",
                 text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}
-              \nこのターンのミッション達成数：${howmanyMission}
-              \n現在のPM：${PMPlayer[0].name}
+              このターンのミッション達成数：${howmanyMission}
+              累計のミッション達成数：${howmanyMissionSolved}
+              現在のPM：${PMPlayer[0].name}
               `,
-                // text:`このターンのミッション達成数：${howmanyMission}`,
-                // text:`累計ミッション達成数:${gameObject.presentPlayer.solvedMission.length}`,
-                // text:`現在のPM${gameObject.players.filter((p)=>p.isPM)[0]}`,
                 confirmButtonText: "次のターンへ",
               })
               .then(function () {
