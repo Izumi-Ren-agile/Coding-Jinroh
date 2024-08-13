@@ -54,12 +54,25 @@ export const ResultPage = () => {
     };
 
     const setTabCode = (tabIndex) => {
-        console.log("hikisuu", tabIndex)
-        console.log("editorHistory", gameObject.editorHistory)
-        console.log("siteisitayatu", gameObject.editorHistory.length - tabIndex + 1)
-        setCode(gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1].code);
+        console.log("hikisuu", tabIndex);
+        console.log("editorHistory", gameObject.editorHistory);
+        console.log(
+            "siteisitayatu",
+            gameObject.editorHistory.length - tabIndex + 1
+        );
+        if (tabIndex === "1") {
+            setCode(gameObject.editorHistory[gameObject.editorHistory.length - 1].code);
+        } else {
+            setCode(
+                gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1].code
+            );
+        }
+
         setActiveTab(tabIndex);
-        console.log(gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1].code)
+        console.log(
+            gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1]
+                .code
+        );
     }
 
     return (

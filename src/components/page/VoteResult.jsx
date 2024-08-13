@@ -53,7 +53,7 @@ import "./vote.css";
 
   return (
        <div className="container" style={{ backgroundColor: "#ede4dd" }}>
-      <GameHeader gameObject={gameObject} />
+      <GameHeader gameObject={gameObject} handleFinishTurn={handleFinishTurn}/>
       <div className="main-content">
         <div className="text-center-content">
           <h2 style={{ color: "#27374D" }}>投票結果</h2>
@@ -68,7 +68,14 @@ import "./vote.css";
             {gameObject.players.map(
               (player, index) =>
                   <div css={voteItem} key={index}>
-                    <PlayerAtom name={player.name} index={index} />
+                    <PlayerAtom
+                      name={player.name}
+                      imagePath={player.imagePath}
+                      color={player.color}
+                      isPM={player.isPM}
+                      isAlive={true}
+                      isPresent={false}
+                      index={index} />
                     <p>{player.name}</p>
                     <p>{player.voted}票</p>
                   </div>
