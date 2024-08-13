@@ -29,6 +29,7 @@ export const InputPlayer = () => {
   const contentRightStyle = css`
   display: flex;
   flex-direction: column;
+  align-items:center;
   gap: 20px;
   justify-content: space-between;
   width: 50%;

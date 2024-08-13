@@ -13,12 +13,14 @@ import { VoteResultPage } from './components/view/VoteResultPage';
 import { ResultPage } from './components/view/ResultPage';
 import {TestPage} from './components/page/testpage';
 import { PMVoteResultPage } from './components/view/PMVoteResultPage';
+import AudioPlayer from './components/AudioPlayer';
 
 
 
 function App() {
   return (
     <Router>
+      <AudioPlayer />
       <Routes>
         <Route path="/" element={<Top />} />
         <Route path="/concept" element={<Concept />} />
@@ -32,6 +34,7 @@ function App() {
         <Route path="/resultPage" element={<ResultPage />} />
         <Route path="/testpage" element={<TestPage />} />
         <Route path="/pmVoteResult" element={<PMVoteResultPage />} />
+
       </Routes>
     </Router>
   );
