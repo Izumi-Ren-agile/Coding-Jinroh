@@ -197,7 +197,7 @@ export const GamePage = () => {
 
       console.log("check OldCode:", oldCode);
       console.log("check NewCode:", newCode);
-
+      
       const nowPlayer = gameObject.players[gameObject.presentPlayer];
       console.log("check yourMission:", nowPlayer.yourMission);
       const targetIndex = [];
