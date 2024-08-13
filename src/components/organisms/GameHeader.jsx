@@ -224,20 +224,20 @@ export const GameHeader = (props) => {
                     <h1 css={dayIndicatorStyle}>{headerInf.dayText}</h1>
                     <p css={phaseIndicatorStyle}>{headerInf.phaseText}</p>
                 </div>
-                <PlayersMolecules headerPlayers={headerPlayers} />
-                <div css={playersContainerStyle}>
-                    {gameObject.players.map((player, index) => (
-                        <div css={playerStyle} key={index} id={`player${index}`}>{player.isPM?<p>PM</p>:<></>}{player.name}</div>
-                    ))}
-                </div>
-            </div>
-            <div css={hedderRightStyle}>
                 {headerInf.missions.map((missionObject) => (
                     <div css={missionStyle}>
                         <p css={missionTextStyle}>MISSION</p>
                         <p css={missionContentStyle}>{missionObject.mission.replace(/\\n/g, '\n')}</p>
                     </div>
                 ))}
+                {/* <div css={playersContainerStyle}>
+                    {gameObject.players.map((player, index) => (
+                        <div css={playerStyle} key={index} id={`player${index}`}>{player.isPM?<p>PM</p>:<></>}{player.name}</div>
+                    ))}
+                </div> */}
+            </div>
+            <div css={hedderRightStyle}>
+                <PlayersMolecules headerPlayers={headerPlayers} />
                 <TimerMol startTime={headerInf.startTime} duration={headerInf.maxTime} handleFinishTurn={handleFinishTurn} gameDescription={headerInf.gameDescription} isButton={headerInf.isButton} isTimer={headerInf.isTimer} textStyle={textStyle} buttonText={headerInf.buttonText} textColor={headerInf.textColor} />
             </div>
         </div>
