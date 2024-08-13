@@ -264,10 +264,10 @@ export const GamePage = () => {
             swal
               .fire({
                 title: "コードチェック完了",
-                text: `プロジェクト達成判定：${isComplete ? "達成" : "未達成"}
-              このターンのミッション達成数：${howmanyMission}
-              累計のミッション達成数：${howmanyMissionSolved}
-              現在のPM：${PMPlayer[0].name}
+                html: `<p>プロジェクト達成判定：${isComplete ? "達成" : "未達成"}</p>
+              <p>このターンのミッション達成数：${howmanyMission}</p>
+              <p>累計のミッション達成数：${howmanyMissionSolved}</p>
+              <p>現在のPM：${PMPlayer[0].name}</p>
               `,
                 confirmButtonText: "次のターンへ",
               })
