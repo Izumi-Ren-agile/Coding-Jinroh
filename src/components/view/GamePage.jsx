@@ -44,7 +44,7 @@ export const GamePage = () => {
       const response = await fetchWithRetry("/read-gameObject");
       const data = await response.json();
       setGameObject(data);
-      setCode(gameObject.editor);
+      setCode(/*gameObject*/data.editor);
       setIsLoad(true);
     } catch (error) {
       console.error("gameObjectfileRead Error:", error);
@@ -149,18 +149,32 @@ export const GamePage = () => {
   useEffect(() => {
     (async () => {
       await gameObjectfileRead();
-      await gameObject.players.map(async (player) => {
-        while (player.yourMission.length < gameObject.maxMissionNum) {
-          player.yourMission.push(
-            gameObject.missions[gameObject.nextMissionIndex]
-          );
-          gameObject.nextMissionIndex++;
-        }
-        await gameObjectfileWrite(gameObject); //書き込み
-      });
+      // await gameObject.players.map(async (player) => {
+      //   while (player.yourMission.length < gameObject.maxMissionNum) {
+      //     player.yourMission.push(
+      //       gameObject.missions[gameObject.nextMissionIndex]
+      //     );
+      //     gameObject.nextMissionIndex++;
+      //   }
+      //   await gameObjectfileWrite(gameObject); //書き込み
+      // });
+      await missionFilling(gameObject);
       await gameObjectfileRead();
     })();
   }, [isLoad]);
+
+  const missionFilling = async (gameObject) => {
+    const promises = gameObject.players.map(async (player) => {
+      while (player.yourMission.length < gameObject.maxMissionNum) {
+        player.yourMission.push(
+          gameObject.missions[gameObject.nextMissionIndex]
+        );
+        gameObject.nextMissionIndex++;
+      }
+      await gameObjectfileWrite(gameObject); //書き込み
+    });
+    await Promise.all(promises);
+  };
 
   const handleFinishTurn = async () => {
     if (gameObject.gamePhase !== "daytime") {
@@ -211,6 +225,8 @@ export const GamePage = () => {
       PMPlayer=gameObject.players.filter((p)=>p.isPM);
 
       howmanyMissionSolved=nowPlayer.solvedMission.length;
+
+      console.log("ゲームオブジェクトの確認したい",gameObject);
 
       //確認ダイアログ
       swal
@@ -362,7 +378,6 @@ export const GamePage = () => {
         .code
     );
   };
-
   return (
     <>
       {isLoad ? (
