@@ -28,6 +28,9 @@ export const Result = (props) => {
         }).then((result) => {
             swal.fire({
                 title: `${gameObject.gameResult === "citizen" ? "市民" : "人狼"}！`,
+                imageUrl: `${gameObject.gameResult === "citizen" ? "images/result-citizenWin.png" : "/images/result-jinrohWin.jpg"}`,
+                imageWidth: 400,
+                imageHeight: 400,
                 confirmButtonText: 'ゲームを振り返る',
             });
         });
@@ -36,14 +39,15 @@ export const Result = (props) => {
     const handleRunCode = async () => {
         setLoading(true); // ローディング状態を開始
         setError(null); // エラー状態をクリア
-
+        const adjustedCode = "public class Main{" + gameObject.main + code + '}';
+        console.log("調整されたコード", adjustedCode);
         try {
             const response = await fetch("/compile", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ language, sourceCode: code }), // 言語とソースコードをリクエストボディに含める
+                body: JSON.stringify({ language, sourceCode: adjustedCode }), // 言語とソースコードをリクエストボディに含める
             });
 
             if (!response.ok) {

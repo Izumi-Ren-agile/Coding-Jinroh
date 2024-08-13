@@ -12,7 +12,6 @@ import { TabsOfCodeEditor } from "../molecules/TabsOfCodeEditor";
 
 export const Game = (props) => {
   const { gameObject, handleFinishTurn, code, handleChange, setTabCode, activeTab } = props;
-  console.log("initialcode", code);
   const [compiledCode, setCompiledCode] = useState("");
   const [stdout, setStdout] = useState(null); // コンパイルの標準出力
   const [buildStderr, setBuildStderr] = useState(null); // コンパイルのエラーメッセージ
@@ -26,7 +25,7 @@ export const Game = (props) => {
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
-    if(gameObject.gamePhase === "night" && gameObject.startingTurn + gameObject.codingMaxTime > Math.floor(Date.now() / 1000)){
+    if (gameObject.gamePhase === "night" && gameObject.startingTurn + gameObject.codingMaxTime > Math.floor(Date.now() / 1000)) {
       swal.fire({
         title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
         text: '「はい」を押すとコーディングフェーズに進みます',
@@ -40,14 +39,15 @@ export const Game = (props) => {
           window.location.reload();
         }
       });
-    } else if(gameObject.gamePhase === "daytime" && gameObject.startingTurn + gameObject.meetingmaxTime > Math.floor(Date.now() / 1000)) {
+    } else if (gameObject.gamePhase === "daytime" && gameObject.startingTurn + gameObject.meetingmaxTime > Math.floor(Date.now() / 1000)) {
+      const pmPlayer = gameObject.players.find(player => player.isPM);
       swal.fire({
-        title: `会議を始めますか？`,
-        text: '「はい」を押すと会議フェーズに進みます',
-        icon: 'warning',
-        confirmButtonText: 'はい',
-        cancelButtonText: 'いいえ',
-        showCancelButton: true,
+        title: `今日のコーディングターンが終わりました！`,
+        text: `PMは、${pmPlayer.name}さんです！`,
+        imageUrl: `images/card-PM.png`,
+        imageWidth: 400,
+        imageHeight: 400,
+        confirmButtonText: '会議を始める',
       }).then((result) => {
         if (!result.isConfirmed) {
           // ユーザーが「いいえ」をクリックした場合の処理
@@ -55,6 +55,22 @@ export const Game = (props) => {
         }
       });
     }
+
+    // キーが押されたときに実行される関数
+    const handleKeyPress = (event) => {
+      if (event.ctrlKey && event.key === 'Enter') {
+        // Ctrl + Enterキーが押されたときに実行する処理
+        handleRunCode();
+      }
+    };
+
+    // windowオブジェクトにイベントリスナーを追加
+    window.addEventListener('keydown', handleKeyPress);
+
+    // コンポーネントがアンマウントされるときにクリーンアップ
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
   }, []);
 
   //const compileResult = Compiler({ language: gameObject.codeLanguage, sourceCode: compiledCode }).output; //なんかようわからんけどこの一文あったらPythonでの実行がうまくいく（変数自体は使ってない）
@@ -141,7 +157,7 @@ export const Game = (props) => {
               }
             />
           </Content70>
-          <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} gameObject={gameObject}/>
+          <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} gameObject={gameObject} />
         </Contents>
       )}
     </div>

@@ -114,6 +114,13 @@ export const VoteResultPage = () => {
             navigate('/gamePage');
         } else {
             gameObject.gamePhase = "result";
+            gameObject.editorHistory = [
+                ...gameObject.editorHistory,
+                {
+                  name: `解答コード`,
+                  code: gameObject.answerCode,
+                },
+              ];
             await gameObjectfileWrite(gameObject); //書き込み
             navigate('/resultPage');
         }
