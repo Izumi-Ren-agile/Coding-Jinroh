@@ -11,7 +11,23 @@ import { Input, Button, Radio } from "antd";
 
 export const InputPlayer = () => {
   const [gameObject, setGameObject] = useState({ property: "default" });
+  const [playerNames, setPlayerNames] = useState(Array(8).fill(''));
   const navigate = useNavigate();
+
+  const [difficulty, setDifficulty] = useState('中級');
+  const [maxCodingTime, setMaxCodingTime] = useState(60);
+  const [maxMeetingTime, setMaxMeetingTime] = useState(120);
+  const [missionNum, setMissionNum] = useState(3);
+  const [maxDays, setMaxDays] = useState("自動");
+  const [jinrohNum, setJinrohNum] = useState("自動");
+  const [shufflePhase, setShufflePhase] = useState('OFF');
+
+  const handlePlayerNameChange = (index, value) => {
+    const newPlayerNames = [...playerNames];
+    newPlayerNames[index] = value;
+    setPlayerNames(newPlayerNames);
+  };
+
   const handleConfirmPlayer = () => {
     navigate("/confirmPlayerPage");
   };
@@ -25,6 +41,7 @@ export const InputPlayer = () => {
   gap: 20px;
   justify-content: space-between;
   width: 50%;
+  padding: 0 40px;
   `
   const contentRightStyle = css`
   display: flex;
@@ -32,33 +49,18 @@ export const InputPlayer = () => {
   gap: 20px;
   justify-content: space-between;
   width: 50%;
+  padding: 0 40px;
   `
   const playerInputStyle = css`
+  padding: 0 20px:
+  margin: 0 40px:
+  `
+  const radioButtonStyle = css`
   padding: 0 20px:
   `
   const buttonContainerStyle = css`
   padding: 0 20px:
   `
-  const optionsWithDisabled = [
-    {
-      label: '初級',
-      value: '初級',
-    },
-    {
-      label: '中級',
-      value: '中級',
-    },
-    {
-      label: '上級',
-      value: '上級',
-      disabled: true,
-    },
-  ];
-  const [difficulty, setDifficulty] = useState('初級');
-
-  const onChangeDiifficulty = ({ target: { value } }) => {
-    setDifficulty(value);
-  };
 
   const gameObjectfileRead = async () => {
     await fetch("/read-gameObject")
@@ -91,70 +93,82 @@ export const InputPlayer = () => {
               <header>
                 <h2>プレイヤーを入力してください</h2>
               </header>
-              <div css={playerInputStyle}>
-                <label for="player1">Player 1:</label>
-                <Input size="small size" id="player1" placeholder="名前を入力してください" prefix={<UserOutlined />} />
-              </div>
-              <div css={playerInputStyle}>
-                <label for="player2">Player 2:</label>
-                <Input size="small size" id="player2" placeholder="名前を入力してください" prefix={<UserOutlined />} />
-              </div>
-              <div css={playerInputStyle}>
-                <label for="player3">Player 3:</label>
-                <Input size="small size" id="player3" placeholder="名前を入力してください" prefix={<UserOutlined />} />
-              </div>
-              <div css={playerInputStyle}>
-                <label for="player4">Player 4:</label>
-                <Input size="small size" id="player4" placeholder="名前を入力してください" prefix={<UserOutlined />} />
-              </div>
-              <div css={playerInputStyle}>
-                <label for="player5">Player 5:</label>
-                <Input size="small size" id="player5" placeholder="名前を入力してください" prefix={<UserOutlined />} />
-              </div>
-              <div css={playerInputStyle}>
-                <label for="player6">Player 6:</label>
-                <Input size="small size" id="player6" placeholder="名前を入力してください" prefix={<UserOutlined />} />
-              </div>
-              <div css={playerInputStyle}>
-                <label for="player7">Player 7:</label>
-                <Input size="small size" id="player7" placeholder="名前を入力してください" prefix={<UserOutlined />} />
-              </div>
-              <div css={playerInputStyle}>
-                <label for="player8">Player 8:</label>
-                <Input size="small size" id="player8" placeholder="名前を入力してください" prefix={<UserOutlined />} />
-              </div>
-              {/* <div class="button-container">
-                <Button
-                  id="submit-button"
-                  className="btn-group"
-                  onClick={async () => {
-                    const players = playerCalc();
-                    // const gameObject = await createGameObject(players);
-                    // console.log("ゲームオブジェクトは作れているよね？", gameObject);
-                    const gameObject = await createDummyGameObject(players);
-                    await gameObjectfileWrite(gameObject);
-                    console.log("終わってっか？？");
-                    handleConfirmPlayer();
-                  }}
-                >
-                  決定
-                </Button>
-              </div> */}
+              {playerNames.map((name, index) => (
+                <div key={index} css={playerInputStyle}>
+                  <label htmlFor={`player${index + 1}`}>{`Player ${index + 1}:`}</label>
+                  <Input
+                    size="small"
+                    id={`player${index + 1}`}
+                    placeholder="名前を入力してください"
+                    prefix={<UserOutlined />}
+                    value={name}
+                    onChange={(e) => handlePlayerNameChange(index, e.target.value)}
+                  />
+                </div>
+              ))}
             </div>
             <div css={contentRightStyle}>
               <header>
                 <h2>ゲーム設定を選択してください</h2>
               </header>
-              <div css={playerInputStyle}>
-                <label for="difficulty">課題難易度:</label>
-                <Radio.Group
-                  options={optionsWithDisabled}
-                  onChange={onChangeDiifficulty}
-                  value={difficulty}
-                  optionType="button"
-                  buttonStyle="solid"
-                  size="large"
-                />
+              <div css={radioButtonStyle}>
+                <label for="difficulty">課題難易度:<br /></label>
+                <Radio.Group onChange={(e) => setMaxCodingTime(e.target.value)} value={maxCodingTime} buttonStyle="solid" size="large">
+                  <Radio.Button value={'初級'} disabled>初級</Radio.Button>
+                  <Radio.Button value={'中級'}>中級</Radio.Button>
+                  <Radio.Button value={'上級'} disabled>上級</Radio.Button>
+                </Radio.Group>
+              </div>
+              <div css={radioButtonStyle}>
+                <label for="maxCodingTime">ターン毎のコーディング秒数:<br /></label>
+                <Radio.Group onChange={(e) => setMaxCodingTime(e.target.value)} value={maxCodingTime} buttonStyle="solid" size="large">
+                  <Radio.Button value={30}>30秒</Radio.Button>
+                  <Radio.Button value={60}>60秒</Radio.Button>
+                  <Radio.Button value={120}>120秒</Radio.Button>
+                  <Radio.Button value={999}>999秒</Radio.Button>
+                </Radio.Group>
+              </div>
+              <div css={radioButtonStyle}>
+                <label for="maxMeetingTime">会議秒数:<br /></label>
+                <Radio.Group onChange={(e) => setMaxMeetingTime(e.target.value)} value={maxMeetingTime} buttonStyle="solid" size="large">
+                  <Radio.Button value={30}>30秒</Radio.Button>
+                  <Radio.Button value={60}>60秒</Radio.Button>
+                  <Radio.Button value={120}>120秒</Radio.Button>
+                  <Radio.Button value={999}>999秒</Radio.Button>
+                </Radio.Group>
+              </div>
+              <div css={radioButtonStyle}>
+                <label for="missionNum">ターン毎のミッション数:<br /></label>
+                <Radio.Group onChange={(e) => setMissionNum(e.target.value)} value={missionNum} buttonStyle="solid" size="large">
+                  <Radio.Button value={0}>0</Radio.Button>
+                  <Radio.Button value={1}>1</Radio.Button>
+                  <Radio.Button value={2}>2</Radio.Button>
+                  <Radio.Button value={3}>3</Radio.Button>
+                </Radio.Group>
+              </div>
+              <div css={radioButtonStyle}>
+                <label for="maxDays">最大Day数:<br /></label>
+                <Radio.Group onChange={(e) => setMaxDays(e.target.value)} value={maxDays} buttonStyle="solid" size="large">
+                <Radio.Button value={"自動"}>自動</Radio.Button>
+                  {[...Array(playerNames.filter(name => name !== '').length < 3 ? 0 : playerNames.filter(name => name !== '').length - 2 )].map((_, i) => (
+                    <Radio.Button value={i+1}>{i+1}</Radio.Button>
+                  ))}
+                  {[...Array(6 - playerNames.filter(name => name !== '').length)].map((_, i) => (
+                    <Radio.Button value={i+1+playerNames.filter(name => name !== '').length} disabled>{i+1+playerNames.filter(name => name !== '').length}</Radio.Button>
+                  ))}
+                </Radio.Group>
+              </div>
+              <div css={radioButtonStyle}>
+                <label for="jinrohNum">最大Day数:<br /></label>
+                <Radio.Group onChange={(e) => setJinrohNum(e.target.value)} value={jinrohNum} buttonStyle="solid" size="large">
+                <Radio.Button value={"自動"}>自動</Radio.Button>
+                <Radio.Button value={1}>1</Radio.Button>
+                  {playerNames.filter(name => name !== '').length < 5 ? (
+                    <Radio.Button value={2} disabled>2</Radio.Button>
+                  ) : (
+                    <Radio.Button value={2}>2</Radio.Button>
+                  )}
+                </Radio.Group>
               </div>
               {/* <div css={buttonContainerStyle}>
                 <Button
@@ -402,7 +416,7 @@ const createDummyGameObject = async (Players) => {
   const initialCode = "public static int countWords(String str){\n\treturn 0;\n}";
 
   //答えのコードの取得
-  const answerCode = 'public int countWords(String str){\n\t// 文字列がnullまたは空の場合、単語数は0 \n\tif (str == null || str.isEmpty()) { \n\t\treturn 0;\n\t} \n\t// 文字列をトリムして前後の空白を取り除く\n\tstr = str.trim(); \n\t// 文字列が再び空の場合（空白のみの文字列だった場合）、単語数は0 \n\tif (str.isEmpty()) { \n\t\treturn 0;\n\t} \n\t// 文字列をスペースで分割して単語の配列を作成\n\tString[] words = str.split("\\s+"); \n\t// 配列の長さを返す（これが単語数になる）\n\treturn words.length; \n}';
+  const answerCode = 'public static int countWords(String str){\n\t// 文字列がnullまたは空の場合、単語数は0 \n\tif (str == null || str.isEmpty()) { \n\t\treturn 0;\n\t} \n\t// 文字列をトリムして前後の空白を取り除く\n\tstr = str.trim(); \n\t// 文字列が再び空の場合（空白のみの文字列だった場合）、単語数は0 \n\tif (str.isEmpty()) { \n\t\treturn 0;\n\t} \n\t// 文字列をスペースで分割して単語の配列を作成\n\tString[] words = str.split("\\s+"); \n\t// 配列の長さを返す（これが単語数になる）\n\treturn words.length; \n}';
 
   //最初のプレイヤーたち
   const initialPlayers = Players;

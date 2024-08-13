@@ -37,7 +37,7 @@ export const Project = (props) => {
 `
     return (
         <div css={projectStyle}>
-            <Tag secondText={""} colorMode={gameObject.gamePhase}>プロジェクト</Tag>
+            <Tag secondText={""} colorMode={gameObject.gamePhase === "daytime" ? "daytime" : "night"}>プロジェクト</Tag>
             <div css={projectContainerStyle}>
                 <p css={projectTextStyle}>各位<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{question}<br /><br />よろしく頼む。<br /><br />偉井上長</p>
             </div>

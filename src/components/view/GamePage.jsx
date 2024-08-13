@@ -208,9 +208,9 @@ export const GamePage = () => {
         selectPM(gameObject.players)
       );
 
-      PMPlayer=gameObject.players.filter((p)=>p.isPM);
+      PMPlayer = gameObject.players.filter((p) => p.isPM);
 
-      howmanyMissionSolved=nowPlayer.solvedMission.length;
+      howmanyMissionSolved = nowPlayer.solvedMission.length;
 
       //確認ダイアログ
       swal
@@ -278,20 +278,34 @@ export const GamePage = () => {
                   if (isComplete) {
                     gameObject.gameResult = "citizen";
                     gameObject.gamePhase = "result";
+                    gameObject.editorHistory = [
+                      ...gameObject.editorHistory,
+                      {
+                        name: `day${gameObject.presentDay}-${gameObject.presentCodingTurn
+                          } ${gameObject.players[gameObject.presentPlayer].name}`,
+                        code: code,
+                      },
+                    ];
+                    gameObject.editorHistory = [
+                      ...gameObject.editorHistory,
+                      {
+                        name: `解答コード`,
+                        code: gameObject.answerCode,
+                      },
+                    ];
                     await gameObjectfileWrite(gameObject); //書き込み
                     navigate("/resultPage");
                   }
                   /**--------------------------- */
-                  
+
 
                   if (gameObject.gamePhase === "night") {
                     gameObject.editor = code;
                     gameObject.editorHistory = [
                       ...gameObject.editorHistory,
                       {
-                        name: `day${gameObject.presentDay}-${
-                          gameObject.presentCodingTurn
-                        } ${gameObject.players[gameObject.presentPlayer].name}`,
+                        name: `day${gameObject.presentDay}-${gameObject.presentCodingTurn
+                          } ${gameObject.players[gameObject.presentPlayer].name}`,
                         code: code,
                       },
                     ];
@@ -351,11 +365,16 @@ export const GamePage = () => {
     console.log(
       "siteisitayatu",
       gameObject.editorHistory.length - tabIndex + 1
-    );
-    setCode(
-      gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1]
-        .code
-    );
+    );;
+    if (tabIndex === "1") {
+      setCode(gameObject.editorHistory[gameObject.editorHistory.length - 1].code);
+    } else {
+      setCode(
+        gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1]
+          .code
+      );
+    }
+
     setActiveTab(tabIndex);
     console.log(
       gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1]
