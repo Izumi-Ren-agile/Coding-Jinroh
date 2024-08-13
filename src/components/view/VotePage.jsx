@@ -62,12 +62,14 @@ export const VotePage = () => {
 
         if (gameObject.presentPlayer < gameObject.players.length - 1) {
             gameObject.presentPlayer++;
+            gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject); //書き込み
             setIsLoad(false)
             // navigate("/votePage"); // 更新が完了した後に遷移する
 
         } else {
             gameObject.presentPlayer = 0;
+            gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject); //書き込み
             navigate("/voteResultPage"); // 更新が完了した後に遷移する
 

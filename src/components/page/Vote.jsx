@@ -46,7 +46,7 @@ export const Vote = (props) => {
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
     useEffect(() => {
-      swal.fire({
+    swal.fire({
         title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
         text: '「はい」を押すと投票確認に進みます',
         icon: 'warning',
@@ -65,7 +65,7 @@ export const Vote = (props) => {
 
   return (
        <div className="container" style={{ backgroundColor: "#ede4dd" }}>
-      <GameHeader gameObject={gameObject} />
+      <GameHeader gameObject={gameObject} handleFinishTurn={handleVote}/>
       <div className="main-content">
         <div className="text-center-content">
           <h2 style={{color:"#ede4dd"}}>{gameObject.players[gameObject.presentPlayer].name}さん、人狼だと思う人に投票してください</h2>
