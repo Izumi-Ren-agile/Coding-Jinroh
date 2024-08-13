@@ -87,10 +87,11 @@ export const InputPlayer = () => {
     <>
       <body>
         <div class="container">
+        <h1 className="title">コーディング人狼 - オプション設定</h1>
           <div css={contentsStyle}>
             <div css={contentLeftStyle}>
               <header>
-                <h1>プレイヤーを入力してください</h1>
+                <h2>プレイヤーを入力してください</h2>
               </header>
               {playerNames.map((name, index) => (
                 <div key={index} css={playerInputStyle}>
@@ -108,7 +109,7 @@ export const InputPlayer = () => {
             </div>
             <div css={contentRightStyle}>
               <header>
-                <h1>ゲーム設定を選択してください</h1>
+                <h2>ゲーム設定を選択してください</h2>
               </header>
               <div css={radioButtonStyle}>
                 <label for="difficulty">課題難易度:<br /></label>
@@ -169,7 +170,7 @@ export const InputPlayer = () => {
                   )}
                 </Radio.Group>
               </div>
-              <div css={buttonContainerStyle}>
+              {/* <div css={buttonContainerStyle}>
                 <Button
                   id="submit-button"
                   className="btn-group"
@@ -185,9 +186,26 @@ export const InputPlayer = () => {
                 >
                   決定
                 </Button>
-              </div>
+              </div> */}
             </div>
           </div>
+          <div class="button-container">
+                <Button
+                  id="submit-button center-button"
+                  className="btn-group center"
+                  onClick={async () => {
+                    const players = playerCalc();
+                    // const gameObject = await createGameObject(players);
+                    // console.log("ゲームオブジェクトは作れているよね？", gameObject);
+                    const gameObject = await createDummyGameObject(players);
+                    await gameObjectfileWrite(gameObject);
+                    console.log("終わってっか？？");
+                    handleConfirmPlayer();
+                  }}
+                >
+                  決定
+                </Button>
+              </div>
         </div>
       </body >
     </>

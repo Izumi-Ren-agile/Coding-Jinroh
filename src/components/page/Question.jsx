@@ -57,7 +57,6 @@ export const Question = () => {
     flex-direction: column;
     item-align: center;
     text-align: center;
-    gap: 20px;
     width: 100%;
     padding: 0 20px;
 `
@@ -65,11 +64,9 @@ export const Question = () => {
     flex-grow: 1; // 余白に合わせて伸張する
     background: white;
     height: 75%;
-    padding: 10px;
     border: 5px solid #e0e0e0;
     border-radius: 5px;
     text-align: left;
-    margin-bottom: 20px;
     overflow: auto;
 `
     const projectTextStyle = css`
@@ -77,8 +74,7 @@ export const Question = () => {
     height: 100%;
     flex-grow: 1;
     color: black;
-    padding: 20px;
-    font-weight: bold;
+    font-size: 1.7vh;
     white-space: pre-wrap;
 `
 const messageStyle = css`
@@ -100,21 +96,22 @@ const questionButtonStyle=css`
                 <GameHeader gameObject={gameObject} handleFinishTurn={handleGame} />
                 <div css={contentsStyle}>
                     <p css={messageStyle}>
-                        上長から、一通のメールが…
+                        上長から一通のメールが…
                     </p>
                     <div css={projectContainerStyle}>
-                        <p css={projectTextStyle}>各位<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{gameObject.questionText.replace(/\\n/g, '\n')}<br /><br />よろしく頼む。<br /><br />偉井上長</p>
+                        <p css={projectTextStyle}>各位<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。
+                        <br /><br />{gameObject.questionText.replace(/\\n/g, '\n')}
+                        <br /><br />よろしく頼む。<br /><br />偉井上長</p>
                     </div>
                     <p css={messageStyle}>
                         コードを邪魔する人狼に気を付けながら、楽しいエンジニアライフを！
                     </p>
                     
-                    <Button css={questionButtonStyle} onClick={handleGame} className="btn-group">
+                    {/* <Button css={questionButtonStyle} onClick={handleGame} className="btn-group"> */}
                                     {/* <Button onClick={handleGame}> */}
                     {/* <Button size="large" type="primary" onClick={handleGame}> */}
-                        ゲーム開始
-                    </Button>
-
+                        {/* コーディング開始
+                    </Button> */}
                 </div>
                                     
             </div >

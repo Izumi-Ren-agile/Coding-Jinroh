@@ -7,7 +7,7 @@ import { Button } from "antd";
 import swal from 'sweetalert2';
 import "./vote.css";
 
-export const Vote = (props) => {
+export const PmVote = (props) => {
   const { gameObject, handleVote, selectedPlayerIndex, handleSelect } = props;
 
   const playerVoteContainer = css`
@@ -44,11 +44,26 @@ export const Vote = (props) => {
     
   `;
 
-  // コンポーネントがマウントされたときに確認ダイアログを表示する
-    useEffect(() => {
+  //PMを探す
+  const pmPlayer = gameObject.players.find(player => player.isPM);
+  // voted が最も多いplayerのvoted数を取得
+  const maxVoted = gameObject.players.reduce((max, player) => {
+    return player.voted > max ? player.voted : max;}, -1);
+  // 最多票のプレイヤーのリスト  
+  const mostVotedPlayers = gameObject.players.filter(player => player.voted === maxVoted);
+
+  //確認ダイアログ
+  useEffect(() => {
     swal.fire({
-        title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
-        text: '「はい」を押すと投票確認に進みます',
+        title: `同票のプレイヤーがいます。`,
+        text: 'PM投票を行います',
+        icon: 'warning',
+        confirmButtonText: 'PM投票',
+    }).then((result) => {
+
+      swal.fire({
+        title: `${pmPlayer.name}さんですか？`,
+        text: '「はい」を押すとPM投票確認に進みます',
         icon: 'warning',
         confirmButtonText: 'はい',
         cancelButtonText: 'いいえ',
@@ -58,21 +73,25 @@ export const Vote = (props) => {
           // ユーザーが「いいえ」をクリックした場合の処理
           window.location.reload();
         }else{
-          handleSelect(gameObject.players[gameObject.presentPlayer])
+          
+          handleSelect(mostVotedPlayers[0])
         }
+
       });
-    }, []);
+
+    });
+}, []);
 
   return (
        <div className="container" style={{ backgroundColor: "#ede4dd" }}>
       <GameHeader gameObject={gameObject} handleFinishTurn={handleVote}/>
       <div className="main-content">
         <div className="text-center-content">
-          <h2 style={{color:"#27374D"}}>{gameObject.players[gameObject.presentPlayer].name}さん、人狼だと思う人に投票してください</h2>
+          <h2 style={{color:"#27374D"}}>PMの{pmPlayer.name}さん、人狼だと思う人に投票してください</h2>
           <br />
           <br />
           <div css={playerVoteContainer}>
-            {gameObject.players.map(
+            {mostVotedPlayers.map(
               (player, index) =>
                 ( 
                   <div css={voteItem} key={index}>
@@ -84,8 +103,7 @@ export const Vote = (props) => {
                       isAlive={true}
                       isPresent={false}
                       key={index} />
-                    <p>{player.name}
-                      {player.name===gameObject.players[gameObject.presentPlayer].name?" (あなた)":""}</p>
+                    <p>{player.name}</p>
                     <Button css={voteButtonStyle}
                       className={`vote-item-btn, ${player.id === selectedPlayerIndex ? "selected" : "select"
                         }`}
@@ -103,7 +121,7 @@ export const Vote = (props) => {
             className="submit btn-group vote-btn"
             onClick={handleVote}
             disabled={selectedPlayerIndex === null}
-          >投票</Button>
+          >PM投票</Button>
         </div>
       </div>
     </div>
