@@ -82,10 +82,11 @@ export const VoteResultPage = () => {
                 // voted が最も多いプレイヤーをすべて見つける
                 const mostVotedPlayers = gameObject.players.filter(player => player.voted === maxVoted);
 
-                // ランダムに1人選ぶ
-                const randomIndex = Math.floor(Math.random() * mostVotedPlayers.length);
+                if(mostVotedPlayers >= 2){
+                    console.log("2名以上最大投票数のプレイヤーがいます。PM判定に移ります");
+                    navigate("/PMVoteResult"); // 
+                }else{
                 const expelledPlayer = mostVotedPlayers[randomIndex];
-
                 // 見つけたプレイヤーを配列から削除する
                 const index = gameObject.players.indexOf(expelledPlayer);
                 if (index > -1) {
@@ -98,6 +99,8 @@ export const VoteResultPage = () => {
                 await gameObjectfileWrite(gameObject); // 書き込み
                 setExpelledPlayer(expelledPlayer);
                 setIsLoad(true);
+                }
+        
             }
         })()
     }, [gameObject]); //確認

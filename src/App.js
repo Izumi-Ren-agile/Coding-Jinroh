@@ -12,6 +12,7 @@ import { VotePage } from './components/view/VotePage';
 import { VoteResultPage } from './components/view/VoteResultPage';
 import { ResultPage } from './components/view/ResultPage';
 import {TestPage} from './components/page/testpage';
+import {PMVotePage} from './components/page/PMVotePage';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/voteResultPage" element={<VoteResultPage />} />
         <Route path="/resultPage" element={<ResultPage />} />
         <Route path="/testpage" element={<TestPage />} />
+        <Route path="/PMVotePage" element={<PMVotePage />} />
       </Routes>
     </Router>
   );
