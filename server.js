@@ -134,9 +134,10 @@ const createGameObject = async (Players) => {
 
   //クエスチョンIDの設定//一時的にID17の問題しか出題されないように
   const qDbId = "QUESTION_CONTENT";
-  const questionIdArray = returnRandomIndex(1, await countData(qDbId), 1);
-  //const questionId = questionIdArray[0];
-  const questionId = 17;
+  const questionIdMin=17;
+  const questionIdArray = returnRandomIndex(questionIdMin, questionIdMin-1+await countData(qDbId), 1);
+  const questionId = questionIdArray[0];
+  //const questionId = 17;
 
   //クエスチョンテキストの取得
   const questionText = await readData(qDbId, questionId + "", "question");
@@ -172,7 +173,7 @@ const createGameObject = async (Players) => {
 
   const missions=removeDuplicates(havingDuplicateMissions,'arg');
   console.log("ミッションの被りなし総数", missions.length);
-  
+
   //次のミッション
   const nextMissionIndex = 0;
 

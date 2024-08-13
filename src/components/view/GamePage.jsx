@@ -179,7 +179,7 @@ export const GamePage = () => {
   const handleFinishTurn = async () => {
     if (gameObject.gamePhase !== "daytime") {
       //次に行く際にコンパイルを強制し、遷移先をResultへ
-      const adjustedCode = "public class Main{" + gameObject.main + code + "}";
+      const adjustedCode = "import java.util.*; import java.io.*; import java.lang.*; public class Main{" + gameObject.main + code + "}";
       let isComplete = false;
 
       //ミッション達成処理
