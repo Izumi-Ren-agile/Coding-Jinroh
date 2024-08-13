@@ -11,7 +11,6 @@ export const VoteResultPage = () => {
     const navigate = useNavigate();
 
     const gameObjectfileRead = async () => {
-        console.log(gameObject)
         await fetch("/read-gameObject")
             .then((response) => response.json())
             .then((data) => {
@@ -36,12 +35,9 @@ export const VoteResultPage = () => {
     };
 
     const checkGameResult = (players) => {
-        // もしコンパイル結果がアンサー通りなら
-
         let jinrohCount = 0;
         let citizenCount = 0;
 
-        // isJinrohがtrueとfalseの個数をカウントする
         players.forEach(player => {
             if (player.isJinroh) {
                 jinrohCount++;
@@ -50,7 +46,6 @@ export const VoteResultPage = () => {
             }
         });
 
-        // 条件に基づいて結果を返す
         if (jinrohCount === 0) {
             return "citizen";
         } else if (jinrohCount === citizenCount) {
@@ -66,55 +61,59 @@ export const VoteResultPage = () => {
     useEffect(() => {
         (async () => {
             await gameObjectfileRead();
-        })()
-    }, [isLoad]);
+            setIsLoad(true);
+        })();
+    }, []);
 
     useEffect(() => {
-        (async () => {
-            console.log("ゲームオブジェクト:", gameObject);
-            if (!gameObject.property && !isLoad) {
+        if (isLoad) {
+            (async () => {
+                if (!gameObject.property) {
+                    const maxVoted = gameObject.players.reduce((max, player) => {
+                        return player.voted > max ? player.voted : max;
+                    }, -1);
 
-                // voted が最も多い値を見つける
-                const maxVoted = gameObject.players.reduce((max, player) => {
-                    return player.voted > max ? player.voted : max;
-                }, -1);
+                    const mostVotedPlayers = gameObject.players.filter(player => player.voted === maxVoted);
 
-                // voted が最も多いプレイヤーをすべて見つける
-                const mostVotedPlayers = gameObject.players.filter(player => player.voted === maxVoted);
+                    if (mostVotedPlayers.length >= 2) {
+                        console.log("2名以上最大投票数のプレイヤーがいます。PM判定に移ります");
+                        navigate("/pmVoteResult");
+                    } else {
+                        const randomIndex = Math.floor(Math.random() * mostVotedPlayers.length);
+                        const expelledPlayer = mostVotedPlayers[randomIndex];
+                        
+                        const newGameObject = { ...gameObject, players: [...gameObject.players] };
+                        const index = newGameObject.players.indexOf(expelledPlayer);
+                        if (index > -1) {
+                            newGameObject.players.splice(index, 1);
+                        }
 
-                // ランダムに1人選ぶ
-                const randomIndex = Math.floor(Math.random() * mostVotedPlayers.length);
-                const expelledPlayer = mostVotedPlayers[randomIndex];
+                        newGameObject.gameResult = checkGameResult(newGameObject.players);
 
-                // 見つけたプレイヤーを配列から削除する
-                const index = gameObject.players.indexOf(expelledPlayer);
-                if (index > -1) {
-                    gameObject.players.splice(index, 1);
+                        await gameObjectfileWrite(newGameObject);
+                        setExpelledPlayer(expelledPlayer);
+                        setGameObject(newGameObject);
+                    }
                 }
-
-                // 勝敗判定
-                gameObject.gameResult = checkGameResult(gameObject.players);
-
-                await gameObjectfileWrite(gameObject); // 書き込み
-                setExpelledPlayer(expelledPlayer);
-                setIsLoad(true);
-            }
-        })()
-    }, [gameObject]); //確認
+            })();
+        }
+    }, [isLoad, gameObject]);
 
     const handleFinishTurn = async () => {
-        if (gameObject.gameResult === "draw") {
-            gameObject.players.map((player) => {
+        const newGameObject = { ...gameObject, players: [...gameObject.players] };
+
+        if (newGameObject.gameResult === "draw") {
+            newGameObject.players.forEach(player => {
                 player.voted = 0;
-            })
-            gameObject.gamePhase = "night";
-            gameObject.presentDay++;
-            gameObject.startingTurn = Math.floor(Date.now() / 1000);
-            await gameObjectfileWrite(gameObject); //書き込み
+            });
+            newGameObject.gamePhase = "night";
+            newGameObject.presentDay++;
+            newGameObject.startingTurn = Math.floor(Date.now() / 1000);
+            await gameObjectfileWrite(newGameObject);
             navigate('/gamePage');
         } else {
-            gameObject.gamePhase = "result";
-            await gameObjectfileWrite(gameObject); //書き込み
+            newGameObject.gamePhase = "result";
+            await gameObjectfileWrite(newGameObject);
             navigate('/resultPage');
         }
     };
