@@ -78,7 +78,7 @@ export const Game = (props) => {
   const handleRunCode = async () => {
     setLoading(true); // ローディング状態を開始
     setError(null); // エラー状態をクリア
-    const adjustedCode = "public class Main{" + gameObject.main + code + '}';
+    const adjustedCode = "import java.util.*; import java.io.*; import java.lang.*; public class Main{" + gameObject.main + code + "}";
     console.log("調整されたコード", adjustedCode);
     try {
       const response = await fetch("/compile", {
@@ -131,7 +131,7 @@ export const Game = (props) => {
             {gameObject.gamePhase === "night" ? (
               <CodeEditor
                 gameObject={gameObject}
-                code={code/*&&code.replace(/\n/g,'\n')*/}
+                code={code}
                 onChange={handleChange}
                 handleRunCode={handleRunCode}
                 loading={loading}

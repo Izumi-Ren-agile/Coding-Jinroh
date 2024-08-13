@@ -215,7 +215,7 @@ export const GameHeader = (props) => {
         }
     });
 
-    console.log(headerPlayers);
+    console.log("プレイヤーたちどうなってんの",headerPlayers);
 
     return (
         <div css={hedderContainerStyle}>

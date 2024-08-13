@@ -108,6 +108,7 @@ export const VoteResultPage = () => {
                 player.voted = 0;
             })
             gameObject.gamePhase = "night";
+            gameObject.presentCodingTurn=1;
             gameObject.presentDay++;
             gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject); //書き込み
