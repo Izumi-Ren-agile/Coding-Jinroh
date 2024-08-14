@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Tag } from '../molecules/Tag';
+import { Tooltip } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 export const Project = (props) => {
     const { gameObject, question } = props;
@@ -37,7 +39,7 @@ export const Project = (props) => {
 `
     return (
         <div css={projectStyle}>
-            <Tag secondText={""} colorMode={gameObject.gamePhase === "daytime" ? "daytime" : "night"}>プロジェクト</Tag>
+            <Tag secondText={""} colorMode={gameObject.gamePhase === "daytime" ? "daytime" : "night"}>プロジェクト <Tooltip title="今回実装するメソッドの概要です。以下の仕様を満たすメソッドを作成することでゲームに勝利できます。" placement="top"><QuestionCircleOutlined /></Tooltip></Tag>
             <div css={projectContainerStyle}>
                 <p css={projectTextStyle}>各位<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{question}<br /><br />よろしく頼む。<br /><br />偉井上長</p>
             </div>

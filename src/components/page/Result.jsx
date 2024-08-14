@@ -20,20 +20,28 @@ export const Result = (props) => {
 
     // コンポーネントがマウントされたときに確認ダイアログを表示する
     useEffect(() => {
-        swal.fire({
-            title: `勝敗が決しました！`,
-            text: '勝ったのは．．．',
-            icon: 'success',
-            confirmButtonText: '結果を見る',
-        }).then((result) => {
+        if (gameObject.gameResult === "practice") {
             swal.fire({
-                title: `${gameObject.gameResult === "citizen" ? "市民" : "人狼"}！`,
-                imageUrl: `${gameObject.gameResult === "citizen" ? "images/result-citizenWin.png" : "/images/result-jinrohWin.jpg"}`,
-                imageWidth: 400,
-                imageHeight: 400,
-                confirmButtonText: 'ゲームを振り返る',
+                title: `コーディングお疲れ様です！`,
+                icon: 'success',
+                confirmButtonText: '解答を見る',
             });
-        });
+        } else {
+            swal.fire({
+                title: `勝敗が決しました！`,
+                text: '勝ったのは．．．',
+                icon: 'success',
+                confirmButtonText: '結果を見る',
+            }).then((result) => {
+                swal.fire({
+                    title: `${gameObject.gameResult === "citizen" ? "市民" : "人狼"}！`,
+                    imageUrl: `${gameObject.gameResult === "citizen" ? "images/result-citizenWin.png" : "/images/result-jinrohWin.jpg"}`,
+                    imageWidth: 400,
+                    imageHeight: 400,
+                    confirmButtonText: 'ゲームを振り返る',
+                });
+            });
+        }
     }, []);
 
     const handleRunCode = async () => {

@@ -9,6 +9,8 @@ import { Contents } from "../templates/Contents";
 // import { Compiler } from "../compile/CompilerAsMethod";
 import { Tag } from "../molecules/Tag";
 import { TabsOfCodeEditor } from "../molecules/TabsOfCodeEditor";
+import { Tooltip } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 export const Game = (props) => {
   const { gameObject, handleFinishTurn, code, handleChange, setTabCode, activeTab } = props;
@@ -127,7 +129,7 @@ export const Game = (props) => {
         <Contents>
           <Content70>
             {console.log("コードの中何入ってんの？", code)}
-            <Tag secondText={"あと〇文字"} colorMode={gameObject.gamePhase}>エディター</Tag>
+            <Tag secondText={"あと〇文字"} colorMode={gameObject.gamePhase}>エディター <Tooltip title="プロジェクトに従って、実装を進めてください。メイン関数タブは編集することができません。" placement="top"><QuestionCircleOutlined /></Tooltip></Tag>
             {gameObject.gamePhase === "night" ? (
               <CodeEditor
                 gameObject={gameObject}
@@ -147,7 +149,7 @@ export const Game = (props) => {
                 activeTab={activeTab}
               />
             )}
-            <Tag secondText={""} colorMode={gameObject.gamePhase}>実行結果</Tag>
+            <Tag secondText={""} colorMode={gameObject.gamePhase}>実行結果 <Tooltip title="実行ボタンを押すと実行結果が表示されます。入力例に対して、期待される出力を満たしていると、正誤判定が〇になります。" placement="top"><QuestionCircleOutlined /></Tooltip></Tag>
             {/* 通信エラー */}
             {error && <div>Error: {error.message}</div>}
 
