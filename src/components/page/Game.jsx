@@ -27,7 +27,7 @@ export const Game = (props) => {
   useEffect(() => {
     if (gameObject.gamePhase === "night" && gameObject.startingTurn + gameObject.codingMaxTime > Math.floor(Date.now() / 1000)) {
       swal.fire({
-        title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
+        title: `${gameObject.players[gameObject.presentPlayer].name}\nさんですか？`,
         text: '「はい」を押すとコーディングフェーズに進みます',
         icon: 'warning',
         confirmButtonText: 'はい',
@@ -42,8 +42,9 @@ export const Game = (props) => {
     } else if (gameObject.gamePhase === "daytime" && gameObject.startingTurn + gameObject.meetingmaxTime > Math.floor(Date.now() / 1000)) {
       const pmPlayer = gameObject.players.find(player => player.isPM);
       swal.fire({
-        title: `今日のコーディングターンが終わりました！`,
-        text: `PMは、${pmPlayer.name}さんです！`,
+        title: `今日のコーディングターンが\n終わりました！`,
+        // text: `PMは、${pmPlayer.name}さんです！`,
+        html: `PMは、<strong>${pmPlayer.name}</strong>さんです！`,
         imageUrl: `images/card-PM.png`,
         imageWidth: 400,
         imageHeight: 400,

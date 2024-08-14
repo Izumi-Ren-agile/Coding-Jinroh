@@ -9,7 +9,7 @@ export const ConfirmPlayer = (props) => {
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
     swal.fire({
-      title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
+      title: `${gameObject.players[gameObject.presentPlayer].name}\nさんですか？`,
       text: '「はい」を押すと役職確認に進みます',
       icon: 'warning',
       confirmButtonText: 'はい',
