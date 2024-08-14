@@ -179,7 +179,7 @@ export const GameHeader = (props) => {
     const missionStyle = css`
     align-items: center;
     padding: 20px 10px;
-    border: 5px solid ${gameObject.players[gameObject.presentPlayer].color};
+    border: 5px solid ${gameObject.players ? gameObject.players[gameObject.presentPlayer].color : "#FFF"};
     border-radius: 5px;
     text-align: center;
     font-size: 18px;
@@ -190,7 +190,7 @@ export const GameHeader = (props) => {
 `
     const missionTextStyle = css`
     ${textStyle}
-    color: ${gameObject.players[gameObject.presentPlayer].color};
+    color: ${gameObject.players ? gameObject.players[gameObject.presentPlayer].color : "#FFF"};
     font-size: 15px;
     font-weight: bold;
     text-align: center;

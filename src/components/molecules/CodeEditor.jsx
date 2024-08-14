@@ -15,13 +15,11 @@ export const CodeEditor = (props) => {
   background-color: #282c34; /* CodeMirrorのテーマに合わせた色 */
   border-radius: 5px;
   overflow: auto;
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   `
   const editorBackgroundStyle = css`
   flex-grow: 5;
-  padding: 10px;
   background-color: #282c34; /* CodeMirrorのテーマに合わせた色 */
   border-radius: 5px;
   position: relative;
