@@ -18,7 +18,7 @@ import "./vote.css";
       confirmButtonText: '結果を確認する',
     }).then((result) => {
       swal.fire({
-        title: `${expelledPlayer.name}さんでした...`,
+        title: `${expelledPlayer.name}さん\nでした...`,
         imageUrl: "/images/voteResult-image.jpg",
         imageWidth: 400,
         imageHeight: 400,

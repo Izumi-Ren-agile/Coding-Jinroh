@@ -62,7 +62,7 @@ export const PmVote = (props) => {
     }).then((result) => {
 
       swal.fire({
-        title: `${pmPlayer.name}さんですか？`,
+        title: `PMの${pmPlayer.name}さん\nですか？`,
         text: '「はい」を押すとPM投票確認に進みます',
         icon: 'warning',
         confirmButtonText: 'はい',

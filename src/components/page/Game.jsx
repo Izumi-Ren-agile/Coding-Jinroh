@@ -27,7 +27,7 @@ export const Game = (props) => {
   useEffect(() => {
     if (gameObject.gamePhase === "night" && gameObject.startingTurn + gameObject.codingMaxTime > Math.floor(Date.now() / 1000)) {
       swal.fire({
-        title: `${gameObject.players[gameObject.presentPlayer].name}\nさんですか？`,
+        title: `${gameObject.players[gameObject.presentPlayer].name}さん\nですか？`,
         text: '「はい」を押すとコーディングフェーズに進みます',
         icon: 'warning',
         confirmButtonText: 'はい',
