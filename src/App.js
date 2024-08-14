@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './css/App.css';
-import { Concept } from './components/page/Concept';
-import { Rule } from './components/page/Rule';
-import { InputPlayer } from './components/page/InputPlayer';
-import { ConfirmPlayerPage } from './components/view/ConfirmPlayerPage';
-import { Question } from './components/page/Question';
-import { Top } from './components/page/Top';
-import { GamePage } from './components/view/GamePage';
-import { VotePage } from './components/view/VotePage';
-import { VoteResultPage } from './components/view/VoteResultPage';
-import { ResultPage } from './components/view/ResultPage';
-import {TestPage} from './components/page/testpage';
-
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./css/App.css";
+import { Concept } from "./components/page/Concept";
+import { Rule } from "./components/page/Rule";
+import { InputPlayer } from "./components/page/InputPlayer";
+import { ConfirmPlayerPage } from "./components/view/ConfirmPlayerPage";
+import { Question } from "./components/page/Question";
+import { Top } from "./components/page/Top";
+import { GamePage } from "./components/view/GamePage";
+import { VotePage } from "./components/view/VotePage";
+import { VoteResultPage } from "./components/view/VoteResultPage";
+import { ResultPage } from "./components/view/ResultPage";
+import { TestPage } from "./components/page/testpage";
+import { PMVotePage } from "./components/view/PMVotePage";
 
 function App() {
   return (
@@ -29,6 +29,7 @@ function App() {
         <Route path="/voteResultPage" element={<VoteResultPage />} />
         <Route path="/resultPage" element={<ResultPage />} />
         <Route path="/testpage" element={<TestPage />} />
+        <Route path="/pmVotePage" element={<PMVotePage />} />
       </Routes>
     </Router>
   );

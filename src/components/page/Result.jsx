@@ -8,10 +8,9 @@ import { Content70 } from "../templates/Content70";
 import { Contents } from "../templates/Contents";
 import { Tag } from "../molecules/Tag";
 import { TabsOfCodeEditor } from "../molecules/TabsOfCodeEditor";
-import { useLocation, useNavigate } from "react-router-dom";
 
 export const Result = (props) => {
-    const { gameObject, handleFinishTurn, code, handleChange } = props;
+    const { gameObject, handleFinishTurn, code, handleChange, setTabCode, activeTab } = props;
     const [compiledCode, setCompiledCode] = useState("");
     const [stdout, setStdout] = useState(null); // コンパイルの標準出力
     const [buildStderr, setBuildStderr] = useState(null); // コンパイルのエラーメッセージ
@@ -21,29 +20,42 @@ export const Result = (props) => {
 
     // コンポーネントがマウントされたときに確認ダイアログを表示する
     useEffect(() => {
-        swal.fire({
-            title: `勝敗が決しました！`,
-            text: '勝ったのは．．．',
-            icon: 'success',
-            confirmButtonText: '結果を見る',
-        });
-        swal.fire({
-            title: `${gameObject.gameResult === "citizen" ? "市民" : "人狼"}の勝利！`,
-            confirmButtonText: 'ゲームを振り返る',
-        });
+        if (gameObject.gameResult === "practice") {
+            swal.fire({
+                title: `コーディングお疲れ様です！`,
+                icon: 'success',
+                confirmButtonText: '解答を見る',
+            });
+        } else {
+            swal.fire({
+                title: `勝敗が決しました！`,
+                text: '勝ったのは．．．',
+                icon: 'success',
+                confirmButtonText: '結果を見る',
+            }).then((result) => {
+                swal.fire({
+                    title: `${gameObject.gameResult === "citizen" ? "市民" : "人狼"}！`,
+                    imageUrl: `${gameObject.gameResult === "citizen" ? "images/result-citizenWin.png" : "/images/result-jinrohWin.jpg"}`,
+                    imageWidth: 400,
+                    imageHeight: 400,
+                    confirmButtonText: 'ゲームを振り返る',
+                });
+            });
+        }
     }, []);
 
     const handleRunCode = async () => {
         setLoading(true); // ローディング状態を開始
         setError(null); // エラー状態をクリア
-
+        const adjustedCode = "public class Main{" + gameObject.main + code + '}';
+        console.log("調整されたコード", adjustedCode);
         try {
             const response = await fetch("/compile", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ language, sourceCode: code }), // 言語とソースコードをリクエストボディに含める
+                body: JSON.stringify({ language, sourceCode: adjustedCode }), // 言語とソースコードをリクエストボディに含める
             });
 
             if (!response.ok) {
@@ -73,10 +85,15 @@ export const Result = (props) => {
             />
             <Contents>
                 <Content70>
+                    <Tag secondText={"あと〇文字"}>エディター</Tag>
                     <TabsOfCodeEditor
+                        gameObject={gameObject}
                         editorHistory={gameObject.editorHistory}
                         onChange={handleChange}
                         handleRunCode={handleRunCode}
+                        loading={loading}
+                        setTabCode={setTabCode}
+                        activeTab={activeTab}
                     />
                     <Tag secondText={""}>実行結果</Tag>
                     {/* 通信エラー */}
@@ -88,7 +105,7 @@ export const Result = (props) => {
                         }
                     />
                 </Content70>
-                <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} />
+                <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} gameObject={gameObject} />
             </Contents>
         </div >
     );

@@ -1,41 +1,61 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { PlayerAtom } from '../atom/Playeratom'; // 適切なパスに変更
+import { PlayerAtom } from "../atom/PlayerAtom";
 
-export const Playersmol = (props) => {
-    const { players } = props;
+export const PlayersMol = ( props ) => {
+  const { headerPlayers } = props;
 
-    // プレイヤーリストを2行4列に並べるためのスタイル
-    const containerStyle = css`
-        display: flex;
-        flex-direction: column; /* プレイヤーを縦に並べる */
-        gap: 10px; /* 行間のスペース */
-        margin-right: 500px; /* 他の要素との整列のために調整 */
-        margin-top: 30px;
-    `;
+  const containerStyle = css`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 一行目と二行目のアバター間のギャップ */
+    max-width: 300px; /* コンテナの最大幅 */
+    height: 140px;
+    align-items: center;
+    position: relative;
+    justify-content: flex-start;
+    overflow: hidden; /* コンテナを超えた部分を隠す */
+  `;
 
-    const rowStyle = css`
-        display: flex;
-        flex-wrap: nowrap; /* 横並びにする */
-        gap: 10px; /* プレイヤー間のスペース */
-    `;
+  const rowStyle = css`
+    display: flex;
+    gap: 20px; /* 行内のアバター間のギャップ */
+    position: absolute;
+    width: 100%;
+  `;
 
-    // プレイヤーを2行に分ける
-    const firstRow = players.slice(0, 4); // 最初の4人を1行目
-    const secondRow = players.slice(4, 8); // 次の4人を2行目
+  const rowOffsetStyle = css`
+    top: 70px; /* 75px (アバターの高さ)*/
+  `;
 
-    return (
-        <div css={containerStyle}>
-            <div css={rowStyle}>
-                {firstRow.map((player, index) => (
-                    <PlayerAtom name={player.name} index={index} key={index} />
-                ))}
-            </div>
-            <div css={rowStyle}>
-                {secondRow.map((player, index) => (
-                    <PlayerAtom name={player.name} index={index + 4} key={index + 4} />
-                ))}
-            </div>
+  return (
+    <div css={containerStyle}>
+      <div css={rowStyle}>
+        {headerPlayers.slice(0, 4).map((player, index) => (
+          <PlayerAtom
+            name={player.name}
+            imagePath={player.imagePath}
+            color={player.color}
+            isPM={player.isPM && player.isAlive}
+            isAlive={player.isAlive}
+            key={index}
+          />
+        ))}
+      </div>
+      {headerPlayers.length > 4 && (
+        <div css={[rowStyle, rowOffsetStyle]}>
+          {headerPlayers.slice(4).map((player, index) => (
+            <PlayerAtom
+              name={player.name}
+              imagePath={player.imagePath}
+              color={player.color}
+              isPM={player.isPM && player.isAlive}
+              isAlive={player.isAlive}
+              key={index + 4}
+            />
+          ))}
         </div>
-    );
+      )}
+    </div>
+  );
 };

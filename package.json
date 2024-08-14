@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "5.4.0",
     "@codemirror/lang-javascript": "^6.2.2",
     "@codemirror/state": "^6.4.1",
     "@codemirror/theme-one-dark": "^6.1.2",
@@ -25,6 +26,7 @@
     "react-scripts": "5.0.1",
     "react-spring": "^9.7.4",
     "sweetalert2": "^11.12.4",
+    "use-sound": "^4.0.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

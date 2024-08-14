@@ -7,9 +7,17 @@ import { Buttons } from '../templates/Buttons';
 import { Button, Tabs } from "antd";
 
 export const TabsOfCodeEditor = (props) => {
-  const { gameObject, editorHistory, onChange, handleRunCode } = props;
+  const { gameObject, editorHistory, onChange, handleRunCode, loading, setTabCode, activeTab } = props;
   const { TabPane } = Tabs;
 
+  const editorContainerStyle = css`
+  flex-grow: 5;
+  background-color: #282c34; /* CodeMirrorのテーマに合わせた色 */
+  border-radius: 5px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  `
   const editorBackgroundStyle = css`
   margin-top: -13px;
   flex-grow: 1;
@@ -30,36 +38,51 @@ export const TabsOfCodeEditor = (props) => {
   border: none; /* エディターのボーダーを取り除く */
   white-space: pre-wrap;
 `
-  editorHistory.map((oneOfHistory, index) => {
-    console.log(oneOfHistory.name)
-  })
-  return (
+  const reversedEditorHistory = editorHistory.map((_, i, a) => a[a.length - 1 - i]);
 
-    <Tabs defaultActiveKey="2" size="small" style={{ color: "#FFF", backgroundColor: "#282c34", flexGrow: "5", padding: "0 10px", borderRadius: "5px", overflow: "auto", display: "flex", position: "relative" }}>
-      <TabPane tab="メイン関数" key="1" style={{ color: "#FFF", backgroundColor: "#282c34" }}>
-        <div css={editorBackgroundStyle}>
-          <CodeMirror
-            value={gameObject.main} // 初期コード
-            extensions={[javascript()]}
-            theme={oneDark}
-            css={codeEditorStyle}
-            onChange={onChange}
-          />
-        </div>
-      </TabPane>
-      {editorHistory.reverse().map((oneOfHistory, index) => (
-        <TabPane tab={oneOfHistory.name} key={index + 2} style={{ color: "#FFF", backgroundColor: "#282c34" }}>
+  const editorContents = [{name: "メイン関数", code: gameObject.main}, ...reversedEditorHistory];
+
+  console.log(gameObject);
+  console.log(gameObject.main);
+  console.log(editorContents);
+
+  return (
+    <div css={editorContainerStyle}>
+      <style>
+      {
+        `:where(.css-1pg9a38).ant-tabs .ant-tabs-tab {
+          color: #ffffff;
+        }`
+      }
+      </style>
+      <Tabs defaultActiveKey="2" size="small" style={{ color: "#FFF", backgroundColor: "#282c34", flexGrow: "5", padding: "0 10px", borderRadius: "5px", overflow: "auto", display: "flex", position: "relative" }} onChange={(e) => {console.log(e); setTabCode(e)}} activeKey={activeTab}>
+        {/* <TabPane tab="メイン関数" key="1" style={{ color: "#FFF", backgroundColor: "#282c34" }}>
           <div css={editorBackgroundStyle}>
             <CodeMirror
-              value={oneOfHistory.code} // 初期コード
+              value={gameObject.main} // 初期コード
               extensions={[javascript()]}
               theme={oneDark}
               css={codeEditorStyle}
-              onChange={onChange}
             />
           </div>
-        </TabPane>
-      ))}
-    </Tabs>
+        </TabPane> */}
+        {editorContents.map((oneOfHistory, index) => (
+          <TabPane tab={oneOfHistory.name} key={index + 1} style={{ color: "#FFF", backgroundColor: "#282c34" }}>
+            <div css={editorBackgroundStyle}>
+              <CodeMirror
+                value={oneOfHistory.code}
+                extensions={[javascript()]}
+                theme={oneDark}
+                css={codeEditorStyle}
+                onChange={onChange}
+              />
+            </div>
+          </TabPane>
+        ))}
+      </Tabs>
+      <Buttons>
+        <Button type="primary" onClick={handleRunCode} disabled={loading}>{loading ? "実行中..." : "実行"}</Button>
+      </Buttons>
+    </div>
   );
 };

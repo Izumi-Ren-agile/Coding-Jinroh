@@ -62,15 +62,31 @@ export const VotePage = () => {
 
         if (gameObject.presentPlayer < gameObject.players.length - 1) {
             gameObject.presentPlayer++;
+            gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject); //書き込み
-            navigate("/votePage"); // 更新が完了した後に遷移する
+            setIsLoad(false)
+            // navigate("/votePage"); // 更新が完了した後に遷移する
 
         } else {
             gameObject.presentPlayer = 0;
+            gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject); //書き込み
-            navigate("/voteResultPage"); // 更新が完了した後に遷移する
+            console.log("投票完了、ｐｍか結果画面に遷移")
 
-        }
+            if (!gameObject.property) {
+                const maxVoted = gameObject.players.reduce((max, player) => {
+                    return player.voted > max ? player.voted : max;
+                }, -1);
+
+                const mostVotedPlayers = gameObject.players.filter(player => player.voted === maxVoted);
+                console.log(mostVotedPlayers)
+                if (mostVotedPlayers.length >= 2) {
+                    console.log("2名以上最大投票数のプレイヤーがいます。PM判定に移ります");
+                    navigate("/pmVotePage");
+                }else{
+                    navigate("/voteResultPage"); // 更新が完了した後に遷移する
+                }
+        }}
     };
 
     return (

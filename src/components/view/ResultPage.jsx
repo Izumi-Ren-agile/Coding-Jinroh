@@ -5,7 +5,9 @@ import { Result } from '../page/Result';
 
 export const ResultPage = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });
-    const [isLoad, setIsLoad] = useState(false); //useLoad
+    const [isLoad, setIsLoad] = useState(false); //useLoad  
+    const [code, setCode] = useState("");
+    const [activeTab, setActiveTab] = useState("2");
     const navigate = useNavigate();
 
     const gameObjectfileRead = async () => {
@@ -30,7 +32,7 @@ export const ResultPage = () => {
             body: JSON.stringify(object),
         })
             .then((response) => response.text())
-            .then((data) => {console.log(data);})
+            .then((data) => { console.log(data); })
             .catch((error) => console.error("Error:", error));
     };
 
@@ -47,9 +49,42 @@ export const ResultPage = () => {
         navigate('/');
     };
 
+    const handleChange = (value) => {
+        setCode(value);
+    };
+
+    const setTabCode = (tabIndex) => {
+        console.log("hikisuu", tabIndex);
+        console.log("editorHistory", gameObject.editorHistory);
+        console.log(
+            "siteisitayatu",
+            gameObject.editorHistory.length - tabIndex + 1
+        );
+        if (tabIndex === "1") {
+            setCode(gameObject.editorHistory[gameObject.editorHistory.length - 1].code);
+        } else {
+            setCode(
+                gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1].code
+            );
+        }
+
+        setActiveTab(tabIndex);
+        console.log(
+            gameObject.editorHistory[gameObject.editorHistory.length - tabIndex + 1]
+                .code
+        );
+    }
+
     return (
         <>{isLoad ? (
-            <Result gameObject={gameObject} handleFinishTurn={handleFinishTurn} />
+            <Result
+                gameObject={gameObject}
+                handleFinishTurn={handleFinishTurn}
+                code={code}
+                handleChange={handleChange}
+                setTabCode={setTabCode}
+                activeTab={activeTab}
+            />
         ) : <Load backgroundColor='#526D82' />}
         </>
     );

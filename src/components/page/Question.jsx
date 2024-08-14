@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Load } from '../page/Load';
 import { GameHeader } from "../organisms/GameHeader";
 import { Button } from "antd/es/radio";
+import useSound from "use-sound";
+import BGM from "../../sound/weiredhome.mp3";
 
 export const Question = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });
@@ -52,24 +54,26 @@ export const Question = () => {
     const contentsStyle = css`
     flex-grow: 1; // 余白に合わせて伸張する
     height:100%;
-    max-height: calc(100%-180px);
+    min-height: calc(100vh - 180px);
+    max-height: calc(100vh - 180px);
     display: flex;
     flex-direction: column;
     item-align: center;
     text-align: center;
-    gap: 20px;
     width: 100%;
     padding: 0 20px;
 `
     const projectContainerStyle = css`
     flex-grow: 1; // 余白に合わせて伸張する
     background: white;
-    height: 100%;
-    padding: 10px;
+    min-height: calc(80% - 40px);
+    max-height: calc(80% - 40px);
+    height: calc(80% - 40px);
     border: 5px solid #e0e0e0;
     border-radius: 5px;
     text-align: left;
-    margin-bottom: 20px;
+
+    margin:0px 40px;
     overflow: auto;
 `
     const projectTextStyle = css`
@@ -77,33 +81,46 @@ export const Question = () => {
     height: 100%;
     flex-grow: 1;
     color: black;
-    padding: 20px;
-    font-weight: bold;
     white-space: pre-wrap;
 `
 const messageStyle = css`
-font-size: 20px;
 font-weight: bold;
+margin:20px 40px;
 `;
+
+const questionButtonStyle=css`
+    width: 15vw;
+    height: calc(15vw*0.25);
+    font-size: x-large;
+    transform: translateX(-50%);
+    left: 50%;
+`
 
     return (
         <>{isLoad ? (
             <div className="container" style={{ backgroundColor: "#526D82" }}>
                 <GameHeader gameObject={gameObject} handleFinishTurn={handleGame} />
                 <div css={contentsStyle}>
-                    <p css={messageStyle}>
-                        上長から、一通のメールが…
-                    </p>
+                    <h2 css={messageStyle}>
+                        上長から一通のメールが…
+                    </h2>
                     <div css={projectContainerStyle}>
-                        <p css={projectTextStyle}>各位<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。<br /><br />{gameObject.questionText.replace(/\\n/g, '\n')}<br /><br />よろしく頼む。<br /><br />偉井上長</p>
+                        <p css={projectTextStyle}>各位<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。
+                        <br /><br />{gameObject.questionText.replace(/\\n/g, '\n')}
+                        <br /><br />よろしく頼む。<br /><br />偉井上長
+                        </p>
                     </div>
-                    <p css={messageStyle}>
+                    <h2 css={messageStyle}>
                         コードを邪魔する人狼に気を付けながら、楽しいエンジニアライフを！
-                    </p>
-                    <Button size="large" type="primary" onClick={handleGame}>
-                        ゲーム開始
-                    </Button>
+                    </h2>
+                    
+                    {/* <Button css={questionButtonStyle} onClick={handleGame} className="btn-group"> */}
+                                    {/* <Button onClick={handleGame}> */}
+                    {/* <Button size="large" type="primary" onClick={handleGame}> */}
+                        {/* コーディング開始
+                    </Button> */}
                 </div>
+                                    
             </div >
         ) : <Load backgroundColor='#526D82' />}
         </>

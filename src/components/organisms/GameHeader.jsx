@@ -1,9 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { TimerMol } from "../molecules/TimerMol";
+import { PlayersMol } from "../molecules/PlayersMol";
+import { PlayersMolecules } from "../molecules/PlayersMolecules";
 
 export const GameHeader = (props) => {
-    let { gameObject, handleFinishTurn = () => { } } = props;
+    let { gameObject, handleFinishTurn = () => { },setIsPlayBGM=()=>{} } = props;
 
     const thisPhaseCalc = (gamePhase) => {
         switch (gamePhase) {
@@ -42,7 +44,12 @@ export const GameHeader = (props) => {
                     backgroundColor: '#526D82',
                     textColor: '#ede4dd',
                     missions: gameObject.players[gameObject.presentPlayer].yourMission,
-                    gameDescription: `${gameObject.players[gameObject.presentPlayer].name}さんのターン`,
+                    // gameDescription: `${gameObject.players[gameObject.presentPlayer].name}さんのターン`,
+                    gameDescription: (
+                        <>
+                            {gameObject.players[gameObject.presentPlayer].name}<br />さんのターン
+                        </>
+                    ),
                     isTimer: true,
                     startTime: gameObject.startingTurn,
                     maxTime: gameObject.codingMaxTime,
@@ -92,7 +99,19 @@ export const GameHeader = (props) => {
                     buttonText: "TOPへ戻る"
                 };
             default:
-                return { missions: [] };
+                return {
+                    phaseText: "役職確認フェーズ",
+                    dayText: `Day${gameObject.presentDay}`,
+                    backgroundColor: '#526D82',
+                    textColor: '#ede4dd',
+                    missions: [],
+                    gameDescription: "役職を確認しよう",
+                    isTimer: true,
+                    startTime: gameObject.startingTurn,
+                    maxTime: 30,
+                    isButton: true,
+                    buttonText: "次の人へ"
+                };
         }
     }
 
@@ -157,22 +176,10 @@ export const GameHeader = (props) => {
     color: black;
     font-size: 12px;
 `
-    const timerStyle = css`
-    align-items: center;
-    padding: 20px;
-    border: 5px solid #e0e0e0;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 18px;
-    right: 0; /* 右端に配置 */
-    top: 0; /* ヘッダー内で上に配置 */
-    width: 200px;
-    height: 100%;
-`
     const missionStyle = css`
     align-items: center;
     padding: 20px 10px;
-    border: 5px solid ${gameObject.players[gameObject.presentPlayer].color};
+    border: 5px solid ${gameObject.players ? gameObject.players[gameObject.presentPlayer].color : "#FFF"};
     border-radius: 5px;
     text-align: center;
     font-size: 18px;
@@ -183,7 +190,7 @@ export const GameHeader = (props) => {
 `
     const missionTextStyle = css`
     ${textStyle}
-    color: ${gameObject.players[gameObject.presentPlayer].color};
+    color: ${gameObject.players ? gameObject.players[gameObject.presentPlayer].color : "#FFF"};
     font-size: 15px;
     font-weight: bold;
     text-align: center;
@@ -196,6 +203,25 @@ export const GameHeader = (props) => {
     text-align: center;
     white-space: pre-wrap;
 `
+    const headerPlayers = [];
+
+    // initialPlayersとplayersを確認
+    gameObject.initialPlayers.forEach(initialPlayer => {
+        const player = gameObject.players.find(p => p.id === initialPlayer.id);
+
+        if (player) {
+            // 同じIDのプレイヤーが存在する場合、isAliveをtrueにしてheaderPlayersに追加
+            player.isAlive = true;
+            headerPlayers.push(player);
+        } else {
+            // initialPlayersに存在し、playersに存在しない場合、isAliveをfalseにしてheaderPlayersに追加
+            initialPlayer.isAlive = false;
+            headerPlayers.push(initialPlayer);
+        }
+    });
+
+    console.log("プレイヤーたちどうなってんの",headerPlayers);
+
     return (
         <div css={hedderContainerStyle}>
             <div css={hedderLeftStyle}>
@@ -203,20 +229,21 @@ export const GameHeader = (props) => {
                     <h1 css={dayIndicatorStyle}>{headerInf.dayText}</h1>
                     <p css={phaseIndicatorStyle}>{headerInf.phaseText}</p>
                 </div>
-                <div css={playersContainerStyle}>
-                    {gameObject.players.map((player, index) => (
-                        <div css={playerStyle} key={index} id={`player${index}`}>{player.isPM?<p>PM</p>:<></>}{player.name}</div>
-                    ))}
-                </div>
-            </div>
-            <div css={hedderRightStyle}>
                 {headerInf.missions.map((missionObject) => (
                     <div css={missionStyle}>
                         <p css={missionTextStyle}>MISSION</p>
                         <p css={missionContentStyle}>{missionObject.mission.replace(/\\n/g, '\n')}</p>
                     </div>
                 ))}
-                <TimerMol startTime={headerInf.startTime} duration={headerInf.maxTime} handleFinishTurn={handleFinishTurn} gameDescription={headerInf.gameDescription} isButton={headerInf.isButton} isTimer={headerInf.isTimer} textStyle={textStyle} buttonText={headerInf.buttonText} />
+                {/* <div css={playersContainerStyle}>
+                    {gameObject.players.map((player, index) => (
+                        <div css={playerStyle} key={index} id={`player${index}`}>{player.isPM?<p>PM</p>:<></>}{player.name}</div>
+                    ))}
+                </div> */}
+            </div>
+            <div css={hedderRightStyle}>
+                <PlayersMolecules headerPlayers={headerPlayers} />
+                <TimerMol startTime={headerInf.startTime} duration={headerInf.maxTime} handleFinishTurn={handleFinishTurn} gameDescription={headerInf.gameDescription} isButton={headerInf.isButton} isTimer={headerInf.isTimer} textStyle={textStyle} buttonText={headerInf.buttonText} textColor={headerInf.textColor} setIsPlayBGM={setIsPlayBGM}/>
             </div>
         </div>
     );

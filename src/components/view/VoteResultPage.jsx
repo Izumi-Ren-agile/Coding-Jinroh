@@ -5,8 +5,9 @@ import { VoteResult } from '../page/VoteResult';
 
 export const VoteResultPage = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });
-    const [isLoad, setIsLoad] = useState(false); //useLoad
+    const [isLoad, setIsLoad] = useState(false); //useLoad    
     const [expelledPlayer, setExpelledPlayer] = useState(null);
+    
     const navigate = useNavigate();
 
     const gameObjectfileRead = async () => {
@@ -107,12 +108,20 @@ export const VoteResultPage = () => {
                 player.voted = 0;
             })
             gameObject.gamePhase = "night";
+            gameObject.presentCodingTurn=1;
             gameObject.presentDay++;
             gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject); //書き込み
             navigate('/gamePage');
         } else {
             gameObject.gamePhase = "result";
+            gameObject.editorHistory = [
+                ...gameObject.editorHistory,
+                {
+                  name: `解答コード`,
+                  code: gameObject.answerCode,
+                },
+              ];
             await gameObjectfileWrite(gameObject); //書き込み
             navigate('/resultPage');
         }

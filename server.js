@@ -1,20 +1,11 @@
 const http = require("http");
 const express = require("express");
 const path = require("path");
-const fs = require("fs");
+const fs = require("fs").promises; // `fs.promises` を使用して非同期APIを使用
 const { compileCode } = require("./serverCompilerApi");
 
-const {
-  initializeApp,
-  applicationDefault,
-  cert,
-} = require("firebase-admin/app");
-const {
-  getFirestore,
-  Timestamp,
-  FieldValue,
-  Filter,
-} = require("firebase-admin/firestore");
+const { initializeApp, cert } = require("firebase-admin/app");
+const { getFirestore } = require("firebase-admin/firestore");
 
 // expressオブジェクトの生成
 const app = express();
@@ -28,40 +19,32 @@ app.get("/", (req, res) => {
 app.use(express.static(path.join(__dirname, "build")));
 
 const bodyParser = require("body-parser");
-// urlencodedとjsonは別々に初期化する
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+// ゲームオブジェクトを書き込むエンドポイント
 app.post("/write-gameObject", async (req, res) => {
-  const data = JSON.stringify(req.body);
-  console.log("データの把握:", req.body);
-  fs.writeFile("gameObject.json", data, (err) => {
-    if (err) {
-      res.status(500).send("Error writing file");
-    } else {
-      res.send("File written successfully");
-    }
-  });
-  // await setData("GAMEOBJECT", "gameObject", req.body);
-  // res.send("File written successfully");
+  // const data = JSON.stringify(req.body, null, 2); // インデントを追加して整形
+  // try {
+  //   await fs.writeFile("gameObject.json", data);
+  //   res.send("File written successfully");
+  // } catch (err) {
+  //   res.status(500).send("Error writing file");
+  // }
+  await setData("GAMEOBJECT", "gameObject", req.body);
+  res.send("File written successfully");
 });
 
+// ゲームオブジェクトを読み込むエンドポイント
 app.get("/read-gameObject", async (req, res) => {
-  fs.readFile("gameObject.json", "utf8", (err, data) => {
-    if (err) {
-      return res
-        .status(500)
-        .send("ゲームオブジェクトの読み取りエラーが発生しました");
-    } else {
-      return res.status(200).json(JSON.parse(data));
-    }
-  });
-  // const data=await readData2("GAMEOBJECT", "gameObject");
-  // return res.status(200).json(data);
+  // try {
+  //   const data = await fs.readFile("gameObject.json", "utf8");
+  //   res.status(200).json(JSON.parse(data));
+  // } catch (err) {
+  //   res.status(500).send("ゲームオブジェクトの読み取りエラーが発生しました");
+  // }
+  const data = await readData2("GAMEOBJECT", "gameObject");
+  return res.status(200).json(data);
 });
 
 /*-------------------------------------------------------------------------------------------------------*/
@@ -102,61 +85,70 @@ app.post("/read-data", async (req, res) => {
   const data = snapshot.docs
     .filter((doc) => doc.id === req.body.documentId)
     .map((doc) => doc.data());
-  console.log("データの読み取りが行われました");
+  console.log("データの読み取りが行われました1");
   return res.status(200).json(data);
 });
 
 //データの読み取り,フィールド単位
 const readData = async (collectionId, documentId, field) => {
-  const snapshot = await db.collection(collectionId).get();
-  const data = snapshot.docs
-    .filter((doc) => doc.id === documentId)
-    .map((doc) => doc.data());
-  const f = data.map((col, index) => {
-    return col[field];
-  });
-  console.log("データの読み取りが行われました");
-  return f[0];
+  // const snapshot = await db.collection(collectionId).get();
+  // const data = snapshot.docs
+  //   .filter((doc) => doc.id === documentId)
+  //   .map((doc) => doc.data());
+  const docRef = db.collection(collectionId).doc(documentId);
+  const doc = await docRef.get();
+  const data = doc.exists ? doc.data() : null;
+  // const f = data.map((col, index) => {
+  //   return col[field];
+  // });
+  console.log("データの読み取りが行われました2");
+  return data[field];
 };
 
 //データの読み取り,ドキュメント単位
 const readData2 = async (collectionId, documentId) => {
-  const snapshot = await db.collection(collectionId).get();
-  const data = snapshot.docs
-    .filter((doc) => doc.id === documentId)
-    .map((doc) => doc.data());
-  console.log("データの読み取りが行われました");
-  return data[0];
+  // const snapshot = await db.collection(collectionId).get();
+  // const data = snapshot.docs
+  //   .filter((doc) => doc.id === documentId)
+  //   .map((doc) => doc.data());
+  const docRef = db.collection(collectionId).doc(documentId);
+  const doc = await docRef.get();
+  const data = doc.exists ? doc.data() : null;
+  console.log("データの読み取りが行われました3");
+  return data;
 };
 
 //データのカウント
 const countData = async (collectionId) => {
   const snapshot = await db.collection(collectionId).get();
   const data = snapshot.docs.map((doc) => doc.data());
-  console.log("データの読み取りが行われました");
+  console.log("データの読み取りが行われました4");
   return data.length;
 };
 /*-------------------------------------------------------------------------------*/
 
 //ゲームオブジェクトの作成
-const createGameObject = async (Players) => {
+const createGameObject = async (Players, difficulty, maxCodingTime, maxMeetingTime, MaxCodingTurn, MaxMissionNum, maxDayNum, jinrohNum, isShuffle, language) => {
   //gameId
   const gameId = new Date().toString();
 
   //クエスチョンIDの設定//一時的にID17の問題しか出題されないように
   const qDbId = "QUESTION_CONTENT";
-  const questionIdArray = returnRandomIndex(1, await countData(qDbId), 1);
-  //const questionId = questionIdArray[0];
-  const questionId = 17;
+  const questionIdMin=17;
+  const questionIdArray = returnRandomIndex(questionIdMin, questionIdMin-1+await countData(qDbId), 1);
+  const questionId = questionIdArray[0];
+  //const questionId = 17;
 
   //クエスチョンテキストの取得
   const questionText = await readData(qDbId, questionId + "", "question");
 
   //初期に入力されているコードの取得
-  const initialCode = await readData(qDbId, questionId + "", "inicialCode"); //inicialはinitialのスペルミス。本当にこれでデータベースに保存されているので気にする必要なし
+  let initialCode = await readData(qDbId, questionId + "", "inicialCode"); //inicialはinitialのスペルミス。本当にこれでデータベースに保存されているので気にする必要なし
+  initialCode = initialCode.replace(/\\n/g, "\n").replace(/\\t/g, "\t");
 
   //答えのコードの取得
-  const answerCode = await readData(qDbId, questionId + "", "answerCode");
+  let answerCode = await readData(qDbId, questionId + "", "answerCode");
+  answerCode = answerCode.replace(/\\n/g, "\n").replace(/\\t/g, "\t");
 
   //最初のプレイヤーたち
   const initialPlayers = Players;
@@ -174,18 +166,13 @@ const createGameObject = async (Players) => {
   const editorHistory = [{ name: "初期コード", code: initialCode }];
 
   //ミッションの取得
-  const mDbId = "MISSION_CONTENT";
-  const howManyMissions = 5; //プレイヤー一人当たりに取得してくるミッションの数
-  const missionIndex = returnRandomIndex(
-    1,
-    await countData(mDbId),
-    players.length * howManyMissions
+  const havingDuplicateMissions = JSON.parse(
+    await fs.readFile("missions.json", "utf8")
   );
-  const missions = [];
-  for (let i = 0; i < missionIndex.length; i++) {
-    const missionObject = await readData2(mDbId, missionIndex[i] + "");
-    missions.push(missionObject);
-  }
+  console.log("ミッションの被りあり総数", havingDuplicateMissions.length);
+
+  const missions=removeDuplicates(havingDuplicateMissions,'arg');
+  console.log("ミッションの被りなし総数", missions.length);
 
   //次のミッション
   const nextMissionIndex = 0;
@@ -194,7 +181,7 @@ const createGameObject = async (Players) => {
   const presentDay = 1;
 
   //マックスの日数
-  const maxDay = 5;
+  const maxDay = maxDayNum;
 
   //ゲームフェイズ
   const gamePhase = "confirmRole";
@@ -203,34 +190,35 @@ const createGameObject = async (Players) => {
   const presentCodingTurn = 1;
 
   //最大のコーディングターン
-  const maxCodingTurn = 2;
+  const maxCodingTurn = MaxCodingTurn;
 
   //一回のコーディングで書ける最大文字数
   const codingMaxStringNum = 2000; //実質無制限 //一回のコーディングに使える時間
 
   //コーディングの時間制限
-  const codingMaxTime = 60; //秒
+  const codingMaxTime = maxCodingTime; //秒
 
   //会議に使える時間
-  const meetingmaxTime = 120; //秒
+  const meetingmaxTime = maxMeetingTime; //秒
 
   //コーディングの順番をランダムにするか
-  const isRandom = false;
+  const isRandom = isShuffle;
 
   //ミッションの最大数
-  const maxMissionNum = 3;
+  const maxMissionNum = MaxMissionNum;
 
   //言語
-  const codeLanguage = "java";
+  const codeLanguage = language;
 
   //現在のターンが始まった時間
-  const startingTurn = Math.floor(Date.now() / 1000);;
+  const startingTurn = Math.floor(Date.now() / 1000);
 
   //ゲームの結果
   const gameResult = "draw";
 
   //クエスチョンのmain
-  const main = await readData(qDbId, questionId + "", "main");
+  let main = await readData(qDbId, questionId + "", "main");
+  main = main.replace(/\\n/g, "\n").replace(/\\t/g, "\t");
 
   //ゲームオブジェクト
   const gameObject = {
@@ -267,8 +255,18 @@ const createGameObject = async (Players) => {
 //ゲームオブジェクト作成API
 app.post("/create-gameObject", async (req, res) => {
   const players = req.body.players;
+  const difficulty = req.body.difficulty;
+  const maxCodingTime = req.body.maxCodingTime;
+  const maxMeetingTime = req.body.maxMeetingTime;
+  const maxCodingTurn = req.body.maxCodingTurn;
+  const maxMissionNum = req.body.maxMissionNum;
+  const maxDayNum = req.body.maxDayNum;
+  const jinrohNum = req.body.jinrohNum;
+  const isShuffle = req.body.isShuffle;
+  const language = req.body.language;
+
   //console.log("pureiya-zu watashi",players);
-  const gameObject = await createGameObject(players);
+  const gameObject = await createGameObject(players, difficulty, maxCodingTime, maxMeetingTime, maxCodingTurn, maxMissionNum, maxDayNum, jinrohNum, isShuffle, language);
   //console.log("ゲームオブジェクト作れてる？",gameObject);
   return res.status(200).json(gameObject);
 });
@@ -314,3 +312,18 @@ const server = http.createServer(app);
 server.listen(3000, () => {
   console.log("Server running on port 3000");
 });
+
+//配列からかぶりを排除する関数
+const removeDuplicates = (arr, key) => {
+  const seen = new Set(); // 重複を追跡するためのセット
+  const result = []; // 重複を除外した結果の配列
+
+  for (const item of arr) {
+    if (!seen.has(item[key])) {
+      seen.add(item[key]); // セットに追加
+      result.push(item); // 結果の配列に追加
+    }
+  }
+
+  return result;
+};
