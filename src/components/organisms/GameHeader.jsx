@@ -44,7 +44,12 @@ export const GameHeader = (props) => {
                     backgroundColor: '#526D82',
                     textColor: '#ede4dd',
                     missions: gameObject.players[gameObject.presentPlayer].yourMission,
-                    gameDescription: `${gameObject.players[gameObject.presentPlayer].name}さんのターン`,
+                    // gameDescription: `${gameObject.players[gameObject.presentPlayer].name}さんのターン`,
+                    gameDescription: (
+                        <>
+                            {gameObject.players[gameObject.presentPlayer].name}<br />さんのターン
+                        </>
+                    ),
                     isTimer: true,
                     startTime: gameObject.startingTurn,
                     maxTime: gameObject.codingMaxTime,
