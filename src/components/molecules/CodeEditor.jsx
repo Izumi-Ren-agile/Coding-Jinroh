@@ -77,7 +77,7 @@ export const CodeEditor = (props) => {
         </TabPane>
       </Tabs>
       <Buttons>
-        <Button type="primary" onClick={()=>{handleRunCode();playKacha();}} disabled={loading}>{loading ? jikkouchuu() : jikkou()}</Button>
+        <Button className="btn-group-e" type="primary" onClick={()=>{handleRunCode();playKacha();}} disabled={loading}>{loading ? jikkouchuu() : jikkou()}</Button>
       </Buttons>
     </div>
   );
