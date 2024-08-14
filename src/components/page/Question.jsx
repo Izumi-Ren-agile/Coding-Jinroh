@@ -54,7 +54,8 @@ export const Question = () => {
     const contentsStyle = css`
     flex-grow: 1; // 余白に合わせて伸張する
     height:100%;
-    max-height: calc(100%-180px);
+    min-height: calc(100vh - 180px);
+    max-height: calc(100vh - 180px);
     display: flex;
     flex-direction: column;
     item-align: center;
@@ -65,23 +66,26 @@ export const Question = () => {
     const projectContainerStyle = css`
     flex-grow: 1; // 余白に合わせて伸張する
     background: white;
-    height: 75%;
+    min-height: calc(80% - 40px);
+    max-height: calc(80% - 40px);
+    height: calc(80% - 40px);
     border: 5px solid #e0e0e0;
     border-radius: 5px;
     text-align: left;
+
+    margin:0px 40px;
     overflow: auto;
 `
     const projectTextStyle = css`
-    width: 80%;
+    width: 100%;
     height: 100%;
     flex-grow: 1;
     color: black;
-    font-size: 1.7vh;
     white-space: pre-wrap;
 `
 const messageStyle = css`
-font-size: 2.2vh;
 font-weight: bold;
+margin:20px 40px;
 `;
 
 const questionButtonStyle=css`
@@ -97,17 +101,18 @@ const questionButtonStyle=css`
             <div className="container" style={{ backgroundColor: "#526D82" }}>
                 <GameHeader gameObject={gameObject} handleFinishTurn={handleGame} />
                 <div css={contentsStyle}>
-                    <p css={messageStyle}>
+                    <h2 css={messageStyle}>
                         上長から一通のメールが…
-                    </p>
+                    </h2>
                     <div css={projectContainerStyle}>
                         <p css={projectTextStyle}>各位<br />急遽のプロジェクトで申し訳ない。クライアントの仕様書通り、以下のメソッドを今日中に納品してほしい。
                         <br /><br />{gameObject.questionText.replace(/\\n/g, '\n')}
-                        <br /><br />よろしく頼む。<br /><br />偉井上長</p>
+                        <br /><br />よろしく頼む。<br /><br />偉井上長
+                        </p>
                     </div>
-                    <p css={messageStyle}>
+                    <h2 css={messageStyle}>
                         コードを邪魔する人狼に気を付けながら、楽しいエンジニアライフを！
-                    </p>
+                    </h2>
                     
                     {/* <Button css={questionButtonStyle} onClick={handleGame} className="btn-group"> */}
                                     {/* <Button onClick={handleGame}> */}

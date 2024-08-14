@@ -21,7 +21,7 @@ export const CodeEditor = (props) => {
   }
   const jikkou=()=>{
     stop();
-    return "実行";
+    return "実行(ctrl+Enter)";
   }
 
   const editorContainerStyle = css`
@@ -29,13 +29,11 @@ export const CodeEditor = (props) => {
   background-color: #282c34; /* CodeMirrorのテーマに合わせた色 */
   border-radius: 5px;
   overflow: auto;
-  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   `
   const editorBackgroundStyle = css`
   flex-grow: 5;
-  padding: 10px;
   background-color: #282c34; /* CodeMirrorのテーマに合わせた色 */
   border-radius: 5px;
   position: relative;

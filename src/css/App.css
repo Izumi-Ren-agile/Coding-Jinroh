@@ -70,16 +70,32 @@ body .NightTimeBody{
     align-items: center;
     justify-content: center;
 }
-.btn-group:hover, .select:hover {
+.btn-group:hover, .select:hover,.btn-group-g:hover,.btn-group-e:hover {
     background:#ede4dd !important;
     color:#27374D !important;
     border-color: #27374D !important;
 }
-.btn-group:disabled {
+.btn-group-g{
+    background: #B22D35 !important;
+    color:#ede4dd !important;
+}
+
+.btn-group-e{
+    background: #798b99 !important;
+    color:#ede4dd !important;
+}
+
+.btn-group-g:hover{
+    background:#ede4dd !important;
+    color:#27374D !important;
+    border-color: #27374D !important;
+}
+
+.btn-group:disabled,.btn-group-g:disabled,.btn-group-e:disabled {
     background-color: #ccc !important;
     cursor: not-allowed !important;
   }
-  .btn-group:disabled:hover {
+  .btn-group:disabled:hover,.btn-group-g:disabled,.btn-group-e:disabled  {
     background-color: #ccc !important;
     cursor: not-allowed !important;
   }

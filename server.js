@@ -128,7 +128,7 @@ const countData = async (collectionId) => {
 /*-------------------------------------------------------------------------------*/
 
 //ゲームオブジェクトの作成
-const createGameObject = async (Players) => {
+const createGameObject = async (Players, difficulty, maxCodingTime, maxMeetingTime, MaxCodingTurn, MaxMissionNum, maxDayNum, jinrohNum, isShuffle, language) => {
   //gameId
   const gameId = new Date().toString();
 
@@ -181,7 +181,7 @@ const createGameObject = async (Players) => {
   const presentDay = 1;
 
   //マックスの日数
-  const maxDay = 5;
+  const maxDay = maxDayNum;
 
   //ゲームフェイズ
   const gamePhase = "confirmRole";
@@ -190,25 +190,25 @@ const createGameObject = async (Players) => {
   const presentCodingTurn = 1;
 
   //最大のコーディングターン
-  const maxCodingTurn = 2;
+  const maxCodingTurn = MaxCodingTurn;
 
   //一回のコーディングで書ける最大文字数
   const codingMaxStringNum = 2000; //実質無制限 //一回のコーディングに使える時間
 
   //コーディングの時間制限
-  const codingMaxTime = 60; //秒
+  const codingMaxTime = maxCodingTime; //秒
 
   //会議に使える時間
-  const meetingmaxTime = 120; //秒
+  const meetingmaxTime = maxMeetingTime; //秒
 
   //コーディングの順番をランダムにするか
-  const isRandom = false;
+  const isRandom = isShuffle;
 
   //ミッションの最大数
-  const maxMissionNum = 3;
+  const maxMissionNum = MaxMissionNum;
 
   //言語
-  const codeLanguage = "java";
+  const codeLanguage = language;
 
   //現在のターンが始まった時間
   const startingTurn = Math.floor(Date.now() / 1000);
@@ -255,8 +255,18 @@ const createGameObject = async (Players) => {
 //ゲームオブジェクト作成API
 app.post("/create-gameObject", async (req, res) => {
   const players = req.body.players;
+  const difficulty = req.body.difficulty;
+  const maxCodingTime = req.body.maxCodingTime;
+  const maxMeetingTime = req.body.maxMeetingTime;
+  const maxCodingTurn = req.body.maxCodingTurn;
+  const maxMissionNum = req.body.maxMissionNum;
+  const maxDayNum = req.body.maxDayNum;
+  const jinrohNum = req.body.jinrohNum;
+  const isShuffle = req.body.isShuffle;
+  const language = req.body.language;
+
   //console.log("pureiya-zu watashi",players);
-  const gameObject = await createGameObject(players);
+  const gameObject = await createGameObject(players, difficulty, maxCodingTime, maxMeetingTime, maxCodingTurn, maxMissionNum, maxDayNum, jinrohNum, isShuffle, language);
   //console.log("ゲームオブジェクト作れてる？",gameObject);
   return res.status(200).json(gameObject);
 });

@@ -12,6 +12,8 @@ import { TabsOfCodeEditor } from "../molecules/TabsOfCodeEditor";
 import useSound from 'use-sound';
 import BGM from '../../sound/ks024.wav';
 import Alert from '../../sound/alert.mp3';
+import { Tooltip } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 export const Game = (props) => {
   const { gameObject, handleFinishTurn, code, handleChange, setTabCode, activeTab } = props;
@@ -41,7 +43,7 @@ export const Game = (props) => {
     if (gameObject.gamePhase === "night" && gameObject.startingTurn + gameObject.codingMaxTime > Math.floor(Date.now() / 1000)) {
       //setIsPlayAlert(true);
       swal.fire({
-        title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
+        title: `${gameObject.players[gameObject.presentPlayer].name}さん\nですか？`,
         text: '「はい」を押すとコーディングフェーズに進みます',
         icon: 'warning',
         confirmButtonText: 'はい',
@@ -58,8 +60,9 @@ export const Game = (props) => {
     } else if (gameObject.gamePhase === "daytime" && gameObject.startingTurn + gameObject.meetingmaxTime > Math.floor(Date.now() / 1000)) {
       const pmPlayer = gameObject.players.find(player => player.isPM);
       swal.fire({
-        title: `今日のコーディングターンが終わりました！`,
-        text: `PMは、${pmPlayer.name}さんです！`,
+        title: `今日のコーディングターンが\n終わりました！`,
+        // text: `PMは、${pmPlayer.name}さんです！`,
+        html: `PMは、<strong>${pmPlayer.name}</strong>さんです！`,
         imageUrl: `images/card-PM.png`,
         imageWidth: 400,
         imageHeight: 400,
@@ -144,7 +147,7 @@ export const Game = (props) => {
         <Contents>
           <Content70>
             {console.log("コードの中何入ってんの？", code)}
-            <Tag secondText={"あと〇文字"} colorMode={gameObject.gamePhase}>エディター</Tag>
+            <Tag secondText={"あと〇文字"} colorMode={gameObject.gamePhase}>エディター <Tooltip title="プロジェクトに従って、実装を進めてください。メイン関数タブは編集することができません。" placement="top"><QuestionCircleOutlined /></Tooltip></Tag>
             {gameObject.gamePhase === "night" ? (
               <CodeEditor
                 gameObject={gameObject}
@@ -164,7 +167,7 @@ export const Game = (props) => {
                 activeTab={activeTab}
               />
             )}
-            <Tag secondText={""} colorMode={gameObject.gamePhase}>実行結果</Tag>
+            <Tag secondText={""} colorMode={gameObject.gamePhase}>実行結果 <Tooltip title="実行ボタンを押すと実行結果が表示されます。入力例に対して、期待される出力を満たしていると、正誤判定が〇になります。" placement="top"><QuestionCircleOutlined /></Tooltip></Tag>
             {/* 通信エラー */}
             {error && <div>Error: {error.message}</div>}
 

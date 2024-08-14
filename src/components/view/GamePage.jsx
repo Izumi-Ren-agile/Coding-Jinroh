@@ -185,6 +185,24 @@ export const GamePage = () => {
     await Promise.all(promises);
   };
 
+  /**
+ * 配列の要素の値を変更せずに要素の順番を並べ替える関数
+ * (e.g) [0,1,2,3,4] => [1,3,2,0,4]
+ */
+ const shuffleArray = (array) => {
+  const cloneArray = [...array]
+
+  for (let i = cloneArray.length - 1; i >= 0; i--) {
+    let rand = Math.floor(Math.random() * (i + 1))
+    // 配列の要素の順番を入れ替える
+    let tmpStorage = cloneArray[i]
+    cloneArray[i] = cloneArray[rand]
+    cloneArray[rand] = tmpStorage
+  }
+
+  return cloneArray
+}
+
   const handleFinishTurn = async () => {
     if (gameObject.gamePhase !== "daytime") {
       //次に行く際にコンパイルを強制し、遷移先をResultへ
@@ -206,7 +224,7 @@ export const GamePage = () => {
 
       console.log("check OldCode:", oldCode);
       console.log("check NewCode:", newCode);
-      
+
       const nowPlayer = gameObject.players[gameObject.presentPlayer];
       console.log("check yourMission:", nowPlayer.yourMission);
       const targetIndex = [];
@@ -235,7 +253,7 @@ export const GamePage = () => {
 
       howmanyMissionSolved = nowPlayer.solvedMission.length;
 
-      console.log("ゲームオブジェクトの確認したい",gameObject);
+      console.log("ゲームオブジェクトの確認したい", gameObject);
 
       //確認ダイアログ
       swal
@@ -246,7 +264,7 @@ export const GamePage = () => {
         .then(function () {
           //処理中ダイアログ
           swal.fire({
-            title: "コーディングチェック中",
+            title: "コードチェック中",
             html: "処理終了まで画面はそのままにしてください。",
             allowOutsideClick: false, //枠外をクリックしても画面を閉じない
             showConfirmButton: false,
@@ -344,6 +362,9 @@ export const GamePage = () => {
                     gameObject.startingTurn = Math.floor(Date.now() / 1000);
                     await gameObjectfileWrite(gameObject); //書き込み
                   } else {
+                    if(gameObject.isRandom){
+                      gameObject.players = shuffleArray(gameObject.players);
+                    }
                     if (
                       gameObject.presentCodingTurn < gameObject.maxCodingTurn
                     ) {
@@ -352,7 +373,20 @@ export const GamePage = () => {
                       gameObject.startingTurn = Math.floor(Date.now() / 1000);
                       await gameObjectfileWrite(gameObject); //書き込み
                     } else {
-                      if (gameObject.gamePhase === "night") {
+                      //1~2人モードの時の処理
+                      if (gameObject.initialPlayers.length < 3) {
+                        gameObject.gameResult = "practice";
+                        gameObject.gamePhase = "result";
+                        gameObject.editorHistory = [
+                          ...gameObject.editorHistory,
+                          {
+                            name: `解答コード`,
+                            code: gameObject.answerCode,
+                          },
+                        ];
+                        await gameObjectfileWrite(gameObject); //書き込み
+                        navigate("/resultPage");
+                      } else if (gameObject.gamePhase === "night") {
                         gameObject.gamePhase = "daytime";
                         gameObject.startingTurn = Math.floor(Date.now() / 1000);
                         await gameObjectfileWrite(gameObject); //書き込み

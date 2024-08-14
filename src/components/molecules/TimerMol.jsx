@@ -23,7 +23,7 @@ export const TimerMol = (props) => {
 
   const timerStyle = css`
 align-items: center;
-padding: 20px;
+padding: 10px;
 border: 5px solid ${textColor};
 border-radius: 5px;
 text-align: center;
@@ -32,10 +32,14 @@ right: 0; /* 右端に配置 */
 top: 0; /* ヘッダー内で上に配置 */
 width: 200px;
 height: 100%;
+
+display: flex;
+  flex-direction: column;
+  justify-content: center; /* 縦方向の中央揃え */
+  
 `
 
   const ButtonAtom = css`
-  margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
@@ -59,7 +63,6 @@ ${textStyle}
 font-size: 13px;
 font-weight: bold;
 text-align: center;
-margin-bottom: 10px;
 `
 
   // const showTimer = startTime && duration;
@@ -89,7 +92,7 @@ margin-bottom: 10px;
         {gameDescription}
       </div>
       {isButton && (
-        <Button type="primary" onClick={()=>{handleFinishTurn();play();props.setIsPlayBGM(false);}}>
+        <Button className="btn-group-g" type="primary" onClick={()=>{handleFinishTurn();play();props.setIsPlayBGM(false);}}>
           {buttonText}
         </Button>
       )}

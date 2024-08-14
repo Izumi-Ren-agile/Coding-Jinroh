@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 // import { SelectData } from "../database/SelectData";
 // import NonhookCountData from "../database/NonhookCountData";
 import { UserOutlined } from '@ant-design/icons';
-import { Input, Button, Radio } from "antd";
 import useSound from "use-sound";
 import ButtonSound1 from "../../sound/creep_up_on.mp3";
+import { Input, Button, Radio, Tooltip } from "antd";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 
 export const InputPlayer = () => {
 
@@ -17,54 +18,111 @@ export const InputPlayer = () => {
 
   const [gameObject, setGameObject] = useState({ property: "default" });
   const [playerNames, setPlayerNames] = useState(Array(8).fill(''));
+  const [usePlayerImage, setUsePlayerImage] = useState(Array(8).fill('OFF'));
+  const [playerNameErrorMassage, setPlayerNameErrorMessage] = useState(Array(8).fill(''));
+  const [inputPlayerNum, setInputPlayerNum] = useState(0);
   const navigate = useNavigate();
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [difficulty, setDifficulty] = useState('中級');
   const [maxCodingTime, setMaxCodingTime] = useState(60);
   const [maxMeetingTime, setMaxMeetingTime] = useState(120);
   const [missionNum, setMissionNum] = useState(3);
+  const [maxCodingTurn, setMaxCodingTurn] = useState(2);
   const [maxDays, setMaxDays] = useState("自動");
   const [jinrohNum, setJinrohNum] = useState("自動");
-  const [shufflePhase, setShufflePhase] = useState('OFF');
+  const [shufflePlayer, setShufflePlayer] = useState(false);
+  const [language, setLanguage] = useState('java');
 
   const handlePlayerNameChange = (index, value) => {
     const newPlayerNames = [...playerNames];
     newPlayerNames[index] = value;
     setPlayerNames(newPlayerNames);
+    const newPlayerNameErrorMessage = [...playerNameErrorMassage];
+    newPlayerNameErrorMessage[index] = calcNameErrorMessage(value);
+    setPlayerNameErrorMessage(newPlayerNameErrorMessage);
   };
+
+  const handleUsePlayerImageChange = (index, value) => {
+    const newUsePlayerImage = [...usePlayerImage];
+    newUsePlayerImage[index] = value;
+    setUsePlayerImage(newUsePlayerImage);
+  };
+
+  const calcNameErrorMessage = (playerNameValue) => {
+    // 空白のみを検出する正規表現
+    const whitespaceRegex = /^\s*$/;
+
+    // 空白文字のみの場合はfalseを返す
+    if (whitespaceRegex.test(playerNameValue) && playerNameValue !== "") {
+      return "空白のみのプレイヤー名は設定できません";
+    }
+
+    let nameLength = 0;
+
+    for (let j = 0; j < playerNameValue.length; j++) {
+      if (playerNameValue.match(/[ -~]/)) { // 半角文字の場合
+        nameLength += 1;
+      } else { // 全角文字の場合
+        nameLength += 2;
+      }
+    }
+
+    console.log(nameLength);
+    if (nameLength > 20) {
+      return "半角20文字以上、全角10文字以上のプレイヤー名は設定できません";
+    }
+
+    return "";
+  }
+
+  const handleQuestionPage = () => {
+    navigate("/question")
+  }
 
   const handleConfirmPlayer = () => {
     navigate("/confirmPlayerPage");
   };
 
   const contentsStyle = css`
+  flex-grow: 1;
   display: flex;
+  margin-bottom: 20px;
   `
   const contentLeftStyle = css`
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
-  gap: 20px;
   justify-content: space-between;
-  width: 50%;
   padding: 0 40px;
   `
   const contentRightStyle = css`
   display: flex;
   flex-direction: column;
-  gap: 20px;
   justify-content: space-between;
-  width: 50%;
-  padding: 0 40px;
+  min-width: 400px;
+  padding: 0 10px;
   `
   const playerInputStyle = css`
   padding: 0 20px:
   margin: 0 40px:
   `
+  const playerInputContainerStyle = css`
+  display: flex;
+  gap: 10px;
+  `
+  const radioContainerStyle = css`
+  display: flex;
+  gap: 30px;
+  `
   const radioButtonStyle = css`
   padding: 0 20px:
   `
   const buttonContainerStyle = css`
-  padding: 0 20px:
+  display: flex;
+  align-items: center;
+  margin: 20px auto;
   `
 
   const gameObjectfileRead = async () => {
@@ -88,130 +146,166 @@ export const InputPlayer = () => {
     console.log("ゲームオブジェクト:", gameObject);
   }, [gameObject]);
 
+  useEffect(() => {
+    setInputPlayerNum(playerNames.filter(name => name !== '').length);
+  }, [playerNames])
+
   return (
     <>
       <body>
         <div class="container">
-        <h1 className="title">コーディング人狼 - オプション設定</h1>
+          <h1 className="title">コーディング人狼 - オプション設定</h1>
           <div css={contentsStyle}>
             <div css={contentLeftStyle}>
               <header>
-                <h2>プレイヤーを入力してください</h2>
+                <h2 style={{ textAlign: "center" }}>プレイヤーを入力してください <Tooltip title="プレイヤーは３～８人で設定してください。１～２人でゲームを開始するとPracticeモードになり、課題の練習ができます。" placement="top"><QuestionCircleOutlined /></Tooltip></h2>
+                <p style={{ textAlign: "center", color: "red" }}>{errorMessage}</p>
               </header>
               {playerNames.map((name, index) => (
                 <div key={index} css={playerInputStyle}>
-                  <label htmlFor={`player${index + 1}`}>{`Player ${index + 1}:`}</label>
-                  <Input
-                    size="small"
-                    id={`player${index + 1}`}
-                    placeholder="名前を入力してください"
-                    prefix={<UserOutlined />}
-                    value={name}
-                    onChange={(e) => handlePlayerNameChange(index, e.target.value)}
-                  />
+                  <label htmlFor={`player${index + 1}`}>{`Player ${index + 1}  `}<span style={{ color: "red" }}>{playerNameErrorMassage[index]}</span></label>
+                  <div css={playerInputContainerStyle}>
+                    <Input
+                      size="small"
+                      id={`player${index + 1}`}
+                      placeholder="名前を入力してください"
+                      prefix={<UserOutlined />}
+                      value={name}
+                      onChange={(e) => handlePlayerNameChange(index, e.target.value)}
+                    />
+                    <Radio.Group onChange={(e) => handleUsePlayerImageChange(index, e.target.value)} value={usePlayerImage[index]} buttonStyle="solid" size="middle" style={{ minWidth: "160px" }}>
+                      <Radio.Button value={"ON"}><Tooltip title="githubアカウント名を入力することで、アバター画像が使用できます。" placement="top">画像を使用</Tooltip></Radio.Button>
+                      <Radio.Button value={"OFF"}>OFF</Radio.Button>
+                    </Radio.Group>
+                  </div>
                 </div>
               ))}
             </div>
             <div css={contentRightStyle}>
               <header>
-                <h2>ゲーム設定を選択してください</h2>
+                <h2>ゲーム設定を選択してください <Tooltip title="ゲームのオプションを設定してください。変更しなければ、デフォルト設定で遊ぶことができます。" placement="top"><QuestionCircleOutlined /></Tooltip></h2>
               </header>
               <div css={radioButtonStyle}>
-                <label for="difficulty">課題難易度:<br /></label>
-                <Radio.Group onChange={(e) => setMaxCodingTime(e.target.value)} value={maxCodingTime} buttonStyle="solid" size="large">
+                <label for="difficulty">課題難易度 <Tooltip title="問題の難易度を選んでください。" placement="top"><QuestionCircleOutlined /></Tooltip><br /></label>
+                <Radio.Group onChange={(e) => setDifficulty(e.target.value)} value={difficulty} buttonStyle="solid" size="large">
                   <Radio.Button value={'初級'} disabled>初級</Radio.Button>
                   <Radio.Button value={'中級'}>中級</Radio.Button>
                   <Radio.Button value={'上級'} disabled>上級</Radio.Button>
                 </Radio.Group>
               </div>
               <div css={radioButtonStyle}>
-                <label for="maxCodingTime">ターン毎のコーディング秒数:<br /></label>
+                <label for="maxCodingTime">コーディング秒数 <Tooltip title="１ターン毎のコーディング秒数を設定してください。" placement="top"><QuestionCircleOutlined /></Tooltip><br /></label>
                 <Radio.Group onChange={(e) => setMaxCodingTime(e.target.value)} value={maxCodingTime} buttonStyle="solid" size="large">
                   <Radio.Button value={30}>30秒</Radio.Button>
                   <Radio.Button value={60}>60秒</Radio.Button>
                   <Radio.Button value={120}>120秒</Radio.Button>
+                  <Radio.Button value={240}>240秒</Radio.Button>
                   <Radio.Button value={999}>999秒</Radio.Button>
                 </Radio.Group>
               </div>
               <div css={radioButtonStyle}>
-                <label for="maxMeetingTime">会議秒数:<br /></label>
+                <label for="maxMeetingTime">会議秒数 <Tooltip title="１Day毎の会議秒数を設定してください。" placement="top"><QuestionCircleOutlined /></Tooltip><br /></label>
                 <Radio.Group onChange={(e) => setMaxMeetingTime(e.target.value)} value={maxMeetingTime} buttonStyle="solid" size="large">
                   <Radio.Button value={30}>30秒</Radio.Button>
                   <Radio.Button value={60}>60秒</Radio.Button>
                   <Radio.Button value={120}>120秒</Radio.Button>
+                  <Radio.Button value={240}>240秒</Radio.Button>
                   <Radio.Button value={999}>999秒</Radio.Button>
                 </Radio.Group>
               </div>
-              <div css={radioButtonStyle}>
-                <label for="missionNum">ターン毎のミッション数:<br /></label>
-                <Radio.Group onChange={(e) => setMissionNum(e.target.value)} value={missionNum} buttonStyle="solid" size="large">
-                  <Radio.Button value={0}>0</Radio.Button>
-                  <Radio.Button value={1}>1</Radio.Button>
-                  <Radio.Button value={2}>2</Radio.Button>
-                  <Radio.Button value={3}>3</Radio.Button>
-                </Radio.Group>
-              </div>
-              <div css={radioButtonStyle}>
-                <label for="maxDays">最大Day数:<br /></label>
-                <Radio.Group onChange={(e) => setMaxDays(e.target.value)} value={maxDays} buttonStyle="solid" size="large">
-                <Radio.Button value={"自動"}>自動</Radio.Button>
-                  {[...Array(playerNames.filter(name => name !== '').length < 3 ? 0 : playerNames.filter(name => name !== '').length - 2 )].map((_, i) => (
-                    <Radio.Button value={i+1}>{i+1}</Radio.Button>
-                  ))}
-                  {[...Array(6 - playerNames.filter(name => name !== '').length)].map((_, i) => (
-                    <Radio.Button value={i+1+playerNames.filter(name => name !== '').length} disabled>{i+1+playerNames.filter(name => name !== '').length}</Radio.Button>
-                  ))}
-                </Radio.Group>
-              </div>
-              <div css={radioButtonStyle}>
-                <label for="jinrohNum">最大Day数:<br /></label>
-                <Radio.Group onChange={(e) => setJinrohNum(e.target.value)} value={jinrohNum} buttonStyle="solid" size="large">
-                <Radio.Button value={"自動"}>自動</Radio.Button>
-                <Radio.Button value={1}>1</Radio.Button>
-                  {playerNames.filter(name => name !== '').length < 5 ? (
-                    <Radio.Button value={2} disabled>2</Radio.Button>
-                  ) : (
+              <div css={radioContainerStyle}>
+                <div css={radioButtonStyle}>
+                  <label for="missionNum">ミッション数 <Tooltip title="１ターン毎のミッション数を設定してください。ミッション数を０にすると、PMはランダムに設定されます。" placement="top"><QuestionCircleOutlined /></Tooltip><br /></label>
+                  <Radio.Group onChange={(e) => setMissionNum(e.target.value)} value={missionNum} buttonStyle="solid" size="large">
+                    <Radio.Button value={0}>0</Radio.Button>
+                    <Radio.Button value={1}>1</Radio.Button>
                     <Radio.Button value={2}>2</Radio.Button>
-                  )}
+                    <Radio.Button value={3}>3</Radio.Button>
+                  </Radio.Group>
+                </div>
+                <div css={radioButtonStyle}>
+                  <label for="missionNum">コーディングターン数 <Tooltip title="１Day毎のコーディングターン数を設定してください。" placement="top"><QuestionCircleOutlined /></Tooltip><br /></label>
+                  <Radio.Group onChange={(e) => setMaxCodingTurn(e.target.value)} value={maxCodingTurn} buttonStyle="solid" size="large">
+                    <Radio.Button value={1}>1</Radio.Button>
+                    <Radio.Button value={2}>2</Radio.Button>
+                    <Radio.Button value={3}>3</Radio.Button>
+                    <Radio.Button value={4}>4</Radio.Button>
+                    <Radio.Button value={5}>5</Radio.Button>
+                  </Radio.Group>
+                </div>
+              </div>
+              <div css={radioButtonStyle}>
+                <label for="maxDays">最大Day数 <Tooltip title="設定されたDay数を終えるか、コーディングが完了するかで勝敗が決します。追放されていないプレイヤーが２人になった時点で人狼の勝ちですので、設定できるDay数は（プレイヤー数 - 2）が最大となります。" placement="top"><QuestionCircleOutlined /></Tooltip><br /></label>
+                <Radio.Group onChange={(e) => setMaxDays(e.target.value)} value={maxDays} buttonStyle="solid" size="large">
+                  <Radio.Button value={"自動"}>自動</Radio.Button>
+                  {[...Array(inputPlayerNum < 3 ? 0 : inputPlayerNum - 2)].map((_, i) => (
+                    <Radio.Button value={i + 1}>{i + 1}</Radio.Button>
+                  ))}
+                  {[...Array(inputPlayerNum < 3 ? 6 : 8 - inputPlayerNum)].map((_, i) => (
+                    <Radio.Button value={inputPlayerNum < 3 ? i + 1 : i - 1 + inputPlayerNum} disabled>{inputPlayerNum < 3 ? i + 1 : i - 1 + inputPlayerNum}</Radio.Button>
+                  ))}
                 </Radio.Group>
               </div>
-              {/* <div css={buttonContainerStyle}>
-                <Button
-                  id="submit-button"
-                  className="btn-group"
-                  onClick={async () => {
-                    const players = playerCalc();
-                    // const gameObject = await createGameObject(players);
-                    // console.log("ゲームオブジェクトは作れているよね？", gameObject);
-                    const gameObject = await createDummyGameObject(players);
-                    await gameObjectfileWrite(gameObject);
-                    console.log("終わってっか？？");
-                    handleConfirmPlayer();
-                  }}
-                >
-                  決定
-                </Button>
-              </div> */}
+              <div css={radioContainerStyle}>
+                <div css={radioButtonStyle}>
+                  <label for="jinrohNum">人狼数 <Tooltip title="「自動」に設定すると、プレイヤー数が４人以下なら１匹、プレイヤー数が５人以上なら２匹の人狼がランダムに設定されます。" placement="top"><QuestionCircleOutlined /></Tooltip><br /></label>
+                  <Radio.Group onChange={(e) => setJinrohNum(e.target.value)} value={jinrohNum} buttonStyle="solid" size="large">
+                    <Radio.Button value={"自動"}>自動</Radio.Button>
+                    <Radio.Button value={1}>1</Radio.Button>
+                    {playerNames.filter(name => name !== '').length < 5 ? (
+                      <Radio.Button value={2} disabled>2</Radio.Button>
+                    ) : (
+                      <Radio.Button value={2}>2</Radio.Button>
+                    )}
+                  </Radio.Group>
+                </div>
+                <div css={radioButtonStyle}>
+                  <label for="jinrohNum">順番シャッフル <Tooltip title="「ON」にすると、各ターン毎にプレイヤーの順番をシャッフルします。" placement="top"><QuestionCircleOutlined /></Tooltip><br /></label>
+                  <Radio.Group onChange={(e) => setShufflePlayer(e.target.value)} value={shufflePlayer} buttonStyle="solid" size="large">
+                    <Radio.Button value={true}>ON</Radio.Button>
+                    <Radio.Button value={false}>OFF</Radio.Button>
+                  </Radio.Group>
+                </div>
+              </div>
+              <div css={radioButtonStyle}>
+                <label for="jinrohNum">使用言語 <Tooltip title="問題で使用するプログラミング言語を選んでください。" placement="top"><QuestionCircleOutlined /></Tooltip><br /></label>
+                <Radio.Group onChange={(e) => setLanguage(e.target.value)} value={language} buttonStyle="solid" size="large">
+                  <Radio.Button value={"java"}>Java</Radio.Button>
+                  <Radio.Button value={"python"} disabled>Python</Radio.Button>
+                  <Radio.Button value={"C"} disabled>C</Radio.Button>
+                  <Radio.Button value={"C++"} disabled>C++</Radio.Button>
+                  <Radio.Button value={"Ruby"} disabled>Ruby</Radio.Button>
+                </Radio.Group>
+              </div>
             </div>
           </div>
-          <div class="button-container">
-                <Button
-                  id="submit-button center-button"
-                  className="btn-group center"
-                  onClick={async () => {
-                    play();setTimeout(stop,900);
-                    const players = playerCalc();
-                    // const gameObject = await createGameObject(players);
-                    // console.log("ゲームオブジェクトは作れているよね？", gameObject);
-                    const gameObject = await createGameObject(players);
-                    await gameObjectfileWrite(gameObject);
-                    console.log("終わってっか？？");
+          <div css={buttonContainerStyle}>
+            <Button
+              size="large"
+              id="submit-button"
+              className="btn-group"
+              onClick={async () => {
+                play();setTimeout(stop,900);
+                if (isValidPlayers(playerNames)) {
+                  const players = playerCalc(jinrohNum, usePlayerImage);
+                  const gameObject = await createGameObject({ players: players, difficulty: difficulty, maxCodingTime: maxCodingTime, maxMeetingTime: maxMeetingTime, maxCodingTurn: maxCodingTurn, maxMissionNum: missionNum, maxDayNum: maxDays, jinrohNum: jinrohNum, isShuffle: shufflePlayer, language: language });
+                  // console.log("ゲームオブジェクトは作れているよね？", gameObject);
+                  // const gameObject = await createDummyGameObject(players);
+                  await gameObjectfileWrite(gameObject);
+                  console.log("終わってっか？？");
+                  if (gameObject.initialPlayers.length < 3) {
+                    handleQuestionPage();
+                  } else {
                     handleConfirmPlayer();
-                  }}
-                >
-                  決定
-                </Button>
-              </div>
+                  }
+                } else {
+                  setErrorMessage("1人以上の有効なプレイヤー名を入力してください");
+                }
+              }}
+            >
+              ゲーム開始
+            </Button>
+          </div>
         </div>
       </body >
     </>
@@ -221,9 +315,9 @@ export const InputPlayer = () => {
  * 入力された名前をもとにプレイヤークラスのオブジェクトを返す
  * @returns プレイヤーたちのオブジェクト
  */
-export const playerCalc = () => {
+export const playerCalc = (jinrohNum, usePlayerImage) => {
   class Player {
-    constructor(id, name, isJinroh, color, isAlive, isPM) {
+    constructor(id, name, isJinroh, color, isAlive, isPM, imagePath) {
       this.id = id;
       this.name = name;
       this.isJinroh = isJinroh;
@@ -232,7 +326,7 @@ export const playerCalc = () => {
       this.isPM = isPM;
       this.yourMission = [];
       this.voted = 0;
-      this.imagePath = "";
+      this.imagePath = imagePath;
       this.solvedMission = [];
     }
 
@@ -281,7 +375,9 @@ export const playerCalc = () => {
   const howManyPlayers = playersName.length;
 
   let howManyJinroh;
-  if (howManyPlayers <= 4) {
+  if (jinrohNum !== "自動") {
+    howManyJinroh = jinrohNum;
+  } else if (howManyPlayers <= 4) {
     howManyJinroh = 1;
   } else {
     howManyJinroh = 2;
@@ -298,18 +394,81 @@ export const playerCalc = () => {
       isJinroh = true;
       counterOfJinrohIndex++;
     }
+    const imagePath = usePlayerImage[i] === 'OFF' ? "" : `https://avatars.githubusercontent.com/${playersName[i]}`;
     const player = new Player(
       i,
       playersName[i],
       isJinroh,
       colors[i],
       true,
-      false
+      false,
+      imagePath
     );
     players.push(player);
   }
 
   return players;
+};
+
+export const isValidPlayers = (playerNames) => {
+
+  // 空白のみを検出する正規表現
+  const whitespaceRegex = /^\s*$/;
+
+  // すべての要素が空文字であるかを確認するためのフラグ
+  let allEmpty = true;
+
+  // プレイヤー名の重複チェック用のセット
+  const nameSet = new Set();
+
+  // forループで早期リターンを実現
+  for (let i = 0; i < playerNames.length; i++) {
+    const playerName = playerNames[i];
+
+    // 空文字の場合はスキップし、次の要素を確認
+    if (playerName === "") {
+      continue;
+    }
+
+    // ここに来た時点で少なくとも1つは空文字ではない
+    allEmpty = false;
+
+    // 空白文字のみの場合はfalseを返す
+    if (whitespaceRegex.test(playerName)) {
+      return false;
+    }
+
+    // 同じプレイヤー名がすでにセットに存在する場合はfalseを返す
+    if (nameSet.has(playerName) && playerName !== "") {
+      return false;
+    }
+
+    // プレイヤー名をセットに追加
+    nameSet.add(playerName);
+
+    let nameLength = 0;
+
+    for (let j = 0; j < playerName.length; j++) {
+      if (playerName[j].match(/[ -~]/)) { // 半角文字の場合
+        nameLength += 1;
+      } else { // 全角文字の場合
+        nameLength += 2;
+      }
+    }
+
+    console.log(nameLength);
+    if (nameLength > 20) {
+      return false;
+    }
+  }
+
+  // すべての要素が空文字の場合はfalseを返す
+  if (allEmpty) {
+    return false;
+  }
+
+  // すべてのバリデーションを通過した場合はtrueを返す
+  return true;
 };
 
 /**
@@ -384,17 +543,17 @@ export const readData = (collectionId, documentId) => {
     .catch((error) => console.error("Error:", error));
 };
 
-export const createGameObject = async (Players) => {
+export const createGameObject = async (GameOptions) => {
   let returnGameObject;
-  const playersObject = {
-    players: Players,
-  };
+  // const playersObject = {
+  //   players: Players,
+  // };
   await fetch("/create-gameObject", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(playersObject),
+    body: JSON.stringify(GameOptions),
   })
     .then((response) => response.text())
     .then((data) => returnGameObject = data)
