@@ -3,10 +3,12 @@ import { css } from "@emotion/react";
 import { Button } from "antd";
 import React from "react";
 import Timer from "../atom/TimerAtom"; // 相対パスを修正
-
-
+import useSound from 'use-sound';
+import NextSound from '../../sound/next.mp3';
 
 export const TimerMol = (props) => {
+  const [play, { stop, pause}] = useSound(NextSound, { volume: 0.5 ,interrupt:true});
+  
   const {
     startTime,
     duration,
@@ -90,7 +92,7 @@ text-align: center;
         {gameDescription}
       </div>
       {isButton && (
-        <Button className="btn-group-g" type="primary" onClick={handleFinishTurn}>
+        <Button className="btn-group-g" type="primary" onClick={()=>{handleFinishTurn();play();props.setIsPlayBGM(false);}}>
           {buttonText}
         </Button>
       )}

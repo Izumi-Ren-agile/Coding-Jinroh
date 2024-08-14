@@ -2,8 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Load } from '../page/Load';
 import { ConfirmPlayer } from "../page/ConfirmPlayer";
+import useSound from 'use-sound';
+import FlipSound from '../../sound/flip.mp3';
 
 export const ConfirmPlayerPage = () => {
+    const [play, { stop, pause}] = useSound(FlipSound, { volume: 0.5 ,interrupt:true});
+
     const [gameObject, setGameObject] = useState({ property: "default" });
     const [isLoad, setIsLoad] = useState(false); //useLoad
     const [flipped, setFlipped] = useState(false);
@@ -62,6 +66,7 @@ export const ConfirmPlayerPage = () => {
 
     const handleClick = () => {
         setFlipped(!flipped);
+        play();
     };
 
     return (

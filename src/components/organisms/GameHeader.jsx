@@ -5,7 +5,7 @@ import { PlayersMol } from "../molecules/PlayersMol";
 import { PlayersMolecules } from "../molecules/PlayersMolecules";
 
 export const GameHeader = (props) => {
-    let { gameObject, handleFinishTurn = () => { } } = props;
+    let { gameObject, handleFinishTurn = () => { },setIsPlayBGM=()=>{} } = props;
 
     const thisPhaseCalc = (gamePhase) => {
         switch (gamePhase) {
@@ -243,7 +243,7 @@ export const GameHeader = (props) => {
             </div>
             <div css={hedderRightStyle}>
                 <PlayersMolecules headerPlayers={headerPlayers} />
-                <TimerMol startTime={headerInf.startTime} duration={headerInf.maxTime} handleFinishTurn={handleFinishTurn} gameDescription={headerInf.gameDescription} isButton={headerInf.isButton} isTimer={headerInf.isTimer} textStyle={textStyle} buttonText={headerInf.buttonText} textColor={headerInf.textColor} />
+                <TimerMol startTime={headerInf.startTime} duration={headerInf.maxTime} handleFinishTurn={handleFinishTurn} gameDescription={headerInf.gameDescription} isButton={headerInf.isButton} isTimer={headerInf.isTimer} textStyle={textStyle} buttonText={headerInf.buttonText} textColor={headerInf.textColor} setIsPlayBGM={setIsPlayBGM}/>
             </div>
         </div>
     );

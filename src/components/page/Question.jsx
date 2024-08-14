@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Load } from '../page/Load';
 import { GameHeader } from "../organisms/GameHeader";
 import { Button } from "antd/es/radio";
+import useSound from "use-sound";
+import BGM from "../../sound/weiredhome.mp3";
 
 export const Question = () => {
     const [gameObject, setGameObject] = useState({ property: "default" });

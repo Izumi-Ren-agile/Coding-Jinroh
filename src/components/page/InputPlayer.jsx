@@ -7,10 +7,15 @@ import { useNavigate } from "react-router-dom";
 // import { SelectData } from "../database/SelectData";
 // import NonhookCountData from "../database/NonhookCountData";
 import { UserOutlined } from '@ant-design/icons';
+import useSound from "use-sound";
+import ButtonSound1 from "../../sound/creep_up_on.mp3";
 import { Input, Button, Radio, Tooltip } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 
 export const InputPlayer = () => {
+
+  const [play, { stop, pause }] = useSound(ButtonSound1);
+
   const [gameObject, setGameObject] = useState({ property: "default" });
   const [playerNames, setPlayerNames] = useState(Array(8).fill(''));
   const [usePlayerImage, setUsePlayerImage] = useState(Array(8).fill('OFF'));
@@ -280,6 +285,7 @@ export const InputPlayer = () => {
               id="submit-button"
               className="btn-group"
               onClick={async () => {
+                play();setTimeout(stop,900);
                 if (isValidPlayers(playerNames)) {
                   const players = playerCalc(jinrohNum, usePlayerImage);
                   const gameObject = await createGameObject({ players: players, difficulty: difficulty, maxCodingTime: maxCodingTime, maxMeetingTime: maxMeetingTime, maxCodingTurn: maxCodingTurn, maxMissionNum: missionNum, maxDayNum: maxDays, jinrohNum: jinrohNum, isShuffle: shufflePlayer, language: language });

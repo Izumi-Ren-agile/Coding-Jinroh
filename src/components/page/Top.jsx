@@ -2,7 +2,9 @@
 import { css, keyframes } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
-import { Suspense } from "react";
+import { Suspense} from "react";
+import ButtonSound1 from '../../sound/button1.mp3';
+import useSound from 'use-sound';
 
 const gradientAnimation = keyframes`
   0% {
@@ -31,6 +33,7 @@ const ElementStyle = css`
 // `;
 
 export const Top = () => {
+  const [play, { stop, pause }] = useSound(ButtonSound1,{volume:0.4});
   const navigate = useNavigate();
 
   const handleConcept = () => {
@@ -49,7 +52,7 @@ export const Top = () => {
           />
           <Button
             css={ElementStyle}
-            onClick={handleConcept}
+            onClick={()=>{handleConcept();play();}}
             className="btn-group center-button"
           >
             ゲーム開始

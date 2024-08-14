@@ -4,13 +4,18 @@ import swal from "sweetalert2";
 import { Load } from "../page/Load";
 import { Game } from "../page/Game";
 import { returnRandomIndex } from "../page/InputPlayer";
+import useSound from 'use-sound';
+import Alert from '../../sound/alert.mp3';
 
 export const GamePage = () => {
+
   const [gameObject, setGameObject] = useState({ property: "default" });
   const [isLoad, setIsLoad] = useState(false); //useLoad
   const [code, setCode] = useState("");
   const [activeTab, setActiveTab] = useState("2");
   const navigate = useNavigate();
+
+  const [playAlert, { stop:stopAlert, pause:pauseAlert}] = useSound(Alert, { volume: 1 ,interrupt:true});
 
   // Fetchをリトライする関数
   const fetchWithRetry = async (
@@ -148,6 +153,9 @@ export const GamePage = () => {
 
   useEffect(() => {
     (async () => {
+      if(isLoad){
+        playAlert();
+      }
       await gameObjectfileRead();
       // await gameObject.players.map(async (player) => {
       //   while (player.yourMission.length < gameObject.maxMissionNum) {
@@ -160,6 +168,7 @@ export const GamePage = () => {
       // });
       await missionFilling(gameObject);
       await gameObjectfileRead();
+      console.log("プレイアラート呼ばれ回数");
     })();
   }, [isLoad]);
 
