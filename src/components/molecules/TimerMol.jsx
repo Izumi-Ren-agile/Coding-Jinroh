@@ -87,7 +87,7 @@ margin-bottom: 10px;
         {gameDescription}
       </div>
       {isButton && (
-        <Button type="primary" onClick={handleFinishTurn}>
+        <Button className="btn-group-g" type="primary" onClick={handleFinishTurn}>
           {buttonText}
         </Button>
       )}

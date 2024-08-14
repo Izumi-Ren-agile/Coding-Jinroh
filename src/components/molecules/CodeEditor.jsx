@@ -65,7 +65,7 @@ export const CodeEditor = (props) => {
         </TabPane>
       </Tabs>
       <Buttons>
-        <Button type="primary" onClick={handleRunCode} disabled={loading}>{loading ? "実行中..." : "実行"}</Button>
+        <Button type="primary" className="btn-group-e" onClick={handleRunCode} disabled={loading}>{loading ? "実行中..." : "実行"}</Button>
       </Buttons>
     </div>
   );
