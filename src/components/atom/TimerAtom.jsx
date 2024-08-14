@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 // TimerAtom スタイルの定義
 const timerStyle = css`
     align-items: center;
-    padding: 20px;
+    margin:0;
     border: 5px solid #e0e0e0;
     border-radius: 5px;
     text-align: center;
@@ -24,7 +24,7 @@ const phaseStyle = css`
     font-size: 18px;
     font-weight: bold;
     color: #333;
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
 `;
 
 // Timer コンポーネント
