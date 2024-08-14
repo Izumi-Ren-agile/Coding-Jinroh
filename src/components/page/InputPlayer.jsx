@@ -8,8 +8,13 @@ import { useNavigate } from "react-router-dom";
 // import NonhookCountData from "../database/NonhookCountData";
 import { UserOutlined } from '@ant-design/icons';
 import { Input, Button, Radio } from "antd";
+import useSound from "use-sound";
+import ButtonSound1 from "../../sound/creep_up_on.mp3";
 
 export const InputPlayer = () => {
+
+  const [play, { stop, pause }] = useSound(ButtonSound1);
+
   const [gameObject, setGameObject] = useState({ property: "default" });
   const [playerNames, setPlayerNames] = useState(Array(8).fill(''));
   const navigate = useNavigate();
@@ -194,10 +199,11 @@ export const InputPlayer = () => {
                   id="submit-button center-button"
                   className="btn-group center"
                   onClick={async () => {
+                    play();setTimeout(stop,900);
                     const players = playerCalc();
                     // const gameObject = await createGameObject(players);
                     // console.log("ゲームオブジェクトは作れているよね？", gameObject);
-                    const gameObject = await createDummyGameObject(players);
+                    const gameObject = await createGameObject(players);
                     await gameObjectfileWrite(gameObject);
                     console.log("終わってっか？？");
                     handleConfirmPlayer();

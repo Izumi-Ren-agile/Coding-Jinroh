@@ -9,6 +9,9 @@ import { Contents } from "../templates/Contents";
 // import { Compiler } from "../compile/CompilerAsMethod";
 import { Tag } from "../molecules/Tag";
 import { TabsOfCodeEditor } from "../molecules/TabsOfCodeEditor";
+import useSound from 'use-sound';
+import BGM from '../../sound/ks024.wav';
+import Alert from '../../sound/alert.mp3';
 
 export const Game = (props) => {
   const { gameObject, handleFinishTurn, code, handleChange, setTabCode, activeTab } = props;
@@ -18,7 +21,17 @@ export const Game = (props) => {
   const [loading, setLoading] = useState(false); // ローディング状態
   const [error, setError] = useState(null); // エラーメッセージ
   const language = gameObject.codeLanguage; // 使用するプログラミング言語を"java"に設定
-  //   const [sourceCode, setSourceCode] = useState(code)
+  const[isPlayBGM,setIsPlayBGM]=useState(false);
+  const[isPlayAlert,setIsPlayAlert]=useState(false);
+
+  const [playAlert, { stop:stopAlert, pause:pauseAlert}] = useSound(Alert, { volume: 1 ,interrupt:true});
+  useEffect(()=>{
+    if(isPlayAlert){
+      playAlert();
+    }else{
+      stopAlert();
+    }
+  },[isPlayAlert])
 
   //勝敗判定
   const [isComplete, setIsComplete] = useState(false);
@@ -26,6 +39,7 @@ export const Game = (props) => {
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
     if (gameObject.gamePhase === "night" && gameObject.startingTurn + gameObject.codingMaxTime > Math.floor(Date.now() / 1000)) {
+      //setIsPlayAlert(true);
       swal.fire({
         title: `${gameObject.players[gameObject.presentPlayer].name}さんですか？`,
         text: '「はい」を押すとコーディングフェーズに進みます',
@@ -34,8 +48,10 @@ export const Game = (props) => {
         cancelButtonText: 'いいえ',
         showCancelButton: true,
       }).then((result) => {
-        if (!result.isConfirmed) {
-          // ユーザーが「いいえ」をクリックした場合の処理
+        if (result.isConfirmed) {
+          console.log("はい押された？");
+          setIsPlayBGM(true);// ここで音声を再生する
+        } else {
           window.location.reload();
         }
       });
@@ -120,6 +136,7 @@ export const Game = (props) => {
       <GameHeader
         gameObject={gameObject}
         handleFinishTurn={handleFinishTurn}
+        setIsPlayBGM={setIsPlayBGM}
       />
       {gameObject.property ? (
         <></>
