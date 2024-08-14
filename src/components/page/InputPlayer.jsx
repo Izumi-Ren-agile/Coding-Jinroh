@@ -299,7 +299,7 @@ export const InputPlayer = () => {
                     handleConfirmPlayer();
                   }
                 } else {
-                  setErrorMessage("1人以上の有効なプレイヤー名を入力してください");
+                  setErrorMessage("1人以上の有効なプレイヤー名を入力してください 同じプレイヤー名は使用できません");
                 }
               }}
             >
