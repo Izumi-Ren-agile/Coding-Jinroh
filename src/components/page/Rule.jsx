@@ -1,13 +1,25 @@
 import "./rule.css";
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
-import { useLocation } from 'react-router-dom'
 import { Button } from "antd";
 import useSound from "use-sound";
+import { useState } from "react";
+import Slider from "react-slick";
 import ButtonSound1 from "../../sound/creep_up_on.mp3";
 import { useContext } from "react";
+import { Carousel } from 'antd';
+
+// 画像のインポート
+import slide1 from "../../images/rule-slide1.jpg";
+import slide2 from "../../images/rule-slide2.jpg";
+import slide3 from "../../images/rule-slide3.jpg";
+import slide4 from "../../images/rule-slide4.jpg";
+import slide5 from "../../images/rule-slide5.jpg";
 
 export const Rule = () => {
   const [play, { stop, pause }] = useSound(ButtonSound1);
+  // const [currentSlide, setCurrentSlide] = useState(1); // 現在のスライドインデックス
 
   const navigate = useNavigate();
 
@@ -15,74 +27,51 @@ export const Rule = () => {
     navigate("/inputPlayer");
   };
 
+  const onChange = (currentSlide) => {
+    console.log(currentSlide);
+  };
+
+  const slideContentStyle = css`
+  margin: 20px auto;
+  max-height: 70vh;
+  color: #fff;
+  line-height: 160px;
+  text-align: center;
+  background: #526D82;
+  `
+  const slideImagetStyle = css`
+  max-height: 70vh;
+  width: auto;
+  margin: 0 auto;
+  border-radius: 5px;
+  `
+
   return (
     <div class="container">
       <header class="regular-header">
         <h1 className="title">コーディング人狼 - ルール説明</h1>
       </header>
-      <div class="main-content">
-        <div class="text-container">
-          <h2 className="rule-h2 text-center-content">
-            ようこそ「コーディング人狼」へ！ <br />
-            このゲームは、プレイヤーが市民と人狼に分かれ、プログラミングの課題を解決するゲームです！
-          </h2>
-        </div>
-        <div className="rule-container">
-          <div className="rule-text">
-            <h2>【勝利条件】</h2>
-            <ul>
-              <li>市民: 人狼を全員追放する or コードが正しく完成する</li>
-              <li>人狼: コードが正しく動かない</li>
-            </ul>
-            <br />
-            <h2>【ゲームの流れ】</h2>
-            <p>
-              ゲームはコーディングフェーズ2回と会議フェーズを繰り返して進みます。
-            </p>
-            <br />
-            <h3>[コーディングフェーズ]</h3>
-            <ul>
-              <li>各プレイヤーが順番にコードを書きます。</li>
-              <li>各プレイヤーのコーディング時間は60秒の制限があります。</li>
-            </ul>
-            <br />
-            <h3>[会議フェーズ]</h3>
-            <ul>
-              <li>
-                プレイヤー全員で、完成したコードを見ながら120秒話し合います。
-              </li>
-              <li>
-                会議の最後に投票を行い、最も怪しいプレイヤーを追放します。
-              </li>
-              <li>
-                投票の結果、同数の場合は「PM（後述）」が追放者を決定します。
-              </li>
-            </ul>
-            <br />
-            <h3>[ミッション]</h3>
-            <ul>
-              <li>各プレイヤーにはランダムに「ミッション」が配布されます。</li>
-              <li>
-                「ミッション」達成数が一番多いプレイヤーが「PM」になります。
-              </li>
-            </ul>
-            <br />
+      <div className="main-content" style={{gap: "20px", margin: "0 auto"}}>
+        <Carousel arrows infinite={false} afterChange={onChange} arrowSize="30">
+          <div css={slideContentStyle}>
+            <img src={slide1} alt="スライド1" css={slideImagetStyle} />
           </div>
-
-          <div class="rule-image">
-            <img src="./images/game_display.jpeg" alt="説明画像" />
+          <div css={slideContentStyle}>
+            <img src={slide2} alt="スライド2" css={slideImagetStyle} />
           </div>
-        </div>
-        <div class="text-container">
-          <h2 className="rule-h2 text-center-content">
-            「コーディング人狼」ではプログラミングスキルを磨きながら、推理力やコミュニケーション能力も試されます。
-            <br />
-            市民としてコードを完成させるか、人狼としてうまくバグを仕込むか、あなたのスキルを試してみましょう！
-          </h2>
-        </div>
+          <div css={slideContentStyle}>
+            <img src={slide3} alt="スライド3" css={slideImagetStyle} />
+          </div>
+          <div css={slideContentStyle}>
+            <img src={slide4} alt="スライド4" css={slideImagetStyle} />
+          </div>
+          <div css={slideContentStyle}>
+            <img src={slide5} alt="スライド5" css={slideImagetStyle} />
+          </div>
+        </Carousel>
         <div class="text-container center-conteiner">
           <Button
-            onClick={()=>{handleInputPlayer();play();setTimeout(stop,900);}}
+            onClick={() => { handleInputPlayer(); play(); setTimeout(stop, 900); }}
             className="btn-group center-button"
           >
             ゲーム開始
