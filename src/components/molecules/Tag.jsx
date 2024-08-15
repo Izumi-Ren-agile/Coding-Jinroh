@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 
 export const Tag = (props) => {
-    const { children, secondText, colorMode = "night" } = props;
+    const { children, secondText = "", colorMode = "night" } = props;
 
     const tagStyle = css`
   min-height: 25px;
