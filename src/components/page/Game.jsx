@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import swal from 'sweetalert2';
+import swal from "sweetalert2";
 import { CodeEditor } from "../molecules/CodeEditor";
 import { Console } from "../molecules/Console";
 import { Project } from "../molecules/Project";
@@ -9,86 +9,110 @@ import { Contents } from "../templates/Contents";
 // import { Compiler } from "../compile/CompilerAsMethod";
 import { Tag } from "../molecules/Tag";
 import { TabsOfCodeEditor } from "../molecules/TabsOfCodeEditor";
-import useSound from 'use-sound';
-import BGM from '../../sound/ks024.wav';
-import Alert from '../../sound/alert.mp3';
+import useSound from "use-sound";
+import BGM from "../../sound/ks024.wav";
+import Alert from "../../sound/alert.mp3";
 import { Tooltip } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 
 export const Game = (props) => {
-  const { gameObject, handleFinishTurn, code, handleChange, setTabCode, activeTab } = props;
+  const {
+    gameObject,
+    handleFinishTurn,
+    code,
+    handleChange,
+    setTabCode,
+    activeTab,
+  } = props;
   const [compiledCode, setCompiledCode] = useState("");
   const [stdout, setStdout] = useState(null); // コンパイルの標準出力
   const [buildStderr, setBuildStderr] = useState(null); // コンパイルのエラーメッセージ
   const [loading, setLoading] = useState(false); // ローディング状態
   const [error, setError] = useState(null); // エラーメッセージ
   const language = gameObject.codeLanguage; // 使用するプログラミング言語を"java"に設定
-  const[isPlayBGM,setIsPlayBGM]=useState(false);
-  const[isPlayAlert,setIsPlayAlert]=useState(false);
+  const [isPlayBGM, setIsPlayBGM] = useState(false);
+  const [isPlayAlert, setIsPlayAlert] = useState(false);
 
-  const [playAlert, { stop:stopAlert, pause:pauseAlert}] = useSound(Alert, { volume: 1 ,interrupt:true});
-  useEffect(()=>{
-    if(isPlayAlert){
+  const [playAlert, { stop: stopAlert, pause: pauseAlert }] = useSound(Alert, {
+    volume: 1,
+    interrupt: true,
+  });
+  useEffect(() => {
+    if (isPlayAlert) {
       playAlert();
-    }else{
+    } else {
       stopAlert();
     }
-  },[isPlayAlert])
+  }, [isPlayAlert]);
 
   //勝敗判定
   const [isComplete, setIsComplete] = useState(false);
 
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
-    if (gameObject.gamePhase === "night" && gameObject.startingTurn + gameObject.codingMaxTime > Math.floor(Date.now() / 1000)) {
+    if (
+      gameObject.gamePhase === "night" &&
+      gameObject.startingTurn + gameObject.codingMaxTime >
+        Math.floor(Date.now() / 1000)
+    ) {
       //setIsPlayAlert(true);
-      swal.fire({
-        title: `${gameObject.players[gameObject.presentPlayer].name}さん\nですか？`,
-        text: '「はい」を押すとコーディングフェーズに進みます',
-        icon: 'warning',
-        confirmButtonText: 'はい',
-        cancelButtonText: 'いいえ',
-        showCancelButton: true,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          console.log("はい押された？");
-          setIsPlayBGM(true);// ここで音声を再生する
-        } else {
-          window.location.reload();
-        }
-      });
-    } else if (gameObject.gamePhase === "daytime" && gameObject.startingTurn + gameObject.meetingmaxTime > Math.floor(Date.now() / 1000)) {
-      const pmPlayer = gameObject.players.find(player => player.isPM);
-      swal.fire({
-        title: `今日のコーディングターンが\n終わりました！`,
-        // text: `PMは、${pmPlayer.name}さんです！`,
-        html: `PMは、<strong>${pmPlayer.name}</strong>さんです！`,
-        imageUrl: `images/card-PM.png`,
-        imageWidth: 400,
-        imageHeight: 400,
-        confirmButtonText: '会議を始める',
-      }).then((result) => {
-        if (!result.isConfirmed) {
-          // ユーザーが「いいえ」をクリックした場合の処理
-          window.location.reload();
-        }
-      });
+      swal
+        .fire({
+          title: `${
+            gameObject.players[gameObject.presentPlayer].name
+          }さん\nですか？`,
+          text: "「はい」を押すとコーディングフェーズに進みます",
+          icon: "warning",
+          confirmButtonText: "はい",
+          cancelButtonText: "いいえ",
+          showCancelButton: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            console.log("はい押された？");
+            setIsPlayBGM(true); // ここで音声を再生する
+          } else {
+            window.location.reload();
+          }
+        });
+    } else if (
+      gameObject.gamePhase === "daytime" &&
+      gameObject.startingTurn + gameObject.meetingmaxTime >
+        Math.floor(Date.now() / 1000)
+    ) {
+      const pmPlayer = gameObject.players.find((player) => player.isPM);
+      swal
+        .fire({
+          title: `今日のコーディングターンが\n終わりました！`,
+          // text: `PMは、${pmPlayer.name}さんです！`,
+          html: `PMは、<strong>${pmPlayer.name}</strong>さんです！`,
+          imageUrl: `images/card-PM.png`,
+          imageWidth: 400,
+          imageHeight: 400,
+          confirmButtonText: "会議を始める",
+        })
+        .then((result) => {
+          if (!result.isConfirmed) {
+            // ユーザーが「いいえ」をクリックした場合の処理
+            window.location.reload();
+          }
+        });
     }
 
     // キーが押されたときに実行される関数
     const handleKeyPress = (event) => {
-      if (event.ctrlKey && event.key === 'Enter') {
+      if (event.ctrlKey && event.key === "Enter") {
         // Ctrl + Enterキーが押されたときに実行する処理
         handleRunCode();
       }
     };
 
     // windowオブジェクトにイベントリスナーを追加
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener("keydown", handleKeyPress);
 
     // コンポーネントがアンマウントされるときにクリーンアップ
     return () => {
-      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
 
@@ -97,7 +121,14 @@ export const Game = (props) => {
   const handleRunCode = async () => {
     setLoading(true); // ローディング状態を開始
     setError(null); // エラー状態をクリア
-    const adjustedCode = "import java.util.*; import java.io.*; import java.lang.*; public class Main{" + gameObject.main + code + "}";
+    const plusCode = code !== "" ? code : gameObject.editorHistory[gameObject.editorHistory.length-1].code;
+    console.log("足し合わせるコード", plusCode);
+    const adjustedCode =
+      "import java.util.*; import java.io.*; import java.lang.*; public class Main{" +
+      gameObject.main +
+      plusCode +
+      "}";
+    //const adjustedCode = "import java.util.*; import java.io.*; import java.lang.*; public class Main{" + gameObject.main + code + "}";
     console.log("調整されたコード", adjustedCode);
     try {
       const response = await fetch("/compile", {
@@ -147,7 +178,15 @@ export const Game = (props) => {
         <Contents>
           <Content70>
             {console.log("コードの中何入ってんの？", code)}
-            <Tag secondText={"あと〇文字"} colorMode={gameObject.gamePhase}>エディター <Tooltip title="プロジェクトに従って、実装を進めてください。メイン関数タブは編集することができません。" placement="top"><QuestionCircleOutlined /></Tooltip></Tag>
+            <Tag secondText={"あと〇文字"} colorMode={gameObject.gamePhase}>
+              エディター{" "}
+              <Tooltip
+                title="プロジェクトに従って、実装を進めてください。メイン関数タブは編集することができません。"
+                placement="top"
+              >
+                <QuestionCircleOutlined />
+              </Tooltip>
+            </Tag>
             {gameObject.gamePhase === "night" ? (
               <CodeEditor
                 gameObject={gameObject}
@@ -167,7 +206,15 @@ export const Game = (props) => {
                 activeTab={activeTab}
               />
             )}
-            <Tag secondText={""} colorMode={gameObject.gamePhase}>実行結果 <Tooltip title="実行ボタンを押すと実行結果が表示されます。入力例に対して、期待される出力を満たしていると、正誤判定が〇になります。" placement="top"><QuestionCircleOutlined /></Tooltip></Tag>
+            <Tag secondText={""} colorMode={gameObject.gamePhase}>
+              実行結果{" "}
+              <Tooltip
+                title="実行ボタンを押すと実行結果が表示されます。入力例に対して、期待される出力を満たしていると、正誤判定が〇になります。"
+                placement="top"
+              >
+                <QuestionCircleOutlined />
+              </Tooltip>
+            </Tag>
             {/* 通信エラー */}
             {error && <div>Error: {error.message}</div>}
 
@@ -177,7 +224,11 @@ export const Game = (props) => {
               }
             />
           </Content70>
-          <Project question={gameObject.questionText.replace(/\\n/g, '\n')} secondText={""} gameObject={gameObject} />
+          <Project
+            question={gameObject.questionText.replace(/\\n/g, "\n")}
+            secondText={""}
+            gameObject={gameObject}
+          />
         </Contents>
       )}
     </div>

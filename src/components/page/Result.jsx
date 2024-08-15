@@ -47,7 +47,9 @@ export const Result = (props) => {
     const handleRunCode = async () => {
         setLoading(true); // ローディング状態を開始
         setError(null); // エラー状態をクリア
-        const adjustedCode = "public class Main{" + gameObject.main + code + '}';
+        const plusCode=code!==""?code:gameObject.answerCode;
+        console.log("足し合わせるコード",plusCode);
+        const adjustedCode = "import java.util.*; import java.io.*; import java.lang.*; public class Main{" + gameObject.main + plusCode + '}';
         console.log("調整されたコード", adjustedCode);
         try {
             const response = await fetch("/compile", {

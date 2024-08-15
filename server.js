@@ -132,23 +132,24 @@ const createGameObject = async (Players, difficulty, maxCodingTime, maxMeetingTi
   //gameId
   const gameId = new Date().toString();
 
-  //クエスチョンIDの設定//一時的にID17の問題しか出題されないように
+  //クエスチョンIDの設定
   const qDbId = "QUESTION_CONTENT";
   const questionIdMin=17;
   const questionIdArray = returnRandomIndex(questionIdMin, questionIdMin-1+await countData(qDbId), 1);
-  const questionId = questionIdArray[0];
+  const questionId = 21;//questionIdArray[0];
   //const questionId = 17;
 
   //クエスチョンテキストの取得
-  const questionText = await readData(qDbId, questionId + "", "question");
+  let questionText = await readData(qDbId, questionId + "", "question");
+  questionText=questionText.replace(/”/g,'"').replace(/’/g,"'");
 
   //初期に入力されているコードの取得
   let initialCode = await readData(qDbId, questionId + "", "inicialCode"); //inicialはinitialのスペルミス。本当にこれでデータベースに保存されているので気にする必要なし
-  initialCode = initialCode.replace(/\\n/g, "\n").replace(/\\t/g, "\t");
+  initialCode = initialCode.replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/”/g,'"').replace(/’/g,"'");
 
   //答えのコードの取得
   let answerCode = await readData(qDbId, questionId + "", "answerCode");
-  answerCode = answerCode.replace(/\\n/g, "\n").replace(/\\t/g, "\t");
+  answerCode = answerCode.replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/”/g,'"').replace(/’/g,"'");
 
   //最初のプレイヤーたち
   const initialPlayers = Players;
