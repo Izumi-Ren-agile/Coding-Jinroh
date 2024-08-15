@@ -6,9 +6,16 @@ import { PlayerAtom } from '../atom/PlayerAtom'
 import { Button } from "antd";
 import swal from 'sweetalert2';
 import "./vote.css";
+import Kacha from "../../sound/kacha.mp3";
+import useSound from "use-sound";
 
 export const Vote = (props) => {
   const { gameObject, handleVote, selectedPlayerIndex, handleSelect } = props;
+
+  const [play, { stop, pause }] = useSound(Kacha, {
+    volume: 1,
+    interrupt: true,
+  });
 
   const playerVoteContainer = css`
     width: 80%;
@@ -89,7 +96,7 @@ export const Vote = (props) => {
                     <Button css={voteButtonStyle}
                       className={`vote-item-btn, ${player.id === selectedPlayerIndex ? "selected" : "select"
                         }`}
-                      onClick={() => handleSelect(player)}
+                      onClick={() => {handleSelect(player);play();}}
                     >
                       {player.id === selectedPlayerIndex ? "選択中" : "選択"}
                     </Button>
@@ -101,7 +108,7 @@ export const Vote = (props) => {
           <br /><br />
           <Button
             className="submit btn-group vote-btn"
-            onClick={handleVote}
+            onClick={()=>{handleVote();play();}}
             disabled={selectedPlayerIndex === null}
           >投票</Button>
         </div>

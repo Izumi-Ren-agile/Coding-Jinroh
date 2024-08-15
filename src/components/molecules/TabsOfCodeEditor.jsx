@@ -5,10 +5,24 @@ import { javascript } from "@codemirror/lang-javascript";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { Buttons } from '../templates/Buttons';
 import { Button, Tabs } from "antd";
+import useSound from 'use-sound';
+import Compile from '../../sound/compile.mp3';
+import Kacha from '../../sound/kacha.mp3';
 
 export const TabsOfCodeEditor = (props) => {
   const { gameObject, editorHistory, onChange, handleRunCode, loading, setTabCode, activeTab } = props;
   const { TabPane } = Tabs;
+
+  const [playKacha, { stopKacha, pauseKacha}] = useSound(Kacha, { volume: 0.9 ,interrupt:true});
+  const [play, { stop, pause}] = useSound(Compile, { volume: 0.9 ,interrupt:true});
+  const jikkouchuu=()=>{
+    play();
+    return "実行中...";
+  }
+  const jikkou=()=>{
+    stop();
+    return "実行(ctrl+Enter)";
+  }
 
   const editorContainerStyle = css`
   flex-grow: 5;
@@ -81,7 +95,7 @@ export const TabsOfCodeEditor = (props) => {
         ))}
       </Tabs>
       <Buttons>
-        <Button type="primary" onClick={handleRunCode} disabled={loading}>{loading ? "実行中..." : "実行"}</Button>
+        <Button type="primary" onClick={()=>{handleRunCode();playKacha();}} disabled={loading}>{loading ? jikkouchuu() : jikkou()}</Button>
       </Buttons>
     </div>
   );
