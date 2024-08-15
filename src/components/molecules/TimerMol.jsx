@@ -61,7 +61,6 @@ display: flex;
   const playerIndicatorStyle = css`
 ${textStyle}
 font-size: 13px;
-font-weight: bold;
 text-align: center;
 `
 
