@@ -17,9 +17,9 @@ export const GamePage = () => {
   const [activeTab, setActiveTab] = useState("2");
   const navigate = useNavigate();
 
-  const [playAlert, { stop:stopAlert, pause:pauseAlert}] = useSound(Alert, { volume: 1 ,interrupt:true});
-  const [playLoading, { stop:stopLoading, pause:pauseLoading}] = useSound(Loading, { volume: 0.9 ,interrupt:true});
-  const [playKacha, { stopKacha, pauseKacha}] = useSound(Kacha, { volume: 0.9 ,interrupt:true});
+  const [playAlert, { stop: stopAlert, pause: pauseAlert }] = useSound(Alert, { volume: 1, interrupt: true });
+  const [playLoading, { stop: stopLoading, pause: pauseLoading }] = useSound(Loading, { volume: 0.9, interrupt: true });
+  const [playKacha, { stopKacha, pauseKacha }] = useSound(Kacha, { volume: 0.9, interrupt: true });
 
   // Fetchをリトライする関数
   const fetchWithRetry = async (
@@ -157,7 +157,7 @@ export const GamePage = () => {
 
   useEffect(() => {
     (async () => {
-      if(isLoad){
+      if (isLoad) {
         playAlert();
       }
       await gameObjectfileRead();
@@ -193,19 +193,19 @@ export const GamePage = () => {
  * 配列の要素の値を変更せずに要素の順番を並べ替える関数
  * (e.g) [0,1,2,3,4] => [1,3,2,0,4]
  */
- const shuffleArray = (array) => {
-  const cloneArray = [...array]
+  const shuffleArray = (array) => {
+    const cloneArray = [...array]
 
-  for (let i = cloneArray.length - 1; i >= 0; i--) {
-    let rand = Math.floor(Math.random() * (i + 1))
-    // 配列の要素の順番を入れ替える
-    let tmpStorage = cloneArray[i]
-    cloneArray[i] = cloneArray[rand]
-    cloneArray[rand] = tmpStorage
+    for (let i = cloneArray.length - 1; i >= 0; i--) {
+      let rand = Math.floor(Math.random() * (i + 1))
+      // 配列の要素の順番を入れ替える
+      let tmpStorage = cloneArray[i]
+      cloneArray[i] = cloneArray[rand]
+      cloneArray[rand] = tmpStorage
+    }
+
+    return cloneArray
   }
-
-  return cloneArray
-}
 
   const handleFinishTurn = async () => {
     if (gameObject.gamePhase !== "daytime") {
@@ -347,62 +347,63 @@ export const GamePage = () => {
                     navigate("/resultPage");
                   }
                   /**--------------------------- */
+                  else {
 
-
-                  if (gameObject.gamePhase === "night") {
-                    gameObject.editor = code;
-                    gameObject.editorHistory = [
-                      ...gameObject.editorHistory,
-                      {
-                        name: `day${gameObject.presentDay}-${gameObject.presentCodingTurn
-                          } ${gameObject.players[gameObject.presentPlayer].name}`,
-                        code: code,
-                      },
-                    ];
-                  }
-
-                  if (
-                    gameObject.presentPlayer <
-                    gameObject.players.length - 1
-                  ) {
-                    gameObject.presentPlayer++;
-                    gameObject.startingTurn = Math.floor(Date.now() / 1000);
-                    await gameObjectfileWrite(gameObject); //書き込み
-                  } else {
-                    if(gameObject.isRandom){
-                      gameObject.players = shuffleArray(gameObject.players);
+                    if (gameObject.gamePhase === "night") {
+                      gameObject.editor = code;
+                      gameObject.editorHistory = [
+                        ...gameObject.editorHistory,
+                        {
+                          name: `day${gameObject.presentDay}-${gameObject.presentCodingTurn
+                            } ${gameObject.players[gameObject.presentPlayer].name}`,
+                          code: code,
+                        },
+                      ];
                     }
+
                     if (
-                      gameObject.presentCodingTurn < gameObject.maxCodingTurn
+                      gameObject.presentPlayer <
+                      gameObject.players.length - 1
                     ) {
-                      gameObject.presentPlayer = 0;
-                      gameObject.presentCodingTurn++;
+                      gameObject.presentPlayer++;
                       gameObject.startingTurn = Math.floor(Date.now() / 1000);
                       await gameObjectfileWrite(gameObject); //書き込み
                     } else {
-                      //1~2人モードの時の処理
-                      if (gameObject.initialPlayers.length < 3) {
-                        gameObject.gameResult = "practice";
-                        gameObject.gamePhase = "result";
-                        gameObject.editorHistory = [
-                          ...gameObject.editorHistory,
-                          {
-                            name: `解答コード`,
-                            code: gameObject.answerCode,
-                          },
-                        ];
-                        await gameObjectfileWrite(gameObject); //書き込み
-                        navigate("/resultPage");
-                      } else if (gameObject.gamePhase === "night") {
-                        gameObject.gamePhase = "daytime";
+                      if (gameObject.isRandom) {
+                        gameObject.players = shuffleArray(gameObject.players);
+                      }
+                      if (
+                        gameObject.presentCodingTurn < gameObject.maxCodingTurn
+                      ) {
+                        gameObject.presentPlayer = 0;
+                        gameObject.presentCodingTurn++;
                         gameObject.startingTurn = Math.floor(Date.now() / 1000);
                         await gameObjectfileWrite(gameObject); //書き込み
                       } else {
-                        gameObject.presentPlayer = 0;
-                        gameObject.gamePhase = "vote";
-                        gameObject.startingTurn = Math.floor(Date.now() / 1000);
-                        await gameObjectfileWrite(gameObject); //書き込み
-                        navigate("/votePage");
+                        //1~2人モードの時の処理
+                        if (gameObject.initialPlayers.length < 3) {
+                          gameObject.gameResult = "practice";
+                          gameObject.gamePhase = "result";
+                          gameObject.editorHistory = [
+                            ...gameObject.editorHistory,
+                            {
+                              name: `解答コード`,
+                              code: gameObject.answerCode,
+                            },
+                          ];
+                          await gameObjectfileWrite(gameObject); //書き込み
+                          navigate("/resultPage");
+                        } else if (gameObject.gamePhase === "night") {
+                          gameObject.gamePhase = "daytime";
+                          gameObject.startingTurn = Math.floor(Date.now() / 1000);
+                          await gameObjectfileWrite(gameObject); //書き込み
+                        } else {
+                          gameObject.presentPlayer = 0;
+                          gameObject.gamePhase = "vote";
+                          gameObject.startingTurn = Math.floor(Date.now() / 1000);
+                          await gameObjectfileWrite(gameObject); //書き込み
+                          navigate("/votePage");
+                        }
                       }
                     }
                   }

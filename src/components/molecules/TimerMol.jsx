@@ -85,6 +85,7 @@ text-align: center;
           duration={duration}
           handleFinishTurn={handleFinishTurn}
           textStyle={textStyle}
+          textColor={textColor}
         />
       )}
       <div css={playerIndicatorStyle}>

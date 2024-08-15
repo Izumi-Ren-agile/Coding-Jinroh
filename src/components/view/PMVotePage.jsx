@@ -52,6 +52,7 @@ export const PMVotePage = () => {
         setSelectedPlayerId(null);
 
             gameObject.presentPlayer = 0;
+            gameObject.startingTurn = Math.floor(Date.now() / 1000);
             await gameObjectfileWrite(gameObject);
             navigate("/voteResultPage") 
     };

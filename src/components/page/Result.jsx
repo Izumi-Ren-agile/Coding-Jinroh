@@ -87,7 +87,7 @@ export const Result = (props) => {
             />
             <Contents>
                 <Content70>
-                    <Tag secondText={"あと〇文字"}>エディター</Tag>
+                    <Tag secondText={""}>エディター</Tag>
                     <TabsOfCodeEditor
                         gameObject={gameObject}
                         editorHistory={gameObject.editorHistory}

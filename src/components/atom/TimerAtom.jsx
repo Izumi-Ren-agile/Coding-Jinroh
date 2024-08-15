@@ -22,7 +22,7 @@ const timerStyle = css`
 `;
 
 // Timer コンポーネント
-const TimerAtom = ({ startTime, duration, handleFinishTurn, textStyle }) => {
+const TimerAtom = ({ startTime, duration, handleFinishTurn, textStyle, textColor }) => {
   const [playCountdown, { stop: stopCountdown, sound }] =
     useSound(CountdownSound);
 
@@ -63,14 +63,14 @@ const TimerAtom = ({ startTime, duration, handleFinishTurn, textStyle }) => {
         if (newRemainingTime <= 6) {
           setIsLastTenSeconds(true); // 文字色を変えるフラグを立てる
           if (!hasPlayedCountdown && !sound.playing()) {
-            playCountdown();
-            setHasPlayedCountdown(true); // 効果音が再生されたらフラグを立てる
+            //playCountdown();
+            //setHasPlayedCountdown(true); // 効果音が再生されたらフラグを立てる
           }
         } else {
           setIsLastTenSeconds(false); // 10秒以上ならフラグを下げる
         }
       } else {
-        stopCountdown();
+        //stopCountdown();
         handleFinishTurn();
       }
     };
@@ -82,6 +82,9 @@ const TimerAtom = ({ startTime, duration, handleFinishTurn, textStyle }) => {
   }, [startTime, duration, handleFinishTurn]);
 
   useEffect(() => {
+    if(remainingTime<=5){
+      playCountdown();
+    }
     if (remainingTime === 0) {
       playCreep();
       setTimeout(stopCreep, 900);
@@ -95,7 +98,7 @@ const TimerAtom = ({ startTime, duration, handleFinishTurn, textStyle }) => {
     font-weight: bold;
     color: ${isLastTenSeconds
       ? "#B22D35"
-      : "inherit"}; // 10秒以下で赤、そうでなければ黒
+      : textColor}; // 10秒以下で赤、そうでなければ黒
   `;
   return (
     <>

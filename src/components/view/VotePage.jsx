@@ -82,11 +82,14 @@ export const VotePage = () => {
                 console.log(mostVotedPlayers)
                 if (mostVotedPlayers.length >= 2) {
                     console.log("2名以上最大投票数のプレイヤーがいます。PM判定に移ります");
+                    gameObject.startingTurn = Math.floor(Date.now() / 1000);
+                    await gameObjectfileWrite(gameObject); //書き込み
                     navigate("/pmVotePage");
-                }else{
+                } else {
                     navigate("/voteResultPage"); // 更新が完了した後に遷移する
                 }
-        }}
+            }
+        }
     };
 
     return (
