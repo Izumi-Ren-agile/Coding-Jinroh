@@ -82,7 +82,7 @@ import "./vote.css";
             )}
           </div>
           <br /><br />
-          <Button className="btn-group center-button" onClick={handleFinishTurn}>
+          <Button className="btn-group center-button-vr" onClick={handleFinishTurn}>
             {gameObject.gameResult === "draw" ? "コーディングフェーズへ" : "結果画面へ"}
           </Button>
         </div>

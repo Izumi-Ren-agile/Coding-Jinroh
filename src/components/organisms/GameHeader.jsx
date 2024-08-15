@@ -47,7 +47,10 @@ export const GameHeader = (props) => {
                     // gameDescription: `${gameObject.players[gameObject.presentPlayer].name}さんのターン`,
                     gameDescription: (
                         <>
-                            {gameObject.players[gameObject.presentPlayer].name}<br />さんのターン
+                            <span style={{ fontSize: "15px", fontWeight: "bold" }}>
+                                {gameObject.players[gameObject.presentPlayer].name}
+                            </span>
+                            <br />さんのターン
                         </>
                     ),
                     isTimer: true,
