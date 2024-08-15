@@ -1,13 +1,31 @@
-import { useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import swal from 'sweetalert2';
 import { GameHeader } from '../organisms/GameHeader';
 import { Card } from '../molecules/Card';
+import Alert from "../../sound/alert.mp3";
+import useSound from "use-sound";
 
 export const ConfirmPlayer = (props) => {
   const { gameObject, handleFinishTurn, flipped, handleClick } = props;
 
+  const [isPlayAlert, setIsPlayAlert] = useState(true);
+
+  const [playAlert, { stop: stopAlert, pause: pauseAlert }] = useSound(Alert, {
+    volume: 1,
+    interrupt: true,
+  });
+  useEffect(() => {
+    if (isPlayAlert) {
+      console.log("プレイアラート起動してる？");
+      playAlert();
+    } else {
+      stopAlert();
+    }
+  }, [isPlayAlert]);
+
   // コンポーネントがマウントされたときに確認ダイアログを表示する
   useEffect(() => {
+    setIsPlayAlert(true);
     swal.fire({
       title: `${gameObject.players[gameObject.presentPlayer].name}さん\nですか？`,
       text: '「はい」を押すと役職確認に進みます',

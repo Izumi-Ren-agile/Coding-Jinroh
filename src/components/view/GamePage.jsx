@@ -6,6 +6,8 @@ import { Game } from "../page/Game";
 import { returnRandomIndex } from "../page/InputPlayer";
 import useSound from 'use-sound';
 import Alert from '../../sound/alert.mp3';
+import Loading from '../../sound/compile.mp3';
+import Kacha from '../../sound/kacha.mp3';
 
 export const GamePage = () => {
 
@@ -16,6 +18,8 @@ export const GamePage = () => {
   const navigate = useNavigate();
 
   const [playAlert, { stop:stopAlert, pause:pauseAlert}] = useSound(Alert, { volume: 1 ,interrupt:true});
+  const [playLoading, { stop:stopLoading, pause:pauseLoading}] = useSound(Loading, { volume: 0.9 ,interrupt:true});
+  const [playKacha, { stopKacha, pauseKacha}] = useSound(Kacha, { volume: 0.9 ,interrupt:true});
 
   // Fetchをリトライする関数
   const fetchWithRetry = async (
@@ -262,6 +266,7 @@ export const GamePage = () => {
           confirmButtonText: "コードチェックを開始",
         })
         .then(function () {
+          playKacha();
           //処理中ダイアログ
           swal.fire({
             title: "コードチェック中",
@@ -269,6 +274,7 @@ export const GamePage = () => {
             allowOutsideClick: false, //枠外をクリックしても画面を閉じない
             showConfirmButton: false,
             didOpen: () => {
+              playLoading();
               swal.showLoading();
             },
           });
@@ -303,6 +309,7 @@ export const GamePage = () => {
           };
 
           codeCheck().then(function () {
+            stopLoading();
             //完了ダイアログ
             swal
               .fire({

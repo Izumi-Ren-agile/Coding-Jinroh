@@ -8,8 +8,8 @@ import { createContext } from "react";
 
 export const Concept = () => {
   const [play, { stop, pause }] = useSound(ButtonSound1, { volume: 0.4 });
-  const [playBGM, { stop:stopBGM, pause:pauseBGM}] = useSound(BGM, { volume: 0.3 ,interrupt:true,loop:true});
-  playBGM();
+  // const [playBGM, { stop:stopBGM, pause:pauseBGM}] = useSound(BGM, { volume: 0.3 ,interrupt:true,loop:true});
+  // playBGM();
 
   const navigate = useNavigate();
 
