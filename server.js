@@ -133,10 +133,10 @@ const createGameObject = async (Players, difficulty, maxCodingTime, maxMeetingTi
   const gameId = new Date().toString();
 
   //クエスチョンIDの設定
-  const qDbId = "QUESTION_CONTENT";
+  const qDbId = difficulty==="初級"?"QUESTION_CONTENT":(difficulty==="中級"?"QUESTION_CONTENT2":"QUESTION_CONTENT3");
   const questionIdMin=17;
   const questionIdArray = returnRandomIndex(questionIdMin, questionIdMin-1+await countData(qDbId), 1);
-  const questionId = 21;//questionIdArray[0];
+  const questionId = questionIdArray[0];
   //const questionId = 17;
 
   //クエスチョンテキストの取得
