@@ -26,6 +26,7 @@ export const CodeEditor = (props) => {
 
   const editorContainerStyle = css`
   flex-grow: 5;
+  min-height: 250px;
   background-color: #282c34; /* CodeMirrorのテーマに合わせた色 */
   border-radius: 5px;
   overflow: auto;
@@ -77,7 +78,7 @@ export const CodeEditor = (props) => {
         </TabPane>
       </Tabs>
       <Buttons>
-        <Button type="primary" onClick={()=>{handleRunCode();playKacha();}} disabled={loading}>{loading ? jikkouchuu() : jikkou()}</Button>
+        <Button className="btn-group-e" type="primary" onClick={()=>{handleRunCode();playKacha();}} disabled={loading}>{loading ? jikkouchuu() : jikkou()}</Button>
       </Buttons>
     </div>
   );

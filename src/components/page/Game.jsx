@@ -178,15 +178,7 @@ export const Game = (props) => {
         <Contents>
           <Content70>
             {console.log("コードの中何入ってんの？", code)}
-            <Tag secondText={"あと〇文字"} colorMode={gameObject.gamePhase}>
-              エディター{" "}
-              <Tooltip
-                title="プロジェクトに従って、実装を進めてください。メイン関数タブは編集することができません。"
-                placement="top"
-              >
-                <QuestionCircleOutlined />
-              </Tooltip>
-            </Tag>
+            <Tag secondText={""} colorMode={gameObject.gamePhase}>エディター <Tooltip title="プロジェクトに従って、実装を進めてください。メイン関数タブは編集することができません。" placement="top"><QuestionCircleOutlined /></Tooltip></Tag>
             {gameObject.gamePhase === "night" ? (
               <CodeEditor
                 gameObject={gameObject}

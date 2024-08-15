@@ -60,6 +60,14 @@ body .NightTimeBody{
     left: 50%;
 }
 
+.center-button-vr{
+    padding: 30px;
+    font-size: x-large;
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+}
+
 .btn-group, select {
     background: #27374D !important;
     color:#ede4dd !important;
