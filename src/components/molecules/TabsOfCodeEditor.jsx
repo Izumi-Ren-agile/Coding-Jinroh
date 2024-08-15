@@ -27,6 +27,7 @@ export const TabsOfCodeEditor = (props) => {
 
   const editorContainerStyle = css`
   flex-grow: 5;
+  min-height: 250px;
   background-color: #282c34; /* CodeMirrorのテーマに合わせた色 */
   border-radius: 5px;
   overflow: auto;
