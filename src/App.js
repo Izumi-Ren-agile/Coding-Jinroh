@@ -91,7 +91,7 @@ function App() {
           border-radius: 5px;
           z-index: 1000;
           opacity: 1;
-          animation: fadeOut 3s forwards;
+          animation: fadeOut 5s forwards;
         }
 
         /* フェードアウトのアニメーション */

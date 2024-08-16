@@ -1,0 +1,96 @@
+Date : 2024-08-16 10:07:55
+Directory : c:\Users\20193660\Desktop\Git\Coding-Jinroh\src
+Total : 59 files,  4521 codes, 401 comments, 541 blanks, all 5463 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| JavaScript JSX |         39 |      3,769 |        282 |        394 |      4,445 |
+| JavaScript     |         13 |        485 |         55 |         92 |        632 |
+| CSS            |          7 |        267 |         64 |         55 |        386 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                      | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                         |         59 |      4,521 |        401 |        541 |      5,463 |
+| . (Files)                                                                                 |          4 |        122 |         11 |         17 |        150 |
+| components                                                                                |         54 |      4,285 |        368 |        497 |      5,150 |
+| components\atom                                                                           |          2 |        160 |         23 |         24 |        207 |
+| components\compile                                                                        |          3 |        159 |         23 |         32 |        214 |
+| components\database                                                                       |          5 |        182 |         19 |         40 |        241 |
+| components\molecules                                                                      |         10 |        546 |         31 |         51 |        628 |
+| components\organisms                                                                      |          1 |        235 |         10 |          8 |        253 |
+| components\page                                                                           |         22 |      2,111 |        199 |        231 |      2,541 |
+| components\templates                                                                      |          5 |         86 |          5 |         10 |        101 |
+| components\view                                                                           |          6 |        806 |         58 |        101 |        965 |
+| css                                                                                       |          1 |        114 |         22 |         27 |        163 |
++-------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                                  | language       | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\App.js                                    | JavaScript     |         97 |          4 |         11 |        112 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\atom\Playeratom.jsx            | JavaScript JSX |         86 |          2 |          8 |         96 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\atom\TimerAtom.jsx             | JavaScript JSX |         74 |         21 |         16 |        111 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\compile\CompilerAsComponent.js | JavaScript     |         66 |          7 |         13 |         86 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\compile\CompilerAsMethod.js    | JavaScript     |         59 |          7 |         11 |         77 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\compile\SimpleCompiler.js      | JavaScript     |         34 |          9 |          8 |         51 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\database\CountData.js          | JavaScript     |         33 |          6 |          8 |         47 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\database\InsertData.js         | JavaScript     |         42 |          3 |          9 |         54 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\database\NonhookCountData.js   | JavaScript     |         23 |          5 |          5 |         33 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\database\SelectData.js         | JavaScript     |         35 |          2 |          8 |         45 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\database\UpdateData.js         | JavaScript     |         49 |          3 |         10 |         62 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\molecules\Card.jsx             | JavaScript JSX |         26 |          1 |          4 |         31 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\molecules\CodeEditor.jsx       | JavaScript JSX |         82 |          1 |          4 |         87 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\molecules\Console.jsx          | JavaScript JSX |         30 |          1 |          2 |         33 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\molecules\PlayersMolecules.jsx | JavaScript JSX |         60 |          1 |          7 |         68 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\molecules\Playersmol.jsx       | JavaScript JSX |         55 |          1 |          6 |         62 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\molecules\Project.jsx          | JavaScript JSX |         45 |          1 |          2 |         48 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\molecules\TabsOfCodeEditor.jsx | JavaScript JSX |         86 |         11 |          7 |        104 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\molecules\Tag.jsx              | JavaScript JSX |         28 |          1 |          3 |         32 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\molecules\TimerMol.jsx         | JavaScript JSX |         81 |         13 |          8 |        102 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\molecules\card.css             | CSS            |         53 |          0 |          8 |         61 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\organisms\GameHeader.jsx       | JavaScript JSX |        235 |         10 |          8 |        253 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\Concept.jsx               | JavaScript JSX |         39 |         10 |          7 |         56 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\ConfirmPlayer.jsx         | JavaScript JSX |         46 |          2 |          5 |         53 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\Game.jsx                  | JavaScript JSX |        201 |         14 |         14 |        229 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\InputPlayer.jsx           | JavaScript JSX |        809 |         71 |         85 |        965 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\Load.jsx                  | JavaScript JSX |         47 |          1 |          8 |         56 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\Logic.jsx                 | JavaScript JSX |         60 |         13 |         10 |         83 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\MissionAcceptLogic.jsx    | JavaScript JSX |         92 |          4 |         11 |        107 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\PmVote.jsx                | JavaScript JSX |        113 |          6 |         11 |        130 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\Question.jsx              | JavaScript JSX |        112 |          6 |         10 |        128 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\Result.css                | CSS            |         13 |          1 |          3 |         17 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\Result.jsx                | JavaScript JSX |        104 |          3 |          7 |        114 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\Rule.jsx                  | JavaScript JSX |         73 |          3 |          8 |         84 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\Top.jsx                   | JavaScript JSX |         53 |         10 |          8 |         71 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\Vote.jsx                  | JavaScript JSX |        109 |          3 |          7 |        119 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\VoteResult.jsx            | JavaScript JSX |         86 |          2 |          5 |         93 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\a.jsx                     | JavaScript JSX |         25 |          0 |          6 |         31 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\concept.css               | CSS            |         26 |          0 |          4 |         30 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\confirmPlayer.css         | CSS            |         18 |          0 |          0 |         18 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\hedder.js                 | JavaScript     |         22 |          2 |          3 |         27 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\rule.css                  | CSS            |         18 |         41 |          4 |         63 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\testpage.jsx              | JavaScript JSX |         20 |          7 |          6 |         33 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\page\vote.css                  | CSS            |         25 |          0 |          9 |         34 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\templates\Buttons.jsx          | JavaScript JSX |         14 |          1 |          2 |         17 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\templates\Content50.jsx        | JavaScript JSX |         16 |          1 |          2 |         19 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\templates\Content70.jsx        | JavaScript JSX |         19 |          1 |          2 |         22 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\templates\Contents.jsx         | JavaScript JSX |         18 |          1 |          2 |         21 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\templates\EditorContainer.jsx  | JavaScript JSX |         19 |          1 |          2 |         22 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\view\ConfirmPlayerPage.jsx     | JavaScript JSX |         83 |          0 |         10 |         93 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\view\GamePage.jsx              | JavaScript JSX |        384 |         45 |         39 |        468 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\view\PMVotePage.jsx            | JavaScript JSX |         65 |          0 |         11 |         76 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\view\ResultPage.jsx            | JavaScript JSX |         81 |          0 |         10 |         91 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\view\VotePage.jsx              | JavaScript JSX |         83 |          5 |         13 |        101 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\components\view\VoteResultPage.jsx        | JavaScript JSX |        110 |          8 |         18 |        136 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\css\App.css                               | CSS            |        114 |         22 |         27 |        163 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\index.js                                  | JavaScript     |         12 |          3 |          3 |         18 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\reportWebVitals.js                        | JavaScript     |         12 |          0 |          2 |         14 |
+| c:\Users\20193660\Desktop\Git\Coding-Jinroh\src\setupTests.js                             | JavaScript     |          1 |          4 |          1 |          6 |
+| Total                                                                                     |                |      4,521 |        401 |        541 |      5,463 |
++-------------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
